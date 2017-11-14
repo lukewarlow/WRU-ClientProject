@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    {% block head %}
+    {%endblock%}
+  </head>
+
+  <body>
+    {% block header %}
+    <header class = "header-container">
+      <div class = "header">
+        <div class = "banner">Welcome</div>
+      </div>
+    </header>
+    {%endblock%}
+
+    {% block navbar %}
+    <nav class = "navbar-container">
+      <ul class="navbar">
+        <li><a href = "/Home"> Home </a></li>
+        <li class = "menu"><a href = ""> Menu </a>
+          <ul class = "menu-dropdown">
+            <li><a href=""> Item1 </a></li>
+            <li><a href=""> Item2 </a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    {%endblock%}
+
+    <main class = "main-container">
+      {% block main%}
+
+      {%endblock%}
+    </main>
+
+    {% block footer%}
+    <footer class = "footer">
+      <a class = "footer-item" target="_blank" href = "mailto://"> Mail Me </a>
+    </footer>
+    {%endblock%}
+  </body>
+</html>

@@ -1,0 +1,176 @@
+*
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "calibri";
+}
+
+#selected
+{
+  font-style: italic;
+  color: green;
+}
+
+a:link,
+a:visited {
+  color: red;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.header-container
+{
+  color: white;
+  background-color: black;
+  display: flex;
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+}
+
+.header
+{
+  display: flex;
+  padding-top: 15px;
+  width: 100%;
+}
+
+.banner
+{
+  margin-left: 10px;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.navbar-container
+{
+  color: red;
+  background-color: black;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;
+  border-bottom: 3px dotted red;
+  position: fixed;
+  top: 70px;
+  width: 100%;
+  z-index: 2;
+}
+
+.navbar
+{
+  width: 100%;
+  display: flex;
+  font-size: 20px;
+  flex-wrap: wrap;
+}
+
+.navbar > li
+{
+  display: inline;
+  margin-left: 30px;
+}
+
+.navbar > li:first-of-type
+{
+  margin-left: 10px;
+}
+
+.menu-dropdown
+{
+  display: none;
+}
+
+.menu-dropdown li
+{
+  list-style: none;
+  margin: 5px;
+}
+
+.menu-dropdown li:last-of-type
+{
+  border-bottom: none;
+}
+
+.menu
+{
+  padding-right: 50px;
+  text-align: left;
+}
+
+.menu > a
+{
+  z-index: 1;
+  position: absolute;
+  cursor: pointer;
+}
+
+.menu:hover .menu-dropdown
+{
+  display: flex;
+  flex-direction: column;
+  background: black;
+
+  position: absolute;
+  top: 35px;
+  left: 80px;
+}
+
+#text
+{
+  display: inline-block;
+}
+
+#text:hover
+{
+  text-decoration: underline;
+}
+
+#img
+{
+  display: inline-block;
+  position: relative;
+  top: 5px;
+}
+
+.main-container
+{
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 120px;
+  background-color: lightgray;
+}
+
+.main-item
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  font-size: 18px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+
+.content
+{
+  align-items: center;
+  width: 100%;
+}
+
+.footer
+{
+  display: flex;
+  justify-content: flex-start;
+  background-color: black;
+  padding: 5px;
+}
+
+.footer-item
+{
+  margin-right: 20px;
+}
