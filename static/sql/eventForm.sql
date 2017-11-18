@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS eventForm;
+
+CREATE TABLE IF NOT EXISTS 'eventForm' (
+  'ID'  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  'eventDate' INTEGER NOT NULL,
+  'postcode' TEXT NOT NULL,
+  'eventRegion' TEXT NOT NULL,
+  'peopleNum' TEXT NOT NULL,
+  'tourNum' INTEGER NOT NULL,
+  'ageRange' TEXT NOT NULL,
+  'comments' TEXT NOT NULL
+)
