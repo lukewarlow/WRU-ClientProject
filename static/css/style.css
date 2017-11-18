@@ -24,7 +24,7 @@ a:hover {
 .header-container
 {
   color: white;
-  background-color: black;
+  background-color: red;
   display: flex;
   position: fixed;
   width: 100%;
@@ -47,16 +47,15 @@ a:hover {
 
 .navbar-container
 {
-  color: red;
-  background-color: black;
+  color: white;
+  background-color: green;
   padding-top: 10px;
   padding-bottom: 10px;
   display: flex;
   justify-content: flex-start;
   align-content: flex-start;
-  border-bottom: 3px dotted red;
   position: fixed;
-  top: 70px;
+  top: 90px;
   width: 100%;
   z-index: 2;
 }
@@ -113,7 +112,7 @@ a:hover {
 {
   display: flex;
   flex-direction: column;
-  background: black;
+  background: green;
 
   position: absolute;
   top: 35px;
@@ -142,7 +141,7 @@ a:hover {
   display: flex;
   justify-content: flex-start;
   padding-top: 120px;
-  background-color: lightgray;
+  background-color: gray;
 }
 
 .main-item
@@ -166,7 +165,7 @@ a:hover {
 {
   display: flex;
   justify-content: flex-start;
-  background-color: black;
+  background-color: red;
   padding: 5px;
 }
 
