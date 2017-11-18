@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+    {% extends 'base.html' %}
+    <link rel="stylesheet" type="text/css" href="../static/css/staff.css">
+
+    {% block head %}
+    <title>Staff Page</title>
+    {%endblock%}
+
+    {% block main %}
+    <section class = "main-item">
+      <h1>Staff Log In</h1>
+        <form class="form" action="/staff" method="post">
+          <div class="container">
+          <input type="text" name="username" id="username" placeholder="Username" required/>
+          <br>
+          <input type="password" name="password" id="password" placeholder="Password" required/>
+          <br>
+            </div>
+          <div class="container">
+          <input type="submit" class="button" value="Log In"/>
+        </form>
+          </div>
+
+    </section>
+
+    {% endblock %}
+
+
+
+
+
+
+<!--<form name="staff" action="/action_page.php">
+  <div class="information">
+    <h1> Staff Log in </h1>
+    <p> This is the staff Log in page </p>
+  </div>
+
+  <div class="container">
+    <label><b>Staff Username:</b></label>
+    <input type="text" placeholder="Enter your username here" name="username" required>
+
+    <label><b>Staff Password:</b></label>
+    <input type="password" placeholder="Enter your password here" name="password" required>
+    <button type="submit">Login</button>
+
+
+
+  </div>
+
+  <div class="container">
+    <button class ="create" type="submit">Create an Account</button>
+    <button type="button" class="cancelbtn">Cancel</button>
+  </div>
+</form>
+-->
+
+
+
+</body>
+</html>
