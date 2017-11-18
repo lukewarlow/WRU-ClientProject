@@ -11,28 +11,25 @@ eventDates = []
 
 
 @app.route("/eventForm", methods = ['POST', 'GET'])
-def form():
-    global eventDate
-    global postcode
-    global eventRegion
-    global peopleNum
-    global tourNum
-    global ageRange
-    global comments
-    print("Processing form")
+    if request.method == 'GET':
+        return render_template('eventForm.html')
     if request.method == 'POST':
-        eventDate = request.form['eventDate']
-        postcode = request.form['postcode']
-        eventRegion = request.form['eventRegion']
-        peopleNum = request.form['peopleNum']
-        tourNum = request.form['tourNum']
-        ageRange = request.form['ageRange']
-        comments = request.form['comments']
-        eventDates.append(eventDate)
-        postcodes.append(postcode)
-        eventRegions.append(eventRegion)
-        peopleNums.append(peopleNum)
-        tourNums.append(tourNum)
-        ageRanges.append(ageRange)
-        comments.append(comments)
-    if request.method == 'POST':
+        eventDate = request.form.get('eventDate', default="error")
+        postcode = request.form.get('postcode', default="error")
+        eventRegion = request.form.get('eventRegion', default="error")
+        peopleNum = request.form.get('peopleNum', default="error")
+        tourNum = request.form.get('tourNum', default="error")
+        ageRange = request.form.get('ageRange', default="error")
+        comments = request.form.get('comments', default="error")
+        try:
+            conn = sqlite3.connect(DATABASE)
+            cur = con.cursor()
+            cur.execute("INSERT INTO eventForm ('eventDate', 'postcode', 'eventRegion', 'peopleNum', 'tourNum', 'ageRange', 'comments')\
+                        VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion, peopleNum, tourNum, ageRange, comments) )
+            conn.commit()
+            msg = "Record successfully added"
+        except:
+            conn.rollback()
+            msg = "Error in insert operation"
+        finally:
+            conn.close()
