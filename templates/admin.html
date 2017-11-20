@@ -8,14 +8,16 @@
 <section class = "main-item">
   <h1> Add Staff member </h1>
   <p>Input Staff details below.</p>
-  <form id='addstaff' onsubmit="return loadName()">
+  <form id='addstaff' onsubmit="return addStaff()">
     First name:<input type = "text" name = "firstName"><br>
     Surname:<input type = "text" name = "surname"><br>
-    Date of Birth:<input type = "text" name = "dateofbirth"><br>
-    Place of Birth:<input type = "text" name = "homeLocation"><br>
-    Username:<input type = "text" name = "username"><br>
     Password:<input type = "text" name = "password"><br>
-    <button type = "submit"> submit </button>
+    User type:<select value = "usertype" name="usertype">
+      <option value="Staff">Staff</option>
+      <!-- <option value="Guest">Guest</option> -->
+      <option value="Admin">Admin</option>
+    </select>
+    <button type = "submit"> Submit </button>
   </form>
   <span id='txt'></span>
 </section>

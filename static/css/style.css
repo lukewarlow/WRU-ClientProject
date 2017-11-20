@@ -175,12 +175,10 @@ a:hover {
   margin-right: 20px;
 }
 
-/* staff page log in */
-form {
+/*form {
     border: 1px solid ;
 }
 
-/* Inputs */
 input[type=text], input[type=password] {
     width: 15%;
     padding: 10px 10px;
@@ -190,7 +188,6 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 }
 
-/* button styles */
 button {
     background-color: black;
     color: white;
@@ -202,12 +199,10 @@ button {
 
 }
 
-/* Hover to let you know your clicking on it */
 button:hover {
     opacity: 0.65;
 }
 
-/* Cancel button styling */
 .cancelbtn {
     width: 10%;
     padding: 10px 15px;
@@ -219,17 +214,16 @@ button:hover {
     background-color: #808080;
 }
 
-/* Add padding to containers */
 .container {
     padding: 16px;
-    width: 100%;     /* full screen */
-}
+    width: 100%;
+}*/
 
 
 /* Small screen adaptation of cancel button to test on small screen (phones) */
-@media screen and (max-width: 300px) {
+/*@media screen and (max-width: 300px) {
 
     .cancelbtn {
         width: 100%;
     }
-}
+}*/
