@@ -24,7 +24,7 @@ a:hover {
 .header-container
 {
   color: white;
-  background-color: red;
+  background-color: black;
   display: flex;
   position: fixed;
   width: 100%;
@@ -47,15 +47,16 @@ a:hover {
 
 .navbar-container
 {
-  color: white;
-  background-color: green;
+  color: red;
+  background-color: black;
   padding-top: 10px;
   padding-bottom: 10px;
   display: flex;
   justify-content: flex-start;
   align-content: flex-start;
+  border-bottom: 3px dotted red;
   position: fixed;
-  top: 90px;
+  top: 70px;
   width: 100%;
   z-index: 2;
 }
@@ -112,7 +113,7 @@ a:hover {
 {
   display: flex;
   flex-direction: column;
-  background: green;
+  background: black;
 
   position: absolute;
   top: 35px;
@@ -141,7 +142,7 @@ a:hover {
   display: flex;
   justify-content: flex-start;
   padding-top: 120px;
-  background-color: gray;
+  background-color: lightgray;
 }
 
 .main-item
@@ -165,7 +166,7 @@ a:hover {
 {
   display: flex;
   justify-content: flex-start;
-  background-color: red;
+  background-color: black;
   padding: 5px;
 }
 
@@ -173,10 +174,6 @@ a:hover {
 {
   margin-right: 20px;
 }
-
-
-
-
 
 /* staff page log in */
 form {

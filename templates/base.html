@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
     {% block head %}
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
     {%endblock%}
   </head>
 
   <body>
-    {% block header %}
     <header class = "header-container">
       <div class = "header">
+        {% block header %}
         <div class = "banner">Welcome</div>
+        {%endblock%}
       </div>
     </header>
-    {%endblock%}
 
     {% block navbar %}
     <nav class = "navbar-container">
       <ul class="navbar">
         <li><a href = "/Home"> Home </a></li>
-        <li class = "menu"><a href = ""> Menu </a>
+        <li><a href = "/Staff"> Staff Log In </a></li>
+        <!-- <li class = "menu"><a href = ""> Menu </a>
           <ul class = "menu-dropdown">
             <li><a href=""> Item1 </a></li>
             <li><a href=""> Item2 </a></li>
           </ul>
-        </li>
+        </li> -->
       </ul>
     </nav>
     {%endblock%}
@@ -37,7 +38,8 @@
 
     {% block footer%}
     <footer class = "footer">
-      <a class = "footer-item" target="_blank" href = "mailto://"> Mail Me </a>
+      <!-- <a class = "footer-item" target="_blank" href = "mailto://"> Mail Me </a> -->
+      <a class = "footer-item" href = ""> Placeholder </a>
     </footer>
     {%endblock%}
   </body>

@@ -12,8 +12,8 @@ def returnFirst():
         return render_template('home.html')
 
 #staff page
-@app.route('/staff', methods=['POST', 'GET'])
-def home():
+@app.route('/Staff', methods=['POST', 'GET'])
+def returnStaff():
     if request.method=='POST':
         username = request.form['username']
         password = request.form['password']
@@ -24,8 +24,8 @@ def home():
         return render_template('staff.html')
 
 #adding staff to as an admin to a database on the admin page
-@app.route("/admin", methods = ['POST','GET'])
-def staffinfo():
+@app.route("/Admin", methods = ['POST','GET'])
+def returnAdmin():
     if request.method =='GET':
         return render_template('admin.html')
     if request.method =='POST':
@@ -51,7 +51,6 @@ def staffinfo():
         finally:
             conn.close()
             return msg
-
 
 if __name__ == "__main__":
     app.run(debug=True)
