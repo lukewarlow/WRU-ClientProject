@@ -3,6 +3,8 @@ from flask import Flask, redirect, request, render_template, jsonify, make_respo
 import random
 import models as dbHandler
 import sqlite3
+from bcrypt import hashpw, gensalt
+
 app = Flask(__name__)
 
 DATABASE = "database.db"
@@ -62,10 +64,11 @@ def returnAdmin():
         surname = request.form.get('surname', default="Error")
         username = surname + firstName[0]
         username = username.lower()
-        response = checkIfUserExists(username)
-        if (response.split(":")[0] == "True"):
-            username = username + response.split(":")[1]
+        # response = checkIfUserExists(username)
+        # if (response.split(":")[0] == "True"):
+        #     username = username + response.split(":")[1]
         password = request.form.get('password', default="Error")
+        password = encrypt(password)
         usertype = request.form.get('usertype', default="Error")
 
         print("Added staff member:" + firstName)
@@ -104,6 +107,9 @@ def checkIfUserExists(username):
         else:
             return "False"
 
+#http://dustwell.com/how-to-handle-passwords-bcrypt.html Date Accessed 20/11/2017
+def encrypt(data, salt=gensalt()):
+    return hashpw(bytes(data, 'utf-8'), salt)
 
 if __name__ == "__main__":
     app.run(debug=True)
