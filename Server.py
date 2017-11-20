@@ -7,9 +7,36 @@ app = Flask(__name__)
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 @app.route("/Home", methods=['GET'])
-def returnFirst():
+def returnHome():
     if request.method == 'GET':
-        return render_template('home.html')
+        return render_template('home.html', title = "Homepage", admin = checkIsAdmin())
+
+@app.route("/EventForm", methods=['POST', 'GET'])
+def returnEventForm():
+    # if request.method == 'GET':
+    #     return render_template('eventForm.html')
+    if request.method == 'GET':
+        return render_template('eventForm.html', title = "Event Form", admin = checkIsAdmin())
+    if request.method == 'POST':
+        eventDate = request.form.get('eventDate', default="error")
+        postcode = request.form.get('postcode', default="error")
+        eventRegion = request.form.get('eventRegion', default="error")
+        peopleNum = request.form.get('peopleNum', default="error")
+        tourNum = request.form.get('tourNum', default="error")
+        ageRange = request.form.get('ageRange', default="error")
+        comments = request.form.get('comments', default="error")
+        try:
+            conn = sqlite3.connect(DATABASE)
+            cur = con.cursor()
+            cur.execute("INSERT INTO eventForm ('eventDate', 'postcode', 'eventRegion', 'peopleNum', 'tourNum', 'ageRange', 'comments')\
+                        VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion, peopleNum, tourNum, ageRange, comments) )
+            conn.commit()
+            msg = "Record successfully added"
+        except:
+            conn.rollback()
+            msg = "Error in insert operation"
+        finally:
+            conn.close()
 
 #staff page
 @app.route('/Staff', methods=['POST', 'GET'])
@@ -19,15 +46,15 @@ def returnStaff():
         password = request.form['password']
         dbHandler.insertUser(username, password)
         users = dbHandler.retrieveUsers()
-        return render_template('staff.html', users=users)
+        return render_template('staff.html', users = users, title = "Staff Log In", admin = checkIsAdmin())
     else:
-        return render_template('staff.html')
+        return render_template('staff.html', title = "Staff Log In", admin = checkIsAdmin())
 
 #adding staff to as an admin to a database on the admin page
 @app.route("/Admin", methods = ['POST','GET'])
 def returnAdmin():
     if request.method =='GET':
-        return render_template('admin.html')
+        return render_template('admin.html', title = "Admin", admin = True)
     if request.method =='POST':
         firstName = request.form.get('firstName', default="Error")
         surname = request.form.get('surname', default="Error")
@@ -51,6 +78,9 @@ def returnAdmin():
         finally:
             conn.close()
             return msg
+
+def checkIsAdmin():
+    return True
 
 if __name__ == "__main__":
     app.run(debug=True)

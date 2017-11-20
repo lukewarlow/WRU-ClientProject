@@ -2,8 +2,9 @@
 <html>
   <head>
     {% block head %}
+    <title>{{ title }}</title>
     <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-    {%endblock%}
+    {% endblock %}
   </head>
 
   <body>
@@ -11,7 +12,7 @@
       <div class = "header">
         {% block header %}
         <div class = "banner">Welcome</div>
-        {%endblock%}
+        {% endblock %}
       </div>
     </header>
 
@@ -20,6 +21,12 @@
       <ul class="navbar">
         <li><a href = "/Home"> Home </a></li>
         <li><a href = "/Staff"> Staff Log In </a></li>
+        <li><a href = "/EventForm"> EventForm </a></li>
+        {% if admin != None %}
+          {% if admin == True %}
+            <li><a href = "/Admin"> Admin </a></li>
+          {% endif %}
+        {% endif %}
         <!-- <li class = "menu"><a href = ""> Menu </a>
           <ul class = "menu-dropdown">
             <li><a href=""> Item1 </a></li>
@@ -28,19 +35,19 @@
         </li> -->
       </ul>
     </nav>
-    {%endblock%}
+    {% endblock %}
 
     <main class = "main-container">
-      {% block main%}
-
-      {%endblock%}
+      {% block main %}
+      
+      {% endblock %}
     </main>
 
-    {% block footer%}
+    {% block footer %}
     <footer class = "footer">
       <!-- <a class = "footer-item" target="_blank" href = "mailto://"> Mail Me </a> -->
       <a class = "footer-item" href = ""> Placeholder </a>
     </footer>
-    {%endblock%}
+    {% endblock %}
   </body>
 </html>
