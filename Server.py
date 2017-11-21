@@ -29,7 +29,6 @@ def returnStaff():
             print("Error in operation," + str(e))
         finally:
             conn.close()
-        print(pw)
         if (encrypt(password, pw) == pw):
             #Cookies go here
             print(str(username) + " has logged in")
