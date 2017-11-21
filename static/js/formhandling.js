@@ -26,14 +26,14 @@ function addStaff()
   return false;
 }
 
-//https://dzone.com/articles/use-regex-test-password Accessed 21/11/2017
+//https://gist.github.com/Michael-Brooks/fbbba105cd816ef5c016 Accessed 21/11/2017
 function validateAddStaffForm()
 {
   var password = document.forms["addstaff"]["password"].value;
 
   if(password.length > 8)
   {
-    if(password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])$/) != null)
+    if(password.match(/^(?=.*[a-z|A-Z])(?=.*[A-Z])(?=.*\d).+$/) != null)
     {
       addStaff();
     }
@@ -49,13 +49,14 @@ function validateAddStaffForm()
   return false;
 }
 
+//https://gist.github.com/Michael-Brooks/fbbba105cd816ef5c016 Accessed 21/11/2017
 function validateLoginForm()
 {
-  var password = document.forms["addstaff"]["password"].value;
+  var password = document.forms["login"]["password"].value;
 
   if(password.length > 8)
   {
-    if(password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])$/) != null)
+    if(password.match(/^(?=.*[a-z|A-Z])(?=.*[A-Z])(?=.*\d).+$/) != null)
     {
       loginTest();
     }

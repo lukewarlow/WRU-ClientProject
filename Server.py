@@ -7,6 +7,7 @@ import sys
 app = Flask(__name__)
 
 DATABASE = "database.db"
+app.secret_key = 'fj590Rt?h40gg'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 @app.route("/Home", methods=['GET'])
@@ -18,9 +19,9 @@ def returnHome():
 @app.route('/Login', methods=['POST', 'GET'])
 def returnStaff():
     if request.method == 'POST':
+        username = request.form.get('username', default="Error")
+        password = request.form.get('password', default="Error")
         try:
-            username = request.form.get('username', default="Error")
-            password = request.form.get('password', default="Error")
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
             cur.execute("SELECT username, password, usertype FROM tblStaff WHERE username=?;", [username])
@@ -33,13 +34,10 @@ def returnStaff():
         finally:
             conn.close()
         if (encrypt(password, pw) == pw):
+            session['username'] = username
+            session['password'] = password
+            session['usertype'] = usertype
             resp = make_response(render_template('staff.html', msg='Logged in as '+username, username = username, admin = checkIsAdmin()))
-            resp.set_cookie('username', username)
-            resp = make_response(render_template('staff.html', msg='Logged in as '+username, username = username, admin = checkIsAdmin()))
-            resp.set_cookie('usertype', usertype)
-            resp.set_cookies('password', password)
-
-            #Cookies go here
             print(str(username) + " has logged in")
             return "Log in successful"
         else:
@@ -74,11 +72,9 @@ def returnAddStaff():
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
-            cur.execute("INSERT INTO tblStaff ('username', 'password', 'usertype', 'firstname', 'surname')\
-                        VALUES (?,?,?,?,?)", (username, password, usertype, firstName, surname))
 
-            # cur.execute("INSERT INTO tblStaff ('username', 'password', 'usertype', 'firstname', 'surname', 'email')\
-            #             VALUES (?,?,?,?,?)", (username, password, usertype, firstName, surname, email))
+            cur.execute("INSERT INTO tblStaff ('username', 'password', 'email', 'usertype', 'firstname', 'surname')\
+                        VALUES (?,?,?,?,?,?)", (username, password, email, usertype, firstName, surname))
             conn.commit()
             msg = "Record successfully added"
             print("Added staff member:" + username)
@@ -91,7 +87,13 @@ def returnAddStaff():
             return msg
 
 def checkIsAdmin():
-    return True
+    usertype = ""
+    if 'usertype' in session:
+        usertype = escape(session['usertype'])
+    if usertype == "Admin":
+        return True
+    else:
+        return False
 
 def checkIfUserExists(username):
     try:
