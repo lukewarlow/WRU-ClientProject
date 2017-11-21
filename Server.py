@@ -97,8 +97,9 @@ def checkIfUserExists(username):
             return "True:{}".format(len(data) + 1)
         else:
             return "False"
-        
+
 @app.route("/eventForm", methods = ['POST', 'GET'])
+def returnEventForm():
     if request.method == 'GET':
         return render_template('eventForm.html')
     if request.method == 'POST':
