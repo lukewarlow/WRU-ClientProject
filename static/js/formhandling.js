@@ -75,6 +75,7 @@ function validateLoginForm()
 function loginTest()
 {
   var username = document.forms["login"]["username"].value;
+  username = username.lower();
   var password = document.forms["login"]["password"].value;
   document.forms["login"].reset();
   params = 'username='+username+'&password='+password;
