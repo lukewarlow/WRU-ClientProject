@@ -23,13 +23,22 @@ def returnStaff():
             password = request.form.get('password', default="Error")
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
-            cur.execute("SELECT password FROM tblStaff WHERE username=?;", [username])
-            pw = cur.fetchone()[0]
+            cur.execute("SELECT username, password, usertype FROM tblStaff WHERE username=?;", [username])
+            data = cur.fetchone()
+            pw = data[1]
+            username = data[0]
+            usertype = data[2]
         except sql.ProgrammingError as e:
             print("Error in operation," + str(e))
         finally:
             conn.close()
         if (encrypt(password, pw) == pw):
+            resp = make_response(render_template('staff.html', msg='Logged in as '+username, username = username, admin = checkIsAdmin()))
+            resp.set_cookie('username', username)
+            resp = make_response(render_template('staff.html', msg='Logged in as '+username, username = username, admin = checkIsAdmin()))
+            resp.set_cookie('usertype', usertype)
+            resp.set_cookies('password', password)
+
             #Cookies go here
             print(str(username) + " has logged in")
             return "Log in successful"
