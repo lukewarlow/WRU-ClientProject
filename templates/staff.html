@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block head %}
 {{ super() }}
-<link rel="stylesheet" type="text/css" href="../static/css/staff.css">
+<script type="text/javascript" src="../static/js/formhandling.js"></script>
 {%endblock%}
 
 {% block header %}
@@ -10,37 +10,14 @@
 
 {% block main %}
 <section class = "main-item">
-  <!-- <h1>Staff Log In</h1> -->
-  <!-- <form class="form" action="/staff" method="post">
-    <div class="container">
-    <input type="text" name="username" id="username" placeholder="Username" required/>
-    <br>
-    <input type="password" name="password" id="password" placeholder="Password" required/>
-    <br>
-    </div>
-    <div class="container">
-    <input type="submit" class="button" value="Log In"/>
-    </div>
-  </form>
-</section> -->
-<form name="staff" action="/action_page.php">
-  <div class="information">
+  <form id='login' onsubmit="return loginTest()">
     <h1> Staff Log in </h1>
-    <p> This is the staff Log in page </p>
-  </div>
-
-  <div class="container">
-    <label><b>Staff Username:</b></label>
+    <b>Staff Username:</b>
     <input type="text" placeholder="Enter your username here" name="username" required>
-
-    <label><b>Staff Password:</b></label>
+    <br>
+    <b>Staff Password:</b>
     <input type="password" placeholder="Enter your password here" name="password" required>
-    <button type="submit">Login</button>
-  </div>
-
-  <div class="container">
-    <button class ="create" type="submit">Create an Account</button>
-    <button type="button" class="cancelbtn">Cancel</button>
-  </div>
-</form>
+    <button type = "submit"> Login </button>
+  </form>
+</section>
 {% endblock %}

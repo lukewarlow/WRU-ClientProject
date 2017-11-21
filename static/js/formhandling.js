@@ -24,3 +24,28 @@ function addStaff()
   xhttp.send(params);
   return false;
 }
+
+function loginTest()
+{
+  var username = document.forms["login"]["username"].value;
+  var password = document.forms["login"]["password"].value;
+  document.forms["login"].reset();
+  params = 'username='+username+'&password='+password;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", '/Login', true); // true is asynchronous
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.onload = function()
+  {
+    if (xhttp.readyState === 4 && xhttp.status === 200)
+    {
+      console.log(xhttp.responseText);
+      alert(xhttp.responseText);
+    }
+    else
+    {
+      console.error(xhttp.statusText);
+    }
+  };
+  xhttp.send(params);
+  return false;
+}

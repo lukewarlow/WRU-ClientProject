@@ -20,8 +20,8 @@
     <nav class = "navbar-container">
       <ul class="navbar">
         <li><a href = "/Home"> Home </a></li>
-        <li><a href = "/Staff"> Staff Log In </a></li>
-        <li><a href = "/EventForm"> EventForm </a></li>
+        <li><a href = "/Login"> Staff Log In </a></li>
+        <li><a href = "/EventForm"> Event Form </a></li>
         {% if admin != None %}
           {% if admin == True %}
             <li><a href = "/Admin"> Admin </a></li>
@@ -39,7 +39,7 @@
 
     <main class = "main-container">
       {% block main %}
-      
+
       {% endblock %}
     </main>
 

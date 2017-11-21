@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block head %}
 {{ super() }}
-<script type="text/javascript" src="../static/js/temp/adminpage.js"></script>
+<script type="text/javascript" src="../static/js/formhandling.js"></script>
 {%endblock%}
 
 {% block main %}
@@ -11,7 +11,7 @@
   <form id='addstaff' onsubmit="return addStaff()">
     First name:<input type = "text" name = "firstName"><br>
     Surname:<input type = "text" name = "surname"><br>
-    Password:<input type = "text" name = "password"><br>
+    Password:<input type = "password" name = "password"><br>
     User type:<select value = "usertype" name="usertype">
       <option value="Staff">Staff</option>
       <!-- <option value="Guest">Guest</option> -->
