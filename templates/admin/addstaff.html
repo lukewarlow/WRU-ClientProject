@@ -8,13 +8,13 @@
 <section class = "main-item">
   <h1> Add Staff member </h1>
   <p>Input Staff details below.</p>
-  <form id='addstaff' onsubmit="return addStaff()">
-    First name:<input type = "text" name = "firstName"><br>
-    Surname:<input type = "text" name = "surname"><br>
-    Password:<input type = "password" name = "password"><br>
-    User type:<select value = "usertype" name="usertype">
+  <form id='addstaff' onsubmit="return validateAddStaffForm()">
+    First name: <input type = "text" name = "firstName" required><br>
+    Surname: <input type = "text" name = "surname" required><br>
+    Password: <input type = "password" name = "password" required><br>
+    Email: <input type = "email" name = "email" required><br>
+    User type: <select value = "usertype" name="usertype">
       <option value="Staff">Staff</option>
-      <!-- <option value="Guest">Guest</option> -->
       <option value="Admin">Admin</option>
     </select>
     <button type = "submit"> Submit </button>

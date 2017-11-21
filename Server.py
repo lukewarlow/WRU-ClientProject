@@ -40,13 +40,13 @@ def returnStaff():
         return render_template('staff.html', title="Log In", admin=checkIsAdmin())
 
 # adding staff to database on the admin page
-@app.route("/Admin", methods=['POST', 'GET'])
-def returnAdmin():
+@app.route("/Admin/AddStaff", methods=['POST', 'GET'])
+def returnAddStaff():
     if request.method == 'GET':
         if checkIsAdmin():
-            return render_template('admin.html', title="Admin", admin=True)
+            return render_template('admin/addstaff.html', title="Admin", admin=True)
         else:
-            return render_template('home.html', title="Homepage", admin=False)
+            return redirect("/Home")
     elif request.method == 'POST':
         firstName = request.form.get('firstName', default="Error")
         surname = request.form.get('surname', default="Error")
@@ -57,6 +57,7 @@ def returnAdmin():
             username = username + response.split(":")[1]
         password = request.form.get('password', default="Error")
         password = encrypt(password)
+        email = request.form.get('email', default="Error").lower()
         usertype = request.form.get('usertype', default="Error")
 
         print("Adding staff member:" + username)
@@ -67,6 +68,8 @@ def returnAdmin():
             cur.execute("INSERT INTO tblStaff ('username', 'password', 'usertype', 'firstname', 'surname')\
                         VALUES (?,?,?,?,?)", (username, password, usertype, firstName, surname))
 
+            # cur.execute("INSERT INTO tblStaff ('username', 'password', 'usertype', 'firstname', 'surname', 'email')\
+            #             VALUES (?,?,?,?,?)", (username, password, usertype, firstName, surname, email))
             conn.commit()
             msg = "Record successfully added"
             print("Added staff member:" + username)

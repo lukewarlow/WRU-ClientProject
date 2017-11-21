@@ -24,7 +24,12 @@
         <!-- <li><a href = "/"> Event Form </a></li> -->
         {% if admin != None %}
           {% if admin == True %}
-            <li><a href = "/Admin"> Admin </a></li>
+          <li class = "menu"><label> Admin </label>
+            <ul class = "menu-dropdown">
+              <li><a href="/Admin/AddStaff"> Add staff </a></li>
+              <!-- <li><a href=""> Item2 </a></li> -->
+            </ul>
+          </li>
           {% endif %}
         {% endif %}
         <!-- <li class = "menu"><a href = ""> Menu </a>
