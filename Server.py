@@ -112,8 +112,10 @@ def returnEventForm():
         try:
             conn = sqlite3.connect(DATABASE)
             cur = con.cursor()
-            cur.execute("INSERT INTO eventForm ('eventDate', 'postcode', 'eventRegion', 'peopleNum', 'tourNum', 'ageRange', 'comments')\
-                        VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion, peopleNum, tourNum, ageRange, comments) )
+            cur.execute("INSERT INTO eventForm ('eventDate', 'postcode', \
+            'eventRegion', 'peopleNum', 'tourNum', 'ageRange', 'comments')\
+                        VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion, \
+                        peopleNum, tourNum, ageRange, comments) )
             conn.commit()
             msg = "Record successfully added"
         except:
