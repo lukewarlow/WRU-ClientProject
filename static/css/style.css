@@ -6,6 +6,11 @@
   font-family: "calibri";
 }
 
+html
+{
+  font-size: 16px;
+}
+
 #selected
 {
   font-style: italic;
@@ -43,7 +48,7 @@ a:link:hover {
 .banner
 {
   margin-left: 10px;
-  font-size: 50px;
+  font-size: 3.125rem;
   font-weight: bold;
 }
 
@@ -67,7 +72,7 @@ a:link:hover {
 {
   width: 100%;
   display: flex;
-  font-size: 20px;
+  font-size: 1.25rem;
   flex-wrap: wrap;
 }
 
@@ -122,7 +127,7 @@ a:link:hover {
 
 .menu.admin:hover .menu-dropdown.admin
 {
-  left: 200px;
+  left: 195px;
 }
 
 #text
@@ -156,7 +161,7 @@ a:link:hover {
   flex-direction: column;
   justify-content: flex-start;
   flex-wrap: wrap;
-  font-size: 18px;
+  font-size: 1.125rem;
   margin-left: 5px;
   margin-bottom: 5px;
 }
