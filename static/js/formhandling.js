@@ -47,7 +47,7 @@ function login()
   var password = document.forms["login"]["password"].value;
   params = 'username='+username+'&password='+password;
   var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", '/Login', true); // true is asynchronous
+  xhttp.open("POST", '/Staff/Login', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.onload = function()
   {

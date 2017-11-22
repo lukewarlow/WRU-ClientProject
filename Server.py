@@ -16,8 +16,8 @@ def returnHome():
         return render_template('home.html', title="Homepage", admin=checkIsAdmin())
 
 # staff page
-@app.route('/Login', methods=['POST', 'GET'])
-def returnStaff():
+@app.route('/Staff/Login', methods=['POST', 'GET'])
+def returnLogin():
     if request.method == 'POST':
         username = request.form.get('username', default="Error").lower()
         password = request.form.get('password', default="Error")

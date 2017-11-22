@@ -74,7 +74,7 @@ a:link:hover {
 .navbar > li
 {
   display: inline;
-  margin-left: 30px;
+  margin-right: 30px;
 }
 
 .navbar > li:first-of-type
@@ -93,14 +93,8 @@ a:link:hover {
   margin: 5px;
 }
 
-.menu-dropdown li:last-of-type
-{
-  border-bottom: none;
-}
-
 .menu
 {
-  padding-right: 50px;
   text-align: left;
 }
 
@@ -118,7 +112,16 @@ a:link:hover {
   background: black;
 
   position: absolute;
-  top: 30px;
+  top: 35px;
+}
+
+.menu.staff:hover .menu-dropdown.staff
+{
+  left: 105px;
+}
+
+.menu.admin:hover .menu-dropdown.admin
+{
   left: 200px;
 }
 

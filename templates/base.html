@@ -21,24 +21,20 @@
     <nav class = "navbar-container">
       <ul class="navbar">
         <li><a href = "/Home"> Home </a></li>
-        <li><a href = "/Login"> Staff Log In </a></li>
-        <!-- <li><a href = "/"> Event Form </a></li> -->
+        <li class = "menu staff"><label> Staff Pages </label>
+          <ul class = "menu-dropdown staff">
+            <li><a href="/Staff/Login"> Login </a></li>
+          </ul>
+        </li>
         {% if admin != None %}
           {% if admin == True %}
-          <li class = "menu"><label> Admin </label>
-            <ul class = "menu-dropdown">
+          <li class = "menu admin"><label> Admin </label>
+            <ul class = "menu-dropdown admin">
               <li><a href="/Admin/AddStaff"> Add staff </a></li>
-              <!-- <li><a href=""> Item2 </a></li> -->
             </ul>
           </li>
           {% endif %}
         {% endif %}
-        <!-- <li class = "menu"><a href = ""> Menu </a>
-          <ul class = "menu-dropdown">
-            <li><a href=""> Item1 </a></li>
-            <li><a href=""> Item2 </a></li>
-          </ul>
-        </li> -->
       </ul>
     </nav>
     {% endblock %}
@@ -51,7 +47,6 @@
 
     {% block footer %}
     <footer class = "footer"> <!-- Needs looking at -->
-      <!-- <a class = "footer-item" target="_blank" href = "mailto://"> Mail Me </a> -->
       <a class = "footer-item" href="mailto:AthertonA@cardiff.ac.uk"> Mail Alex </a>
       <a class = "footer-item" href="mailto:SmithHL2@cardiff.ac.uk"> Mail Holly </a>
       <a class = "footer-item" href="mailto:WarlowL@cardiff.ac.uk"> Mail Luke </a>
