@@ -2,18 +2,6 @@
 {% extends 'base.html' %}
 {% block head %}
 {{ super() }}
-
-<!--TODO move to js-->
-<script>
-  function genderValidation(){
-    var maleGender = document.forms["tourForm"]["maleGenderSelect"].value;
-    var femaleGender = document.forms["tourForm"]["femaleGenderSelect"].value;
-    if ((Number(maleGender) + Number(femaleGender)) != 100){
-      alert("The percentage total of male and female genders must equal 100%");
-      return false;
-    }
-  }
-</script>
 {%endblock%}
 
 {% block header %}
@@ -33,35 +21,24 @@
       <option value="older">Older</option>
     </select>
     <br>
-    <div>Percentage of males</div>
-    <select value="maleGender" name="maleGenderSelect">
-      <option value="0">0%</option>
-      <option value="10">10%</option>
-      <option value="20">20%</option>
-      <option value="30">30%</option>
-      <option value="40">40%</option>
-      <option value="50">50%</option>
-      <option value="60">60%</option>
-      <option value="70">70%</option>
-      <option value="80">80%</option>
-      <option value="90">90%</option>
-      <option value="100">100%</option>
-    </select>
-    <br>
-    <div>Percentage of females</div>
-    <select value="femaleGender" name="femaleGenderSelect">
-      <option value="0">0%</option>
-      <option value="10">10%</option>
-      <option value="20">20%</option>
-      <option value="30">30%</option>
-      <option value="40">40%</option>
-      <option value="50">50%</option>
-      <option value="60">60%</option>
-      <option value="70">70%</option>
-      <option value="80">80%</option>
-      <option value="90">90%</option>
-      <option value="100">100%</option>
-    </select>
+
+    <label for="genderRatio">Gender ratio</label>
+    <input type="range" min="0" max="100" value="50" id="=genderRatio"
+    step="10" list="GenderRatioSLider">
+    <datalist id="volsettings">
+	     <option>0</option>
+       <option>0/100</option>
+	     <option>10/90</option>
+	     <option>20/80</option>
+	     <option>30/70</option>
+	     <option>40/60</option>
+	     <option>50/50</option>
+       <option>60/40</option>
+       <option>70/30</option>
+       <option>80/20</option>
+       <option>90/10</option>
+       <option>100/0</option>
+    </datalist>
     <br>
 
     <button type="submit" value="submit" >Submit form</button><br><br>
