@@ -37,14 +37,14 @@ def returnStaff():
             session['username'] = username
             session['password'] = password
             session['usertype'] = usertype
-            resp = make_response(render_template('staff.html', msg='Logged in as '+username, username = username, admin = checkIsAdmin()))
+            resp = make_response(render_template('login.html', msg='Logged in as '+username, username = username, admin = checkIsAdmin()))
             print(str(username) + " has logged in")
-            return "Log in successful"
+            return "successful"
         else:
             print("Failed to log in, incorrect password.")
-            return "Log in unsuccessful"
+            return "unsuccessful"
     else:
-        return render_template('staff.html', title="Log In", admin=checkIsAdmin())
+        return render_template('login.html', title="Log In", admin=checkIsAdmin())
 
 # adding staff to database on the admin page
 @app.route("/Admin/AddStaff", methods=['POST', 'GET'])
