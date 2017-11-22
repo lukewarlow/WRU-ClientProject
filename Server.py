@@ -19,7 +19,7 @@ def returnHome():
 @app.route('/Login', methods=['POST', 'GET'])
 def returnStaff():
     if request.method == 'POST':
-        username = request.form.get('username', default="Error")
+        username = request.form.get('username', default="Error").lower()
         password = request.form.get('password', default="Error")
         try:
             conn = sql.connect(DATABASE)
