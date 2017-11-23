@@ -20,7 +20,7 @@ html
 a,
 a:link,
 a:visited {
-  color: red;
+  color: white;
   text-decoration: none;
 }
 
@@ -31,7 +31,7 @@ a:link:hover {
 .header-container
 {
   color: white;
-  background-color: black;
+  background-color: #E31B20;
   display: flex;
   position: fixed;
   width: 100%;
@@ -41,21 +41,29 @@ a:link:hover {
 .header
 {
   display: flex;
-  padding-top: 15px;
   width: 100%;
+  padding-bottom: 5px;
 }
 
 .banner
 {
+  display: flex;
+  padding-top: 15px;
   margin-left: 10px;
   font-size: 3.125rem;
   font-weight: bold;
 }
 
+.headerlogo
+{
+  padding-top: 5px;
+  display: flex;
+}
+
 .navbar-container
 {
-  color: red;
-  background-color: black;
+  color: white;
+  background-color: #007e45;
   padding-top: 10px;
   padding-bottom: 10px;
   display: flex;
@@ -63,7 +71,7 @@ a:link:hover {
   align-content: flex-start;
   border-bottom: 3px dotted red;
   position: fixed;
-  top: 70px;
+  top: 80px;
   width: 100%;
   z-index: 2;
 }
@@ -117,7 +125,7 @@ a:link:hover {
   background: black;
 
   position: absolute;
-  top: 35px;
+  top: 33px;
 }
 
 .menu.staff:hover .menu-dropdown.staff
@@ -151,7 +159,7 @@ a:link:hover {
 {
   display: flex;
   justify-content: flex-start;
-  padding-top: 120px;
+  padding-top: 125px;
   background-color: lightgray;
 }
 
@@ -185,30 +193,34 @@ a:link:hover {
   margin-right: 20px;
 }
 
-/*form {
-    border: 1px solid ;
+form
+{
+    font-size: 1.1rem
 }
 
-input[type=text], input[type=password] {
-    width: 15%;
+input[type=text], input[type=password], input[type=email]
+{
+    width: 98%;
     padding: 10px 10px;
     margin: 5px 0;
     display: inline-block;
     border: 1px solid #black;
     box-sizing: border-box;
+    font-size: 1.3rem;
 }
 
 button {
     background-color: black;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 10px;
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 15%;
-
+    width: 30%;
+    font-size: 1rem;
 }
 
+/*
 button:hover {
     opacity: 0.65;
 }

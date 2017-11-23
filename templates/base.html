@@ -5,12 +5,16 @@
     <title>{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <link rel="shortcut icon" href="../static/resources/images/favicon.ico" type="image/x-icon">
     {% endblock %}
   </head>
 
   <body>
     <header class = "header-container">
       <div class = "header">
+        <div class = "headerlogo">
+          <img src="../static/resources/images/logo.png" alt="WRU Logo">
+        </div>
         {% block header %}
         <div class = "banner">Welcome</div>
         {% endblock %}
@@ -51,7 +55,7 @@
       <a class = "footer-item" href="mailto:SmithHL2@cardiff.ac.uk"> Mail Holly </a>
       <a class = "footer-item" href="mailto:WarlowL@cardiff.ac.uk"> Mail Luke </a>
       <a class = "footer-item" href="http://www.wru.co.uk/eng/home.php"> Visit WRU </a>
-      <a class = "footer-item"> Copyright 2017 </a>
+      <a class = "footer-item">© Copyright 2017 ©</a>
     </footer>
     {% endblock %}
   </body>
