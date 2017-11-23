@@ -37,7 +37,7 @@ def returnLogin():
             session['username'] = username
             session['password'] = password
             session['usertype'] = usertype
-            resp = make_response(render_template('login.html', msg='Logged in as '+username, username = username, admin = checkIsAdmin()))
+            resp = make_response(render_template('login.html', username = username, admin = checkIsAdmin()))
             print(str(username) + " has logged in")
             return "successful"
         else:
@@ -45,6 +45,38 @@ def returnLogin():
             return "unsuccessful"
     else:
         return render_template('login.html', title="Log In", admin=checkIsAdmin())
+
+@app.route("/Staff/EventForm", methods = ['POST', 'GET'])
+def returnEventForm():
+    if request.method == 'GET':
+        return render_template('eventForm.html', title="Event Form", admin=checkIsAdmin())
+    if request.method == 'POST':
+        eventDate = request.form.get('eventDate', default="error")
+        postcode = request.form.get('postcode', default="error")
+        eventRegion = request.form.get('eventRegion', default="error")
+        peopleNum = request.form.get('peopleNum', default="error")
+        tourNum = request.form.get('tourNum', default="error")
+        ageRange = request.form.get('ageRange', default="error")
+        comments = request.form.get('comments', default="error")
+        try:
+            conn = sqlite3.connect(DATABASE)
+            cur = con.cursor()
+            cur.execute("INSERT INTO eventForm ('eventDate', 'postcode', \
+            'eventRegion', 'peopleNum', 'tourNum', 'ageRange', 'comments')\
+                        VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion, \
+                        peopleNum, tourNum, ageRange, comments) )
+            conn.commit()
+            msg = "Record successfully added"
+        except:
+            conn.rollback()
+            msg = "Error in insert operation"
+        finally:
+            conn.close()
+
+@app.route("/Staff/TournamentForm", methods = ['POST', 'GET'])
+def returnTourForm():
+    if request.method == 'GET':
+        return render_template('tourForm.html', title="Tournament Form", admin=checkIsAdmin())
 
 # adding staff to database on the admin page
 @app.route("/Admin/AddStaff", methods=['POST', 'GET'])
@@ -110,33 +142,6 @@ def checkIfUserExists(username):
             return "True:{}".format(len(data) + 1)
         else:
             return "False"
-
-@app.route("/eventForm", methods = ['POST', 'GET'])
-def returnEventForm():
-    if request.method == 'GET':
-        return render_template('eventForm.html')
-    if request.method == 'POST':
-        eventDate = request.form.get('eventDate', default="error")
-        postcode = request.form.get('postcode', default="error")
-        eventRegion = request.form.get('eventRegion', default="error")
-        peopleNum = request.form.get('peopleNum', default="error")
-        tourNum = request.form.get('tourNum', default="error")
-        ageRange = request.form.get('ageRange', default="error")
-        comments = request.form.get('comments', default="error")
-        try:
-            conn = sqlite3.connect(DATABASE)
-            cur = con.cursor()
-            cur.execute("INSERT INTO eventForm ('eventDate', 'postcode', \
-            'eventRegion', 'peopleNum', 'tourNum', 'ageRange', 'comments')\
-                        VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion, \
-                        peopleNum, tourNum, ageRange, comments) )
-            conn.commit()
-            msg = "Record successfully added"
-        except:
-            conn.rollback()
-            msg = "Error in insert operation"
-        finally:
-            conn.close()
 
 #http://dustwell.com/how-to-handle-passwords-bcrypt.html Date Accessed 20/11/2017
 def encrypt(data, salt=gensalt()):
