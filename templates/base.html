@@ -5,12 +5,16 @@
     <title>{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <link rel="shortcut icon" href="../static/resources/images/favicon.ico" type="image/x-icon">
     {% endblock %}
   </head>
 
   <body>
     <header class = "header-container">
       <div class = "header">
+        <div class = "headerlogo">
+          <img src="../static/resources/images/logo.png" alt="WRU Logo">
+        </div>
         {% block header %}
         <div class = "banner">Welcome</div>
         {% endblock %}
@@ -21,24 +25,20 @@
     <nav class = "navbar-container">
       <ul class="navbar">
         <li><a href = "/Home"> Home </a></li>
-        <li><a href = "/Login"> Staff Log In </a></li>
-        <!-- <li><a href = "/"> Event Form </a></li> -->
+        <li class = "menu staff"><label> Staff Pages </label>
+          <ul class = "menu-dropdown staff">
+            <li><a href="/Staff/Login"> Login </a></li>
+          </ul>
+        </li>
         {% if admin != None %}
           {% if admin == True %}
-          <li class = "menu"><label> Admin </label>
-            <ul class = "menu-dropdown">
+          <li class = "menu admin"><label> Admin </label>
+            <ul class = "menu-dropdown admin">
               <li><a href="/Admin/AddStaff"> Add staff </a></li>
-              <!-- <li><a href=""> Item2 </a></li> -->
             </ul>
           </li>
           {% endif %}
         {% endif %}
-        <!-- <li class = "menu"><a href = ""> Menu </a>
-          <ul class = "menu-dropdown">
-            <li><a href=""> Item1 </a></li>
-            <li><a href=""> Item2 </a></li>
-          </ul>
-        </li> -->
       </ul>
     </nav>
     {% endblock %}
@@ -50,18 +50,14 @@
     </main>
 
     {% block footer %}
-    <footer class = "footer">
-      <!-- <a class = "footer-item" target="_blank" href = "mailto://"> Mail Me </a> -->
-      <a class = "footer-item">
-      <p>Contact the developers: <br> <a href="mailto:AthertonA@cardiff.ac.uk">
-      Alex Atherton</a> <br>
-      <a href="mailto:SmithHL2@cardiff.ac.uk">
-      Holly Smith</a> <br>
-      <a href="mailto:WarlowL@cardiff.ac.uk">
-      Luke Warlow</a> </p> <br>
-    <p> ©2017 </p>
-    <p> For more information on the WRU visit <a href="http://www.wru.co.uk/eng/home.php"> here </p>
- </a>
+    <footer class = "footer-container"> <!-- Needs looking at -->
+      <ul class="footer">
+        <li><a class = "footer-item" href="mailto:AthertonA@cardiff.ac.uk"> Mail Alex </a></li>
+        <li><a class = "footer-item" href="mailto:SmithHL2@cardiff.ac.uk"> Mail Holly </a></li>
+        <li><a class = "footer-item" href="mailto:WarlowL@cardiff.ac.uk"> Mail Luke </a></li>
+        <li><a class = "footer-item" href="http://www.wru.co.uk/eng/home.php"> Visit WRU </a></li>
+        <li><a class = "footer-item">© Copyright 2017 ©</a></li>
+      </ul>
     </footer>
     {% endblock %}
   </body>
