@@ -77,6 +77,23 @@ def returnEventForm():
 def returnTourForm():
     if request.method == 'GET':
         return render_template('tourForm.html', title="Tournament Form", admin=checkIsAdmin())
+    if request.method == 'POST':
+        AgeCategory = request.form.get('ageRange', default="error")
+        GenderRatio = request.form.get('genderRatio', default="error")
+
+        try:
+            conn = sql.connect(DATABASE)
+            cur = conn.cursor()
+            cur.execute("INSERT INTO tournamentform ('AgeCategory', 'GenderRatio')\
+                        VALUES (?,?)",(AgeCategory, GenderRatio) )
+            conn.commit()
+            msg = "Record successfully added"
+        except:
+            conn.rollback()
+            msg = "Error in insert operation"
+        finally:
+            conn.close()
+            return msg
 
 # adding staff to database on the admin page
 @app.route("/Admin/AddStaff", methods=['POST', 'GET'])
