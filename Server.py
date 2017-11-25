@@ -93,6 +93,7 @@ def returnTourForm():
             msg = "Error in insert operation"
         finally:
             conn.close()
+            return msg
 
 # adding staff to database on the admin page
 @app.route("/Admin/AddStaff", methods=['POST', 'GET'])
