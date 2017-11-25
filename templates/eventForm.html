@@ -3,6 +3,8 @@
 {% block head %}
 {{ super() }}
 <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<script type="text/javascript" src="../static/js/formhandling.js"></script>
+
 <!--TODO Move to JS -->
 <script>
     function filloutForm(){
@@ -30,28 +32,32 @@
 {%endblock%}
 
 {% block main%}
-  <form id="eventForm" action="#" onsubmit="filloutForm()" method="post">
+  <!-- <form id="eventForm" action="#" onsubmit="filloutForm()" method="post"> -->
+  <form id="eventForm" onsubmit="validateEventForm()">
     <h2> What's happening at your event? </h2>
 
     <h3> Venue information: </h3>
     <div>Event date:</div>
-    <input type="date" name="eventDate"><br>
-    Location postcode:<br>
+    <input type="date" name="eventDate" required>
+    <br>
+    <div>Location postcode:</div>
     <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->
-    <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}"><br>
+    <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}" required>
     <div>Select the event region:</div>
     <select value="region" name="regionSelect">
       <option value="Scarlets">Scarlets</option>
       <option value="Ospreys">Ospreys</option>
       <option value="CardiffBlues">Cardiff Blues</option>
       <option value="Dragons">Dragons</option>
-    </select> <br>
-
+    </select>
+    <br>
     <h3> Population information </h3>
     <div>Number of people in attendance:</div>
-    <input type="number" name="peopleNum"><br>
+    <input type="number" name="peopleNum" required>
+    <br>
     <div>Number of tournaments</div>
-    <input type="number" name="tourNum"><br>
+    <input type="number" name="tourNum" required>
+    <br>
 
     <h3> Tournament information </h3>
     <div>Age category</div>
@@ -66,8 +72,11 @@
     <textarea rows="5" cols="45" id ="comments"></textarea>
     <br>
     <br>
-    <button type="submit" value="submit" >Submit form</button><br><br>
+    <button type="submit" value="submit" >Submit form</button>
+    <br>
+    <br>
     <!-- The form-data will be reset to default values if pressed -->
     <button type="reset">Reset form</button> <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_reset (Retrieved 17/11/17)-->
   </form>
+  <span id='txt'></span>
 {%endblock%}

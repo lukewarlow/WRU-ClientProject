@@ -61,7 +61,7 @@ def returnEventForm():
         try:
             conn = sqlite3.connect(DATABASE)
             cur = con.cursor()
-            cur.execute("INSERT INTO eventForm ('eventDate', 'postcode', \
+            cur.execute("INSERT INTO tblEvent ('eventDate', 'postcode', \
             'eventRegion', 'peopleNum', 'tourNum', 'ageRange', 'comments')\
                         VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion, \
                         peopleNum, tourNum, ageRange, comments) )
@@ -72,6 +72,7 @@ def returnEventForm():
             msg = "Error in insert operation"
         finally:
             conn.close()
+            return msg;
 
 @app.route("/Staff/TournamentForm", methods = ['POST', 'GET'])
 def returnTourForm():
@@ -84,7 +85,7 @@ def returnTourForm():
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
-            cur.execute("INSERT INTO tournamentform ('AgeCategory', 'GenderRatio')\
+            cur.execute("INSERT INTO tblTournament ('AgeCategory', 'GenderRatio')\
                         VALUES (?,?)",(AgeCategory, GenderRatio) )
             conn.commit()
             msg = "Record successfully added"

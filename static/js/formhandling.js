@@ -64,3 +64,36 @@ function login()
   xhttp.send(params);
   return false; //TO-DO fix
 }
+
+function validateEventForm()
+{
+  //add validation?
+  addEvent();
+}
+
+function addEvent()
+{
+  var eventDate = document.forms["eventForm"]["eventDate"].value;
+  var postcode = document.forms["eventForm"]["postcode"].value;
+  var eventRegion = document.forms["eventForm"]["eventRegion"].value;
+  var peopleNum = document.forms["eventForm"]["peopleNum"].value;
+  var tourNum = document.forms["eventForm"]["tourNum"].value;
+  var ageRange = document.forms["eventForm"]["ageRange"].value;
+  var comments = document.forms["eventForm"]["comments"].value;
+  document.forms["eventForm"].reset();
+  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&peopleNum='+peopleNum+'&tourNum='+tourNum+'&ageRange='+ageRange+'&comments='+comments;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", '/Staff/EventForm', true); // true is asynchronous
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.onload = function()
+  {
+    if (xhttp.readyState === 4 && xhttp.status === 200)
+    {
+      console.log(xhttp.responseText);
+      document.getElementById("txt").innerHTML = xhttp.responseText;
+    }
+    else console.error(xhttp.statusText);
+  };
+  xhttp.send(params);
+  return false;
+}
