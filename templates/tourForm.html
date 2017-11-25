@@ -3,6 +3,14 @@
 
 {% block header %}
 <div class = "banner">WRU Tournament form</div>
+
+<!--TODO move to js -->
+<script>
+  function outputUpdate(ratio){
+    document.querySelector('#ratio').value = ratio;
+  }
+</script>
+
 {%endblock%}
 
 {% block main%}
@@ -20,21 +28,22 @@
     <br>
 
     <label for="genderRatio">Gender ratio</label>
-    <input type="range" min="0" max="100" value="50" id="=genderRatio"
-    step="10" list="GenderRatioSLider">
-    <datalist id="volsettings">
-	     <option>0</option>
-       <option>0/100</option>
-	     <option>10/90</option>
-	     <option>20/80</option>
-	     <option>30/70</option>
-	     <option>40/60</option>
-	     <option>50/50</option>
-       <option>60/40</option>
-       <option>70/30</option>
-       <option>80/20</option>
-       <option>90/10</option>
-       <option>100/0</option>
+    <br><br>
+    <input type="range" min="0" max="100" value="50" id="genderRatio"
+    step="10" list="tickmarks" oninput="outputUpdate(value)">
+    <output for="genderRatio" id="ratio">50/50</output>
+    <datalist id="tickmarks">
+       <option value="0" label="0/100">
+       <option value="10" label="90/10">
+       <option value="20" label="20/80">
+       <option value="30" label="30/70">
+       <option value="40" label="40/60">
+       <option value="50" label="50/50">
+       <option value="60" label="60/40">
+       <option value="70" label="70/30">
+       <option value="80" label="80/20">
+       <option value="90" label="90/10">
+       <option value="100" label="100/0">
     </datalist>
     <br>
 
