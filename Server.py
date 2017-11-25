@@ -13,7 +13,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 @app.route("/Home", methods=['GET'])
 def returnHome():
     if request.method == 'GET':
-        return render_template('home.html', title="Homepage", admin=checkIsAdmin())
+        return render_template('home.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
 
 # staff page
 @app.route('/Staff/Login', methods=['POST', 'GET'])
@@ -37,19 +37,19 @@ def returnLogin():
             session['username'] = username
             session['password'] = password
             session['usertype'] = usertype
-            resp = make_response(render_template('login.html', username = username, admin = checkIsAdmin()))
+            resp = make_response(render_template('login.html', username = username, admin = checkIsAdmin(), isloggedin=checkIsLoggedIn()))
             print(str(username) + " has logged in")
             return "successful"
         else:
             print("Failed to log in, incorrect password.")
             return "unsuccessful"
     else:
-        return render_template('login.html', title="Log In", admin=checkIsAdmin())
+        return render_template('login.html', title="Log In", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
 
 @app.route("/Staff/EventForm", methods = ['POST', 'GET'])
 def returnEventForm():
     if request.method == 'GET':
-        return render_template('eventForm.html', title="Event Form", admin=checkIsAdmin())
+        return render_template('eventForm.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
     if request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
@@ -76,7 +76,7 @@ def returnEventForm():
 @app.route("/Staff/TournamentForm", methods = ['POST', 'GET'])
 def returnTourForm():
     if request.method == 'GET':
-        return render_template('tourForm.html', title="Tournament Form", admin=checkIsAdmin())
+        return render_template('tourForm.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
     if request.method == 'POST':
         AgeCategory = request.form.get('ageRange', default="error")
         GenderRatio = request.form.get('genderRatio', default="error")
@@ -100,7 +100,7 @@ def returnTourForm():
 def returnAddStaff():
     if request.method == 'GET':
         if checkIsAdmin():
-            return render_template('admin/addstaff.html', title="Admin", admin=True)
+            return render_template('admin/addstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
     elif request.method == 'POST':
@@ -134,6 +134,22 @@ def returnAddStaff():
         finally:
             conn.close()
             return msg
+
+@app.route("/Logout", methods=['POST'])
+def logout():
+    session['username'] = ""
+    session['password'] = ""
+    session['usertype'] = ""
+    return redirect("/Home")
+
+def checkIsLoggedIn():
+    usertype = ""
+    if 'usertype' in session:
+        usertype = escape(session['usertype'])
+    if usertype == "Admin" or usertype == "Staff":
+        return True
+    else:
+        return False
 
 def checkIsAdmin():
     usertype = ""

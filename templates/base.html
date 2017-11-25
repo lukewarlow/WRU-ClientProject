@@ -12,12 +12,13 @@
   <body>
     <header class = "header-container">
       <div class = "header">
-        <div class = "headerlogo">
-          <img src="../static/resources/images/logo.png" alt="WRU Logo">
-        </div>
+        <img class = "headerlogo" src="../static/resources/images/logo.png" alt="WRU Logo">
         {% block header %}
         <div class = "banner">Welcome</div>
         {% endblock %}
+        <form action="/Logout" method="post">
+          <button type="submit">Logout</button>
+        </form>
       </div>
     </header>
 
@@ -28,8 +29,12 @@
         <li class = "menu staff"><label> Staff Pages </label>
           <ul class = "menu-dropdown staff">
             <li><a href="/Staff/Login"> Login </a></li>
-            <li><a href="/Staff/EventForm"> Event Form </a></li>
-            <li><a href="/Staff/TournamentForm"> Tournament Form </a></li>
+            {% if isloggedin != None %}
+              {% if isloggedin == True %}
+              <li><a href="/Staff/EventForm"> Event Form </a></li>
+              <li><a href="/Staff/TournamentForm"> Tournament Form </a></li>
+              {% endif %}
+            {% endif %}
           </ul>
         </li>
         {% if admin != None %}
