@@ -52,12 +52,20 @@ a:link:hover {
   margin-left: 10px;
   font-size: 3.125rem;
   font-weight: bold;
+  width
 }
 
 .headerlogo
 {
   padding-top: 5px;
   display: flex;
+}
+
+.logoutform
+{
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .navbar-container
@@ -219,11 +227,13 @@ input[type=text], input[type=password], input[type=email], select
     font-size: 1.3rem;
 }
 
-select {
+select
+{
   width: 40%
 }
 
-button {
+button
+{
     background-color: black;
     color: white;
     padding: 10px 10px;
@@ -232,6 +242,16 @@ button {
     cursor: pointer;
     width: 30%;
     font-size: 1rem;
+}
+
+.logoutbutton
+{
+  display: flex;
+  width: 10%;
+  height: 70%;
+  text-align: center;
+  padding: 1% 0% 1% 2.5%;
+  margin: 1.5% 1% 1% 1%;
 }
 
 /*
