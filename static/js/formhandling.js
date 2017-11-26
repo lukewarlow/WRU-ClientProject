@@ -97,3 +97,30 @@ function addEvent()
   xhttp.send(params);
   return false;
 }
+
+//Holly's stuff
+
+function outputUpdate(ratio)
+{
+  document.querySelector('#ratio').value = ratio;
+}
+
+//TODO take a look at this, don't think we need it. 
+function filloutForm()
+{
+    var eventDate = document.forms["eventForm"]["eventDate"].value;
+    var postcode = document.forms["eventForm"]["postcode"].value;
+    var peopleNum = document.forms["eventForm"]["peopleNum"].value;
+    if (eventDate == "") {
+      alert("The date of the event must be filled out");
+      return false;
+    }
+    if (postcode == "") {
+      alert("The postcode must be filled out");
+      return false;
+    }
+    if (peopleNum == "") {
+      alert("The number of people who attended the event must be filled out");
+      return false;
+    }
+}
