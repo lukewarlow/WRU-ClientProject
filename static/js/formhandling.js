@@ -62,12 +62,12 @@ function login()
     else console.error(xhttp.statusText);
   };
   xhttp.send(params);
-  return false; //TO-DO fix
+  return false; //TODO fix this
 }
 
 function validateEventForm()
 {
-  //add validation?
+  //TODO add validation
   addEvent();
 }
 
@@ -98,6 +98,34 @@ function addEvent()
   return false;
 }
 
+function validateTournamentForm()
+{
+  //TODO add validation
+  addTournament();
+}
+
+function addTournament()
+{
+  var ageRange = document.forms["tournamentForm"]["ageRange"].value;
+  var genderRatio = document.forms["tournamentForm"]["genderRatio"].value;
+  document.forms["tournamentForm"].reset();
+  params = 'ageRange='+ageRange+'&genderRatio='+genderRatio;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", '/Staff/TournamentForm', true); // true is asynchronous
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.onload = function()
+  {
+    if (xhttp.readyState === 4 && xhttp.status === 200)
+    {
+      console.log(xhttp.responseText);
+      document.getElementById("txt").innerHTML = xhttp.responseText;
+    }
+    else console.error(xhttp.statusText);
+  };
+  xhttp.send(params);
+  return false;
+}
+
 //Holly's stuff
 
 function outputUpdate(ratio)
@@ -105,7 +133,7 @@ function outputUpdate(ratio)
   document.querySelector('#ratio').value = ratio;
 }
 
-//TODO take a look at this, don't think we need it. 
+//TODO take a look at this, don't think we need it.
 function filloutForm()
 {
     var eventDate = document.forms["eventForm"]["eventDate"].value;

@@ -9,7 +9,8 @@
 {%endblock%}
 
 {% block main%}
-  <form id="eventForm" action="#" onsubmit="filloutForm()" method="post">
+  <!-- <form id="tournamentForm" action="#" onsubmit="filloutForm()" method="post"> -->
+  <form id="tournamentForm" onsubmit="validateTournamentForm()">
     <h3> Tournament information </h3>
     <div>Age category</div>
     <select value="age" name="ageRange">
