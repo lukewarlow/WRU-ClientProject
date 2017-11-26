@@ -3,7 +3,7 @@
 
 {% block header %}
 <div class = "banner">WRU Tournament form</div>
-
+<link href="nouislider.min.css" rel="stylesheet">
 <!--TODO move to js -->
 <script>
   function outputUpdate(ratio){
@@ -14,6 +14,8 @@
 {%endblock%}
 
 {% block main%}
+  <script> src="nouislider.min.js"></script>
+  
   <form id="eventForm" action="#" onsubmit="filloutForm()" method="post">
 
     <h3> Tournament information </h3>
