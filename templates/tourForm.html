@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 
+{% block head %}
+{{ super() }}
+<script type="text/javascript" src="../static/js/formhandling.js"></script>
+{%endblock%}
+
 {% block header %}
 <div class = "banner">WRU Tournament form</div>
-<link rel="stylesheet" type="text/css" href="../static/css/nouislider.min.css">
-<script type="text/javascript" src="../static/js/formhandling.js"></script>
 {%endblock%}
 
 {% block main%}
 <section class = "main-item">
   <!-- <form id="tournamentForm" action="#" onsubmit="filloutForm()" method="post"> -->
   <form id="tournamentForm" onsubmit="validateTournamentForm()">
+    <!-- <h2> Event information </h2> -->
+    <h3> Venue information: </h3>
+    <div>Event date:</div>
+    <input type="date" name="eventDate" required>
+    <br>
+    <div>Location postcode:</div>
+    <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->
+    <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}" required>
     <h3> Tournament information </h3>
     <div>Number of people in attendance:</div>
     <input type="number" min="0" value="0" name="peopleNum" required>
@@ -25,7 +36,8 @@
     <br>
 
     <label for="genderRatio">Gender ratio</label>
-    <br><br>
+    <br>
+    <br>
     <input type="range" min="0" max="100" value="50" id="genderRatio"
     step="10" list="tickmarks" oninput="outputUpdate(value)">
     <output for="genderRatio" id="ratio">50</output>
@@ -42,7 +54,6 @@
        <option value="90" label="90/10">
        <option value="100" label="100/0">
     </datalist>
-    <br>
 
     <script>
       var slider = document.getElementById('slider');
@@ -57,8 +68,8 @@
     </script>
 
     <div id='slider'></div>
-
     <button type="submit" value="submit">Submit form</button>
+    <br>
     <br>
     <!-- The form-data will be reset to default values if pressed -->
     <button type="reset">Reset form</button> <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_reset (Retrieved 17/11/17)-->

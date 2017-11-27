@@ -12,7 +12,7 @@
 {% block main%}
 <section class = "main-item">
   <!-- <form id="eventForm" action="#" onsubmit="filloutForm()" method="post"> -->
-  <form id="eventForm" onsubmit="validateEventForm()">
+  <form id="eventForm" onsubmit="return validateEventForm()">
     <h2> What's happening at your event? </h2>
 
     <h3> Venue information: </h3>
@@ -21,9 +21,10 @@
     <br>
     <div>Location postcode:</div>
     <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->
-    <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}" required>
+    <!-- <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}" required> -->
+    <input type="text" name="postcode" required>
     <div>Select the event region:</div>
-    <select value="region" name="regionSelect">
+    <select value="region" name="eventRegion">
       <option value="Scarlets">Scarlets</option>
       <option value="Ospreys">Ospreys</option>
       <option value="CardiffBlues">Cardiff Blues</option>
@@ -35,7 +36,7 @@
     <textarea rows="5" cols="45" id ="comments"></textarea>
     <br>
     <br>
-    <button type="submit" value="submit" >Submit form</button>
+    <button type="submit" value="submit">Submit</button>
     <br>
     <br>
     <!-- The form-data will be reset to default values if pressed -->

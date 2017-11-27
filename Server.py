@@ -50,23 +50,26 @@ def returnLogin():
 def returnEventForm():
     if request.method == 'GET':
         return render_template('eventForm.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
-    if request.method == 'POST':
+    elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
         eventRegion = request.form.get('eventRegion', default="error")
         comments = request.form.get('comments', default="error")
+        print(request.form)
         try:
-            conn = sqlite3.connect(DATABASE)
-            cur = con.cursor()
+            conn = sql.connect(DATABASE)
+            cur = conn.cursor()
             cur.execute("INSERT INTO tblEvent ('eventDate', 'postcode', \
             'eventRegion', 'comments')\
-                        VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion, comments))
+                        VALUES (?,?,?,?)",(eventDate, postcode, eventRegion, comments))
             conn.commit()
             msg = "Record successfully added"
-        except:
+        except sql.ProgrammingError as e:
+            print("Error in operation," + str(e))
             conn.rollback()
             msg = "Error in insert operation"
         finally:
+            print(msg)
             conn.close()
             return msg;
 
@@ -74,16 +77,29 @@ def returnEventForm():
 def returnTourForm():
     if request.method == 'GET':
         return render_template('tourForm.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
-    if request.method == 'POST':
+    elif request.method == 'POST':
+        eventDate = request.form.get('eventDate', default="error")
+        postcode = request.form.get('postcode', default="error")
         peopleNum = request.form.get('peopleNum', default="error")
         ageCategory = request.form.get('ageRange', default="error")
         genderRatio = request.form.get('genderRatio', default="error")
+        eventID = ""
+        try:
+            conn = sql.connect(DATABASE)
+            cur = conn.cursor()
+            cur.execute("SELECT ID FROM tblEvent WHERE eventDate=? AND postcode=?;", [eventDate, postcode])
+            eventID = cur.fetchone()[0]
+            print(eventID)
+        except sql.ProgrammingError as e:
+            print("Error in operation," + str(e))
+        finally:
+            conn.close()
 
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
-            cur.execute("INSERT INTO tblTournament ('peopleNum', 'ageCategory' 'genderRatio')\
-                        VALUES (?,?,?)",(peopleNum, AgeCategory, genderRatio) )
+            cur.execute("INSERT INTO tblTournament ('peopleNum', 'ageCategory', 'genderRatio', 'eventID')\
+                        VALUES (?,?,?,?)",(peopleNum, AgeCategory, genderRatio, eventID))
             conn.commit()
             msg = "Record successfully added"
         except:

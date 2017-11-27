@@ -68,7 +68,7 @@ function login()
 function validateEventForm()
 {
   //TODO add validation
-  addEvent();
+  return addEvent();
 }
 
 function addEvent()
@@ -77,7 +77,7 @@ function addEvent()
   var postcode = document.forms["eventForm"]["postcode"].value;
   var eventRegion = document.forms["eventForm"]["eventRegion"].value;
   var comments = document.forms["eventForm"]["comments"].value;
-  document.forms["eventForm"].reset();
+  // document.forms["eventForm"].reset();
   params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&comments='+comments;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/EventForm', true); // true is asynchronous
@@ -98,16 +98,19 @@ function addEvent()
 function validateTournamentForm()
 {
   //TODO add validation
-  addTournament();
+  return addTournament();
 }
 
 function addTournament()
 {
+  var eventDate = document.forms["tournamentForm"]["eventDate"].value;
+  var postcode = document.forms["tournamentForm"]["postcode"].value;
+
   var peopleNum = document.forms["tournamentForm"]["peopleNum"].value;
   var ageRange = document.forms["tournamentForm"]["ageRange"].value;
   var genderRatio = document.forms["tournamentForm"]["genderRatio"].value;
   document.forms["tournamentForm"].reset();
-  params = 'peopleNum='+peopleNum+'&ageRange='+ageRange+'&genderRatio='+genderRatio;
+  params = 'eventDate='+eventDate+'&postcode='+postcode+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&genderRatio='+genderRatio;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/TournamentForm', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
