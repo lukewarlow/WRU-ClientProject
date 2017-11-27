@@ -89,7 +89,6 @@ def returnTourForm():
             cur = conn.cursor()
             cur.execute("SELECT ID FROM tblEvent WHERE eventDate=? AND postcode=?;", [eventDate, postcode])
             eventID = cur.fetchone()[0]
-            print(eventID)
         except sql.ProgrammingError as e:
             print("Error in operation," + str(e))
         finally:
@@ -99,7 +98,7 @@ def returnTourForm():
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
             cur.execute("INSERT INTO tblTournament ('peopleNum', 'ageCategory', 'genderRatio', 'eventID')\
-                        VALUES (?,?,?,?)",(peopleNum, AgeCategory, genderRatio, eventID))
+                        VALUES (?,?,?,?)",(peopleNum, ageCategory, genderRatio, eventID))
             conn.commit()
             msg = "Record successfully added"
         except:

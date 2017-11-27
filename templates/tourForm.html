@@ -13,7 +13,7 @@
 {% block main%}
 <section class = "main-item">
   <!-- <form id="tournamentForm" action="#" onsubmit="filloutForm()" method="post"> -->
-  <form id="tournamentForm" onsubmit="validateTournamentForm()">
+  <form id="tournamentForm" onsubmit="return validateTournamentForm()">
     <!-- <h2> Event information </h2> -->
     <h3> Venue information: </h3>
     <div>Event date:</div>
@@ -38,7 +38,7 @@
     <label for="genderRatio">Gender ratio</label>
     <br>
     <br>
-    <input type="range" min="0" max="100" value="50" id="genderRatio"
+    <input name="genderRatio" type="range" min="0" max="100" value="50" id="genderRatio"
     step="10" list="tickmarks" oninput="outputUpdate(value)">
     <output for="genderRatio" id="ratio">50</output>
     <datalist id="tickmarks">
