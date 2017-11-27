@@ -226,6 +226,15 @@ a:link:hover {
     text-align: center;
     display: flex;
 }
+.tourna
+{
+    width: auto;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    display: inline-flex;
+}
+
 
 form
 {
