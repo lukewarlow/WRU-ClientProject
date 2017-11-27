@@ -53,6 +53,7 @@ def returnEventForm():
     elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
+        postcode = postcode.upper()
         eventRegion = request.form.get('eventRegion', default="error")
         comments = request.form.get('comments', default="error")
         print(request.form)
@@ -80,6 +81,7 @@ def returnTourForm():
     elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
+        postcode = postcode.upper()
         peopleNum = request.form.get('peopleNum', default="error")
         ageCategory = request.form.get('ageRange', default="error")
         genderRatio = request.form.get('genderRatio', default="error")
