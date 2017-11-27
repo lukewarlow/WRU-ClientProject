@@ -11,6 +11,7 @@
 
 {% block main %}
 <section class = "main-item">
+  <div class="loginform">
   <form id='login' onsubmit="return validatePassword('login')">
     <b>Username:</b>
     <input type="text" placeholder="Enter your username here" name="username" required>
@@ -19,5 +20,6 @@
     <input type="password" placeholder="Enter your password here" name="password" required>
     <button type = "submit">Login</button>
   </form>
+</div>
 </section>
 {% endblock %}
