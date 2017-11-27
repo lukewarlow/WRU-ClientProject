@@ -85,30 +85,37 @@ def returnTourForm():
         peopleNum = request.form.get('peopleNum', default="error")
         ageCategory = request.form.get('ageRange', default="error")
         genderRatio = request.form.get('genderRatio', default="error")
-        eventID = ""
+        eventExists = False
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
             cur.execute("SELECT ID FROM tblEvent WHERE eventDate=? AND postcode=?;", [eventDate, postcode])
-            eventID = cur.fetchone()[0]
+            data = cur.fetchone()
+            if data:
+                eventID = data[0]
+                eventExists = True
         except sql.ProgrammingError as e:
             print("Error in operation," + str(e))
         finally:
             conn.close()
 
-        try:
-            conn = sql.connect(DATABASE)
-            cur = conn.cursor()
-            cur.execute("INSERT INTO tblTournament ('peopleNum', 'ageCategory', 'genderRatio', 'eventID')\
-                        VALUES (?,?,?,?)",(peopleNum, ageCategory, genderRatio, eventID))
-            conn.commit()
-            msg = "Record successfully added"
-        except:
-            conn.rollback()
-            msg = "Error in insert operation"
-        finally:
-            conn.close()
-            return msg
+        if eventExists == True:
+            try:
+                conn = sql.connect(DATABASE)
+                cur = conn.cursor()
+                cur.execute("INSERT INTO tblTournament ('peopleNum', 'ageCategory', 'genderRatio', 'eventID')\
+                            VALUES (?,?,?,?)",(peopleNum, ageCategory, genderRatio, eventID))
+                conn.commit()
+                msg = "Record successfully added"
+            except:
+                conn.rollback()
+                msg = "Error in insert operation"
+            finally:
+                conn.close()
+                return msg
+        else:
+            print("Error: event not found")
+            return "Event data incorrect"
 
 # adding staff to database on the admin page
 @app.route("/Admin/AddStaff", methods=['POST', 'GET'])
