@@ -4,7 +4,6 @@
 {% block header %}
 <div class = "banner">WRU Tournament form</div>
 <link rel="stylesheet" type="text/css" href="../static/css/nouislider.min.css">
-<script type="text/javascript" src="../static/js/nouislider.min.js"></script>
 <script type="text/javascript" src="../static/js/formhandling.js"></script>
 {%endblock%}
 
@@ -41,6 +40,20 @@
     </datalist>
     <br>
 
+    <script>
+      var slider = document.getElementById('slider');
+
+      noUiSlider.create(slider,{
+        start:[50],
+        range: {
+          'min': 0,
+          'max': 100
+        }
+      });
+    </script>
+
+    <div id='slider'></div>
+
     <button type="submit" value="submit">Submit form</button>
     <br>
     <br>
@@ -48,4 +61,5 @@
     <button type="reset">Reset form</button> <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_reset (Retrieved 17/11/17)-->
   </form>
   <span id='txt'></span>
+  <script type="text/javascript" src="../static/js/nouislider.min.js"></script>
 {%endblock%}
