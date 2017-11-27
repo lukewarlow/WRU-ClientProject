@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block head %}
+{{ super() }}
+<script type="text/javascript" src="../static/js/formhandling.js"></script>
+{%endblock%}
+
+{% block header %}
+<div class = "banner">Admin</div>
+{%endblock%}
+
+{% block main %}
+<section class = "main-item">
+  <h1> Add Staff member </h1>
+  <p>Input Staff details below.</p>
+  <form id='deletestaff' onsubmit="return deleteStaff()">
+    Username: <input type = "text" placeholder="Enter username here" name = "username" required><br>
+    <button type = "submit"> Submit </button>
+  </form>
+  <span id='txt'></span>
+</section>
+{% endblock %}

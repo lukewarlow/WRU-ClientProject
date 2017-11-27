@@ -16,6 +16,27 @@ function validatePassword(form)
   return false;
 }
 
+function deleteStaff()
+{
+  var username = document.forms["deletestaff"]["username"].value;
+  document.forms["deletestaff"].reset();
+  params = 'username='+username;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", '/Admin/DeleteStaff', true); // true is asynchronous
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.onload = function()
+  {
+    if (xhttp.readyState === 4 && xhttp.status === 200)
+    {
+      console.log(xhttp.responseText);
+      document.getElementById("txt").innerHTML = xhttp.responseText;
+    }
+    else console.error(xhttp.statusText);
+  };
+  xhttp.send(params);
+  return false;
+}
+
 function addStaff()
 {
   var firstName = document.forms["addstaff"]["firstName"].value;

@@ -129,7 +129,7 @@ def returnAddStaff():
         email = request.form.get('email', default="Error").lower()
         usertype = request.form.get('usertype', default="Error")
 
-        print("Adding staff member:" + username)
+        print("Adding staff member: " + username)
 
         try:
             conn = sql.connect(DATABASE)
@@ -138,15 +138,54 @@ def returnAddStaff():
             cur.execute("INSERT INTO tblStaff ('username', 'password', 'email', 'usertype', 'firstname', 'surname')\
                         VALUES (?,?,?,?,?,?)", (username, password, email, usertype, firstName, surname))
             conn.commit()
-            msg = "Record successfully added"
-            print("Added staff member:" + username)
+            msg = "User {} successfully added".format(username)
+            print("Added staff member: " + username)
         except:
             conn.rollback()
             msg = "Error in insert operation"
-            print("Failed to add staff member:" + username)
+            print("Failed to add staff member: " + username)
         finally:
             conn.close()
             return msg
+
+@app.route("/Admin/DeleteStaff", methods=['POST', 'GET'])
+def returnDeleteStaff():
+    if request.method == 'GET':
+        if checkIsAdmin():
+            return render_template('admin/deletestaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+        else:
+            return redirect("/Home")
+    elif request.method == 'POST':
+        username = request.form.get('username', default="Error")
+        username = username.lower()
+        # usertype = ""
+        #
+        # try:
+        #     conn = sql.connect(DATABASE)
+        #     cur = conn.cursor()
+        #     cur.execute("SELECT usertype FROM tblStaff WHERE username=?;", [username])
+        #     usertype = cur.fetchone()[0]
+        # except sql.ProgrammingError as e:
+        #     print("Error in operation," + str(e))
+        # finally:
+        #     conn.close()
+
+        try:
+            conn = sql.connect(DATABASE)
+            cur = conn.cursor()
+
+            cur.execute("DELETE FROM tblStaff WHERE username=?;", [username]);
+            conn.commit()
+            msg = "User {} successfully deleted".format(username)
+            print("Deleted staff member:" + username)
+        except:
+            conn.rollback()
+            msg = "Error in insert operation"
+            print("Failed to delete staff member:" + username)
+        finally:
+            conn.close()
+            return msg
+
 
 @app.route("/Logout", methods=['POST'])
 def logout():
