@@ -14,69 +14,70 @@
 <section class = "main-item">
   <!-- <form id="tournamentForm" action="#" onsubmit="filloutForm()" method="post"> -->
    <div class="tourna">
-  <form id="tournamentForm" onsubmit="return validateTournamentForm()">
-    <!-- <h2> Event information </h2> -->
-    <h3> Venue information: </h3>
-    <div>Event date:</div>
-    <input type="date" name="eventDate" required>
-    <br>
-    <div>Location postcode:</div>
-    <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->
-    <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}" required>
-    <h3> Tournament information </h3>
-    <div>Number of people in attendance:</div>
-    <input type="number" min="0" value="0" name="peopleNum" required>
-    <br>
-    <div>Age category</div>
-    <select value="age" name="ageRange">
-      <option value="minis">Minis</option>
-      <option value="junior">Junior</option>
-      <option value="youth">Youth</option>
-      <option value="older">Senior</option>
-    </select>
-    <br>
+    <form id="tournamentForm" onsubmit="return validateTournamentForm()">
+      <!-- <h2> Event information </h2> -->
+      <h3> Venue information: </h3>
+      <div>Event date:</div>
+      <input type="date" name="eventDate" required>
+      <br>
+      <div>Location postcode:</div>
+      <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->
+      <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}" required>
+      <h3> Tournament information </h3>
+      <div>Number of people in attendance:</div>
+      <input type="number" min="0" value="0" name="peopleNum" required>
+      <br>
+      <div>Age category</div>
+      <select value="age" name="ageRange">
+        <option value="minis">Minis</option>
+        <option value="junior">Junior</option>
+        <option value="youth">Youth</option>
+        <option value="older">Senior</option>
+      </select>
+      <br>
 
-    <label for="genderRatio">Gender ratio</label>
-    <br>
-    <br>
-    <input name="genderRatio" type="range" min="0" max="100" value="50" id="genderRatio"
-    step="10" list="tickmarks" oninput="outputUpdate(value)">
-    <output for="genderRatio" id="ratio">50</output>
-    <datalist id="tickmarks">
-       <option value="0" label="0/100">
-       <option value="10" label="90/10">
-       <option value="20" label="20/80">
-       <option value="30" label="30/70">
-       <option value="40" label="40/60">
-       <option value="50" label="50/50">
-       <option value="60" label="60/40">
-       <option value="70" label="70/30">
-       <option value="80" label="80/20">
-       <option value="90" label="90/10">
-       <option value="100" label="100/0">
-    </datalist>
+      <label for="genderRatio">Gender ratio</label>
+      <br>
+      <br>
+      <input name="genderRatio" type="range" min="0" max="100" value="50" id="genderRatio"
+      step="10" list="tickmarks" oninput="outputUpdate(value)">
+      <output for="genderRatio" id="ratio">50</output>
+      <datalist id="tickmarks">
+         <option value="0" label="0/100">
+         <option value="10" label="90/10">
+         <option value="20" label="20/80">
+         <option value="30" label="30/70">
+         <option value="40" label="40/60">
+         <option value="50" label="50/50">
+         <option value="60" label="60/40">
+         <option value="70" label="70/30">
+         <option value="80" label="80/20">
+         <option value="90" label="90/10">
+         <option value="100" label="100/0">
+      </datalist>
 
-    <script>
-      var slider = document.getElementById('slider');
+      <!-- broken -->
+      <!-- <script>
+        var slider = document.getElementById('slider');
 
-      noUiSlider.create(slider,{
-        start:[50],
-        range: {
-          'min': 0,
-          'max': 100
-        }
-      });
-    </script>
+        noUiSlider.create(slider,{
+          start:[50],
+          range: {
+            'min': 0,
+            'max': 100
+          }
+        });
+      </script> -->
 
-    <div id='slider'></div>
-    <br>
-    <button type="submit" value="submit">Submit form</button>
-    <br>
-    <br>
-    <!-- The form-data will be reset to default values if pressed -->
-    <button type="reset">Reset form</button> <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_reset (Retrieved 17/11/17)-->
-  </form>
-</div>
+      <div id='slider'></div>
+      <br>
+      <button type="submit" value="submit">Submit form</button>
+      <br>
+      <br>
+      <!-- The form-data will be reset to default values if pressed -->
+      <button type="reset">Reset form</button> <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_reset (Retrieved 17/11/17)-->
+    </form>
+  </div>
   <span id='txt'></span>
   <script type="text/javascript" src="../static/js/nouislider.min.js"></script>
 </section>
