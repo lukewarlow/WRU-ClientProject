@@ -76,12 +76,9 @@ function addEvent()
   var eventDate = document.forms["eventForm"]["eventDate"].value;
   var postcode = document.forms["eventForm"]["postcode"].value;
   var eventRegion = document.forms["eventForm"]["eventRegion"].value;
-  var peopleNum = document.forms["eventForm"]["peopleNum"].value;
-  var tourNum = document.forms["eventForm"]["tourNum"].value;
-  var ageRange = document.forms["eventForm"]["ageRange"].value;
   var comments = document.forms["eventForm"]["comments"].value;
   document.forms["eventForm"].reset();
-  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&peopleNum='+peopleNum+'&tourNum='+tourNum+'&ageRange='+ageRange+'&comments='+comments;
+  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&comments='+comments;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/EventForm', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -106,10 +103,11 @@ function validateTournamentForm()
 
 function addTournament()
 {
+  var peopleNum = document.forms["tournamentForm"]["peopleNum"].value;
   var ageRange = document.forms["tournamentForm"]["ageRange"].value;
   var genderRatio = document.forms["tournamentForm"]["genderRatio"].value;
   document.forms["tournamentForm"].reset();
-  params = 'ageRange='+ageRange+'&genderRatio='+genderRatio;
+  params = 'peopleNum='+peopleNum+'&ageRange='+ageRange+'&genderRatio='+genderRatio;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/TournamentForm', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -131,24 +129,4 @@ function addTournament()
 function outputUpdate(ratio)
 {
   document.querySelector('#ratio').value = ratio;
-}
-
-//TODO take a look at this, don't think we need it.
-function filloutForm()
-{
-    var eventDate = document.forms["eventForm"]["eventDate"].value;
-    var postcode = document.forms["eventForm"]["postcode"].value;
-    var peopleNum = document.forms["eventForm"]["peopleNum"].value;
-    if (eventDate == "") {
-      alert("The date of the event must be filled out");
-      return false;
-    }
-    if (postcode == "") {
-      alert("The postcode must be filled out");
-      return false;
-    }
-    if (peopleNum == "") {
-      alert("The number of people who attended the event must be filled out");
-      return false;
-    }
 }

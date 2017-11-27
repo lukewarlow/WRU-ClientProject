@@ -54,17 +54,13 @@ def returnEventForm():
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
         eventRegion = request.form.get('eventRegion', default="error")
-        peopleNum = request.form.get('peopleNum', default="error")
-        tourNum = request.form.get('tourNum', default="error")
-        ageRange = request.form.get('ageRange', default="error")
         comments = request.form.get('comments', default="error")
         try:
             conn = sqlite3.connect(DATABASE)
             cur = con.cursor()
             cur.execute("INSERT INTO tblEvent ('eventDate', 'postcode', \
-            'eventRegion', 'peopleNum', 'tourNum', 'ageRange', 'comments')\
-                        VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion, \
-                        peopleNum, tourNum, ageRange, comments) )
+            'eventRegion', 'comments')\
+                        VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion, comments))
             conn.commit()
             msg = "Record successfully added"
         except:
@@ -79,14 +75,15 @@ def returnTourForm():
     if request.method == 'GET':
         return render_template('tourForm.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
     if request.method == 'POST':
-        AgeCategory = request.form.get('ageRange', default="error")
-        GenderRatio = request.form.get('genderRatio', default="error")
+        peopleNum = request.form.get('peopleNum', default="error")
+        ageCategory = request.form.get('ageRange', default="error")
+        genderRatio = request.form.get('genderRatio', default="error")
 
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
-            cur.execute("INSERT INTO tblTournament ('AgeCategory', 'GenderRatio')\
-                        VALUES (?,?)",(AgeCategory, GenderRatio) )
+            cur.execute("INSERT INTO tblTournament ('peopleNum', 'ageCategory' 'genderRatio')\
+                        VALUES (?,?,?)",(peopleNum, AgeCategory, genderRatio) )
             conn.commit()
             msg = "Record successfully added"
         except:

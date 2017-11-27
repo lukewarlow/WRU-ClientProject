@@ -8,9 +8,13 @@
 {%endblock%}
 
 {% block main%}
+<section class = "main-item">
   <!-- <form id="tournamentForm" action="#" onsubmit="filloutForm()" method="post"> -->
   <form id="tournamentForm" onsubmit="validateTournamentForm()">
     <h3> Tournament information </h3>
+    <div>Number of people in attendance:</div>
+    <input type="number" min="0" value="0" name="peopleNum" required>
+    <br>
     <div>Age category</div>
     <select value="age" name="ageRange">
       <option value="minis">Minis</option>
@@ -24,7 +28,7 @@
     <br><br>
     <input type="range" min="0" max="100" value="50" id="genderRatio"
     step="10" list="tickmarks" oninput="outputUpdate(value)">
-    <output for="genderRatio" id="ratio">50/50</output>
+    <output for="genderRatio" id="ratio">50</output>
     <datalist id="tickmarks">
        <option value="0" label="0/100">
        <option value="10" label="90/10">
@@ -56,10 +60,10 @@
 
     <button type="submit" value="submit">Submit form</button>
     <br>
-    <br>
     <!-- The form-data will be reset to default values if pressed -->
     <button type="reset">Reset form</button> <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_reset (Retrieved 17/11/17)-->
   </form>
   <span id='txt'></span>
   <script type="text/javascript" src="../static/js/nouislider.min.js"></script>
+</section>
 {%endblock%}

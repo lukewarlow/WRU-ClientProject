@@ -11,6 +11,7 @@
 {%endblock%}
 
 {% block main%}
+<section class = "main-item">
   <!-- <form id="eventForm" action="#" onsubmit="filloutForm()" method="post"> -->
   <form id="eventForm" onsubmit="validateEventForm()">
     <h2> What's happening at your event? </h2>
@@ -30,22 +31,6 @@
       <option value="Dragons">Dragons</option>
     </select>
     <br>
-    <h3> Population information </h3>
-    <div>Number of people in attendance:</div>
-    <input type="number" name="peopleNum" required>
-    <br>
-    <div>Number of tournaments</div>
-    <input type="number" name="tourNum" required>
-    <br>
-
-    <h3> Tournament information </h3>
-    <div>Age category</div>
-    <select value="age" name="ageRange">
-      <option value="minis">Minis</option>
-      <option value="junior">Junior</option>
-      <option value="youth">Youth</option>
-      <option value="older">Older</option>
-    </select>
 
     <div>Additional information:</div>
     <textarea rows="5" cols="45" id ="comments"></textarea>
@@ -58,4 +43,5 @@
     <button type="reset">Reset form</button> <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_reset (Retrieved 17/11/17)-->
   </form>
   <span id='txt'></span>
+</section>
 {%endblock%}
