@@ -210,6 +210,11 @@ a:link:hover {
   align-self: flex-end;
   margin-left: auto;
 }*/
+.loginform
+{
+    border-radius: 5px;
+    padding: 20px;
+}
 
 form
 {
@@ -242,6 +247,7 @@ button
     cursor: pointer;
     width: 30%;
     font-size: 1rem;
+    border-radius: 15px;
 }
 
 .logoutbutton
