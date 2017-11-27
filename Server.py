@@ -158,34 +158,24 @@ def returnDeleteStaff():
     elif request.method == 'POST':
         username = request.form.get('username', default="Error")
         username = username.lower()
-        # usertype = ""
-        #
-        # try:
-        #     conn = sql.connect(DATABASE)
-        #     cur = conn.cursor()
-        #     cur.execute("SELECT usertype FROM tblStaff WHERE username=?;", [username])
-        #     usertype = cur.fetchone()[0]
-        # except sql.ProgrammingError as e:
-        #     print("Error in operation," + str(e))
-        # finally:
-        #     conn.close()
+        if (username == session['username']):
+            msg = "Can't delete self"
+        else:
+            try:
+                conn = sql.connect(DATABASE)
+                cur = conn.cursor()
 
-        try:
-            conn = sql.connect(DATABASE)
-            cur = conn.cursor()
-
-            cur.execute("DELETE FROM tblStaff WHERE username=?;", [username]);
-            conn.commit()
-            msg = "User {} successfully deleted".format(username)
-            print("Deleted staff member:" + username)
-        except:
-            conn.rollback()
-            msg = "Error in insert operation"
-            print("Failed to delete staff member:" + username)
-        finally:
-            conn.close()
-            return msg
-
+                cur.execute("DELETE FROM tblStaff WHERE username=?;", [username]);
+                conn.commit()
+                msg = "User {} successfully deleted".format(username)
+                print("Deleted staff member:" + username)
+            except:
+                conn.rollback()
+                msg = "Error in insert operation"
+                print("Failed to delete staff member:" + username)
+            finally:
+                conn.close()
+        return msg
 
 @app.route("/Logout", methods=['POST'])
 def logout():
