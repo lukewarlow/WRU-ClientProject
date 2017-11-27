@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <title>{{ title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../static/css/style-test.css">
+    <link rel="shortcut icon" href="../static/resources/images/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    {% endblock %}
+  </head>
+
+  <body>
+    <header class = "header-container">
+      <div class = "header">
+        <div class = "header-item logo">
+          <img src="../static/resources/images/logo.png" alt="WRU Logo">
+        </div>
+        <div class = "header-item text">Welcome</div>
+        <form class = "header-item logoutform" action="/Logout" method="post">
+          <button class = "logoutbutton" type="submit">Logout</button>
+        </form>
+        <nav class = "navbar-container">
+          <ul class="navbar">
+            <li><a href = "/Home"> Home </a></li>
+            <li class = "dropdown staff">
+              <label class = "droptext"> Staff Pages &#9660;</label>
+              <div class = "dropdown-content staff">
+                <a href="/Staff/Login"> Login </a>
+                {% if isloggedin != None %}
+                  {% if isloggedin == True %}
+                  <a href="/Staff/EventForm"> Event Form </a>
+                  <a href="/Staff/TournamentForm"> Tournament Form </a>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </li>
+            {% if admin != None %}
+              {% if admin == True %}
+              <li class = "dropdown">
+                <label class = "droptext"> Admin &#9660;</label>
+                <div class = "dropdown-content">
+                  <a href="/Admin/AddStaff"> Add staff </a>
+                </div>
+              </li>
+              {% endif %}
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class = "main-container">
+      {% block main %}
+
+      {% endblock %}
+    </main>
+
+    {% block footer %}
+    <footer class = "footer-container"> <!-- Needs looking at -->
+      <ul class="footer">
+        <li><a class = "footer-item" href="mailto:AthertonA@cardiff.ac.uk"> Mail Alex </a></li>
+        <li><a class = "footer-item" href="mailto:SmithHL2@cardiff.ac.uk"> Mail Holly </a></li>
+        <li><a class = "footer-item" href="mailto:WarlowL@cardiff.ac.uk"> Mail Luke </a></li>
+        <li><a class = "footer-item" href="http://www.wru.co.uk/eng/home.php"> Visit WRU </a></li>
+        <li><a class = "footer-item">©2017</a></li>
+      </ul>
+    </footer>
+    {% endblock %}
+  </body>
+</html>
