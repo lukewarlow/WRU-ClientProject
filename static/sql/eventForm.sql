@@ -6,7 +6,5 @@ CREATE TABLE IF NOT EXISTS 'eventForm' (
   'postcode' TEXT NOT NULL,
   'eventRegion' TEXT NOT NULL,
   'peopleNum' TEXT NOT NULL,
-  'tourNum' INTEGER NOT NULL,
-  'ageRange' TEXT NOT NULL,
   'comments' TEXT NOT NULL
 )
