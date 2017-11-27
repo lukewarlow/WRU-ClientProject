@@ -13,6 +13,7 @@
 {% block main%}
 <section class = "main-item">
   <!-- <form id="tournamentForm" action="#" onsubmit="filloutForm()" method="post"> -->
+   <div class="tourna">
   <form id="tournamentForm" onsubmit="return validateTournamentForm()">
     <!-- <h2> Event information </h2> -->
     <h3> Venue information: </h3>
@@ -74,6 +75,7 @@
     <!-- The form-data will be reset to default values if pressed -->
     <button type="reset">Reset form</button> <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_reset (Retrieved 17/11/17)-->
   </form>
+</div>
   <span id='txt'></span>
   <script type="text/javascript" src="../static/js/nouislider.min.js"></script>
 </section>
