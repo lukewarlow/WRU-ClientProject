@@ -109,6 +109,10 @@ function addEvent()
     {
       console.log(xhttp.responseText);
       document.getElementById("txt").innerHTML = xhttp.responseText;
+      if (xhttp.responseText.includes("successful"))
+      {
+        document.forms["eventForm"].reset();
+      }
     }
     else console.error(xhttp.statusText);
   };
@@ -130,7 +134,6 @@ function addTournament()
   var peopleNum = document.forms["tournamentForm"]["peopleNum"].value;
   var ageRange = document.forms["tournamentForm"]["ageRange"].value;
   var genderRatio = document.forms["tournamentForm"]["genderRatio"].value;
-  document.forms["tournamentForm"].reset();
   params = 'eventDate='+eventDate+'&postcode='+postcode+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&genderRatio='+genderRatio;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/TournamentForm', true); // true is asynchronous
@@ -141,6 +144,10 @@ function addTournament()
     {
       console.log(xhttp.responseText);
       document.getElementById("txt").innerHTML = xhttp.responseText;
+      if (xhttp.responseText.includes("successful"))
+      {
+        document.forms["tournamentForm"].reset();
+      }
     }
     else console.error(xhttp.statusText);
   };
