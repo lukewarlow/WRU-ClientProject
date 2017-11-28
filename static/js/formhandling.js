@@ -97,11 +97,12 @@ function addEvent()
   var eventDate = document.forms["eventForm"]["eventDate"].value;
   var postcode = document.forms["eventForm"]["postcode"].value;
   var eventRegion = document.forms["eventForm"]["eventRegion"].value;
+  var eventName = document.forms["eventForm"]["eventname"].values;
   var inclusivity = document.forms["eventForm"]["inclusivity"].value;
   var activityType = document.forms["tournamentForm"]["activityType"].value;
   var comments = document.forms["eventForm"]["comments"].value;
   // document.forms["eventForm"].reset();
-  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&inclusivity='+inclusivity+'&activityType'+activityType+'&comments='+comments;
+  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&eventName='+eventName+'&inclusivity='+inclusivity+'&activityType'+activityType+'&comments='+comments;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/EventForm', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
