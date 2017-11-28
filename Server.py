@@ -55,14 +55,18 @@ def returnEventForm():
         postcode = request.form.get('postcode', default="error")
         postcode = postcode.upper()
         eventRegion = request.form.get('eventRegion', default="error")
+        eventName = request.form.get('eventName', default="error")
+        inclusivity = request.form.get('inclusivity', default="error")
+        activityName = request.form.get('activityName', default="error")
         comments = request.form.get('comments', default="error")
         print(request.form)
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
             cur.execute("INSERT INTO tblEvent ('eventDate', 'postcode', \
-            'eventRegion', 'comments')\
-                        VALUES (?,?,?,?)",(eventDate, postcode, eventRegion, comments))
+            'eventRegion','eventName', 'inclusivity', 'activityName', 'comments')\
+                        VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion,\
+                         eventName, inclusivity, activityName, comments))
             conn.commit()
             msg = "Record successfully added"
         except sql.ProgrammingError as e:
@@ -82,6 +86,7 @@ def returnTourForm():
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
         postcode = postcode.upper()
+        eventName = request.form.get('eventName', default="error")
         peopleNum = request.form.get('peopleNum', default="error")
         ageCategory = request.form.get('ageRange', default="error")
         genderRatio = request.form.get('genderRatio', default="error")
@@ -103,8 +108,10 @@ def returnTourForm():
             try:
                 conn = sql.connect(DATABASE)
                 cur = conn.cursor()
-                cur.execute("INSERT INTO tblTournament ('peopleNum', 'ageCategory', 'genderRatio', 'eventID')\
-                            VALUES (?,?,?,?)",(peopleNum, ageCategory, genderRatio, eventID))
+                cur.execute("INSERT INTO tblTournament ('eventName', 'peopleNum',\
+                 'ageCategory', 'genderRatio', 'eventID')\
+                            VALUES (?,?,?,?,?)",(eventname, peopleNum, ageCategory,\
+                             genderRatio, eventID))
                 conn.commit()
                 msg = "Record successfully added"
             except:
@@ -144,8 +151,10 @@ def returnAddStaff():
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
 
-            cur.execute("INSERT INTO tblStaff ('username', 'password', 'email', 'usertype', 'firstname', 'surname')\
-                        VALUES (?,?,?,?,?,?)", (username, password, email, usertype, firstName, surname))
+            cur.execute("INSERT INTO tblStaff ('username', 'password', 'email',\
+             'usertype', 'firstname', 'surname')\
+                        VALUES (?,?,?,?,?,?)", (username, password, email,\
+                         usertype, firstName, surname))
             conn.commit()
             msg = "User {} successfully added".format(username)
             print("Added staff member: " + username)
