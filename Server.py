@@ -7,7 +7,9 @@ import sys
 app = Flask(__name__)
 
 DATABASE = "database.db"
-app.secret_key = 'fj590Rt?h40gg'
+#Generated using os.urandom(24), got from flask documentation.
+#http://flask.pocoo.org/docs/0.12/quickstart/ Accessed: 28/11/2017
+app.secret_key = b'\xac\x9b.\x8ew\xa2\x1b\x8d\xdf\xdbB\x00\xf6r95\xb5fy"\x85G\x11"'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 @app.route("/Home", methods=['GET'])
