@@ -97,9 +97,10 @@ function addEvent()
   var eventDate = document.forms["eventForm"]["eventDate"].value;
   var postcode = document.forms["eventForm"]["postcode"].value;
   var eventRegion = document.forms["eventForm"]["eventRegion"].value;
+  var inclusivity = document.forms["eventForm"]["inclusivity"].value;
   var comments = document.forms["eventForm"]["comments"].value;
   // document.forms["eventForm"].reset();
-  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&comments='+comments;
+  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&inclusivity='+inclusivity+'&comments='+comments;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/EventForm', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -156,8 +157,7 @@ function addTournament()
   return false;
 }
 
-//Holly's stuff
-
+//SLider work in progress
 function outputUpdate(ratio)
 {
   document.querySelector('#ratio').value = ratio;
