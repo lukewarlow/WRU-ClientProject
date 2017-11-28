@@ -134,7 +134,8 @@ function addTournament()
   var peopleNum = document.forms["tournamentForm"]["peopleNum"].value;
   var ageRange = document.forms["tournamentForm"]["ageRange"].value;
   var genderRatio = document.forms["tournamentForm"]["genderRatio"].value;
-  params = 'eventDate='+eventDate+'&postcode='+postcode+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&genderRatio='+genderRatio;
+  var activityType = document.forms["tournamentForm"]["activityType"].value;
+  params = 'eventDate='+eventDate+'&postcode='+postcode+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&genderRatio='+genderRatio+'&activityType='+activityType;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/TournamentForm', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
