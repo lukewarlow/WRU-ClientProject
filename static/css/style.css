@@ -109,6 +109,9 @@ button
   display: flex;
   font-size: 1.25rem;
   flex-wrap: wrap;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 }
 
 .navbar > li
