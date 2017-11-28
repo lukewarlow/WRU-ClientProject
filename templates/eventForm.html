@@ -21,7 +21,8 @@
       <input type="date" name="eventDate" required>
       <br>
       <div>Location postcode:</div>
-      <input type="text" name="postcode" required>
+      <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->
+      <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}"required>
       <div>Select the event region:</div>
       <select value="region" name="eventRegion">
         <option value="Scarlets">Scarlets</option>
@@ -38,7 +39,9 @@
       <input type="text" name="eventName">
       <br>
       <h3> Event information </h3>
+      <div>Event inclusivity</div>
       <select value="inclusivity" name="inclusivity">
+        <option value="N/A">Not applicable</option>
         <option value="BME">BME</option>
         <option value="Disability">Disability</option>
         <option value="Deprivation">Deprivation</option>
@@ -47,23 +50,24 @@
         <input type='text'>
       </select>
       <br>
-      <select value="activity" name="activityType">
-        <option value="hubActivity">Hub Activity</option>
-        <option value="communityFestival">Community festival</option>
-        <option value="competition">Competition</option>
-        <option value="communityProv">Community Provision</option>
-        <option value="womenAndGirls">Women and girls cluster</option>
-        <option value="regionalRugbyCamps">Regional rugby camps</option>
-        <option value="exilesCamps">Exile camps</option>
-        <option value="collabDelivery">Collaborative delivery</option>
-        <input type='text'>
+      <div>Activity type</div>
+      <div class="italics">Select all that apply</div>
+      <section value="activity" name="activityType">
+        <input type="checkbox" value="hubActivity">Hub activity</input><br>
+        <input type="checkbox" value="communityFestival">Community festival</input><br>
+        <input type="checkbox" value="competition">Competition</input><br>
+        <input type="checkbox" value="communityProv">Community provision</input><br>
+        <input type="checkbox" value="womenAndGirls">Women and girls cluster</input><br>
+        <input type="checkbox" value="regionalRugbyCamps">Regional rugby camps</input><br>
+        <input type="checkbox" value="exilesCamps">Exiles camps</input><br>
+        <input type="checkbox" value="collaborativeDelivery">Collaborative delivery</input><br>
         <option value="Other">Other</option>
         <input type='text'>
-      </select>
+      </section>
       <br>
 
       <div>Additional information:</div>
-      <div>eg. Sponsor information</div>
+      <div class="italics">eg. Sponsor information</div>
       <textarea rows="5" cols="45" id ="comments"></textarea>
       <br>
       <button type="submit" value="submit">Submit</button>
