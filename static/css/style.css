@@ -190,6 +190,10 @@ button
   width: 100%;
 }
 
+div.italics{
+  font-style: italic;
+}
+
 .footer-container
 {
   display: flex;
