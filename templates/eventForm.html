@@ -21,15 +21,26 @@
       <input type="date" name="eventDate" required>
       <br>
       <div>Location postcode:</div>
-      <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->
-      <!-- <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}" required> -->
       <input type="text" name="postcode" required>
       <div>Select the event region:</div>
       <select value="region" name="eventRegion">
         <option value="Scarlets">Scarlets</option>
         <option value="Ospreys">Ospreys</option>
-        <option value="CardiffBlues">Cardiff Blues</option>
+        <option value="Blues">Blues</option>
         <option value="Dragons">Dragons</option>
+        <option value="RGC">RGC</option>
+        <option value="AllWales">All Wales</option>
+        <option value="Other">Other</option>
+        <input type='text'>
+      </select>
+      <br>
+      <select value="inclusivity" name="inclusivity">
+        <option value="BME">BME</option>
+        <option value="Disability">Disability</option>
+        <option value="Deprivation">Deprivation</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+        <input type='text'>
       </select>
       <br>
 
