@@ -81,6 +81,15 @@ def returnStaffVerifyPost():
                         session['usertype'] = check.split(":")[2]
                         session['verified'] = "True"
                         print(str(username) + " has verified")
+                        
+                        data = getDetailsFromUsername(username)
+                        message = """\
+                        <p>
+                            Hi {} {},<br>
+                            Your account has been verified.<br>
+                            You will now have access to the WRU event tool.
+                        </p>""".format(data[0], data[1])
+                        sendEmail(data[2], "Account verified", message)
                         return "successful"
                 else:
                     return "User doesn't exist"
@@ -284,11 +293,11 @@ def returnAddStaff():
 
                 message = """\
                 <p>
-                    Hi,<br>
+                    Hi {} {},<br>
                     You've been added to the WRU staff database for there event data collection tool.<br>
                     Username: {}<br>
                     <a href="http://localhost:5000/Staff/Verify/{}">Click to login.</a>
-                </p>""".format(username, verificationSigner.dumps(username))
+                </p>""".format(firstName, surname, username, verificationSigner.dumps(username))
                 sendEmail(email, "New Account", message)
             except Exception as e:
                 conn.rollback()
