@@ -40,14 +40,14 @@
       <br>
       <h3> Event information </h3>
       <div>Event inclusivity</div>
-      <select value="inclusivity" name="inclusivity">
+      <select value="inclusivity" name="inclusivity" onchange="otherSelected(this)">
         <option value="N/A">Not applicable</option>
         <option value="BME">BME</option>
         <option value="Disability">Disability</option>
         <option value="Deprivation">Deprivation</option>
         <option value="Female">Female</option>
         <option value="Other">Other</option>
-        <input type='text'>
+        <input type="text" id = "otherbox2" value=""></input>
       </select>
       <br>
       <div>Activity type</div>
@@ -61,8 +61,8 @@
         <input type="checkbox" value="regionalRugbyCamps">Regional rugby camps</input><br>
         <input type="checkbox" value="exilesCamps">Exiles camps</input><br>
         <input type="checkbox" value="collaborativeDelivery">Collaborative delivery</input><br>
-        <option value="Other">Other</option>
-        <input type='text'>
+        <input type="checkbox" value="other" onchange="otherChecked(this)">Other</input>
+        <input type="text" id = "otherbox" value=""></input>
       </section>
       <br>
 

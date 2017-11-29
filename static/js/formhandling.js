@@ -123,16 +123,16 @@ function addEvent()
   return false;
 }
 
-function showOtherBox(checkbox)
+function otherSelected(selectbox)
 {
-  if(checkbox.checked)
-  {
-    document.getElementById("otherbox").style.display = "block";
-  }
-  else
-  {
-    document.getElementById("otherbox").style.display = "none";
-  }
+    if (selectbox.value == "Other") document.getElementById("otherbox2").style.display = "block";
+    else document.getElementById("otherbox2").style.display = "none";
+}
+
+function otherChecked(checkbox)
+{
+  if(checkbox.checked) document.getElementById("otherbox").style.display = "block";
+  else document.getElementById("otherbox").style.display = "none";
 }
 
 function validateTournamentForm()
