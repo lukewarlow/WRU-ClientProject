@@ -99,9 +99,10 @@ function addEvent()
   var eventRegion = document.forms["eventForm"]["eventRegion"].value;
   var eventName = document.forms["eventForm"]["eventname"].values;
   var inclusivity = document.forms["eventForm"]["inclusivity"].value;
+  if (inclusivity == "Other") inclusivity = document.getElementById("otherbox2").value;
   var activityType = document.forms["tournamentForm"]["activityType"].value;
+  if (activityType == "Other") activityType = document.getElementById("otherbox").value;
   var comments = document.forms["eventForm"]["comments"].value;
-  // document.forms["eventForm"].reset();
   params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&eventName='+eventName+'&inclusivity='+inclusivity+'&activityType'+activityType+'&comments='+comments;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/EventForm', true); // true is asynchronous
@@ -146,9 +147,10 @@ function addTournament()
   var eventDate = document.forms["tournamentForm"]["eventDate"].value;
   var postcode = document.forms["tournamentForm"]["postcode"].value;
   var eventName = document.forms["tournamentForm"]["eventName"].value;
-
   var peopleNum = document.forms["tournamentForm"]["peopleNum"].value;
   var ageRange = document.forms["tournamentForm"]["ageRange"].value;
+  var rugbyOffer = documemt.forms["tournamentForm"]["rugbyOffer"].value;
+  if (rugbyOffer == "Other") rugbyOffer = document.getElementById("otherbox").value;
   var genderRatio = document.forms["tournamentForm"]["genderRatio"].value;
 
   params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventName'+eventName+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&genderRatio='+genderRatio;
