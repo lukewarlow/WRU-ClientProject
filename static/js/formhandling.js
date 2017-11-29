@@ -123,6 +123,18 @@ function addEvent()
   return false;
 }
 
+function showOtherBox(checkbox)
+{
+  if(checkbox.checked)
+  {
+    document.getElementById("otherbox").style.display = "block";
+  }
+  else
+  {
+    document.getElementById("otherbox").style.display = "none";
+  }
+}
+
 function validateTournamentForm()
 {
   //TODO add validation
