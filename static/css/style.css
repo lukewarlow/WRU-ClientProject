@@ -260,31 +260,28 @@ select
     font-size: 10px;
   }
 
-  .loginform
+  .main-item.loginform
   {
-      width: auto;
+      width: 100%;
       border-radius: 5px;
       padding: 20px;
-      text-align: center;
-      display: inline-flex;
+      /*text-align: center;*/
   }
 
-  /*.eveform
+  /*.main-item.eventForm
   {
-      width: auto;
+      width: 100%;
       border-radius: 5px;
       padding: 20px;
       text-align: center;
-      display: flex;
-  }
+  }*/
 
-  .tourna
+  /*.main-item.tournamentForm
   {
-      width: auto;
+      width: 100%;
       border-radius: 5px;
       padding: 20px;
       text-align: center;
-      display: inline-flex;
   }*/
 }
 

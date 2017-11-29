@@ -11,68 +11,67 @@
 {%endblock%}
 
 {% block main%}
-<section class = "main-item">
+<section class = "main-item tournamentForm">
   <!-- <form id="tournamentForm" action="#" onsubmit="filloutForm()" method="post"> -->
-   <div class="tourna">
-    <form id="tournamentForm" onsubmit="return validateTournamentForm()">
-      <!-- <h2> Event information </h2> -->
-      <h3> Venue information: </h3>
-      <div>Event name:<div>
-      <input type = "text" name = "eventName" placeholder="optional">
-      <div>Event date:</div>
-      <input type="date" value="{{ date }}" id="datePicker" name="eventDate" required>
-      <br>
-      <div>Location postcode:</div>
-      <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->
-      <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}" required>
-      <h3> Tournament information </h3>
-      <div>Number of people in attendance:</div>
-      <input type="number" min="0" value="0" name="peopleNum" required>
-      <br>
-      <div>Age category</div>
-      <select value="age" name="ageRange">
-        <option value="minis">Minis 4-7</option>
-        <option value="junior">Junior 8-15</option>
-        <option value="youth">Youth 10-19</option>
-        <option value="older">Senior 18+</option>
-      </select>
-      <br>
+  <form id="tournamentForm" onsubmit="return validateTournamentForm()">
+    <!-- <h2> Event information </h2> -->
+    <h3> Venue information: </h3>
+    <div>Event name:<div>
+    <input type = "text" name = "eventName" placeholder="optional">
+    <div>Event date:</div>
+    <input type="date" value="{{ date }}" id="datePicker" name="eventDate" required>
+    <br>
+    <div>Location postcode:</div>
+    <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->
+    <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}" required>
+    <h3> Tournament information </h3>
+    <div>Number of people in attendance:</div>
+    <input type="number" min="0" value="0" name="peopleNum" required>
+    <br>
+    <div>Age category</div>
+    <select value="age" name="ageRange">
+      <option value="minis">Minis 4-7</option>
+      <option value="junior">Junior 8-15</option>
+      <option value="youth">Youth 10-19</option>
+      <option value="older">Senior 18+</option>
+    </select>
+    <br>
 
-      <div>Rugby offer:</div>
-      <div class="italics">Check all that apply</div>
-      <section name="rugbyOffers">
-        <input name = "rugbyOffer" type="checkbox" value="standard">15s/12s/10s<br>
-        <input name = "rugbyOffer" type="checkbox" value="sevens">Sevens<br>
-        <input name = "rugbyOffer" type="checkbox" value="touch">Touch<br>
-        <input name = "rugbyOffer" type="checkbox" value="tag">Tag<br>
-        <input name = "rugbyOffer" type="checkbox" value="beach">Beach<br>
-        <input name = "rugbyOffer" type="checkbox" value="streetRugby">Street rugby<br>
-        <input name = "rugbyOffer" type="checkbox" value="mixedAbility">Mixed ability<br>
-        <input name = "rugbyOffer" type="checkbox" value="multiSport">Multi-sport<br>
-        <input name = "rugbyOffer" type="checkbox" value="Disability">Disability<br>
-        <input name = "rugbyOffer" type="checkbox" value="other" onchange="otherChecked(this)">Other
-        <input name = "rugbyOffer" type="text" id = "otherbox">
-      </section>
+    <div>Rugby offer:</div>
+    <div class="italics">Check all that apply</div>
+    <section name="rugbyOffers">
+      <input name = "rugbyOffer" type="checkbox" value="standard">15s/12s/10s<br>
+      <input name = "rugbyOffer" type="checkbox" value="sevens">Sevens<br>
+      <input name = "rugbyOffer" type="checkbox" value="touch">Touch<br>
+      <input name = "rugbyOffer" type="checkbox" value="tag">Tag<br>
+      <input name = "rugbyOffer" type="checkbox" value="beach">Beach<br>
+      <input name = "rugbyOffer" type="checkbox" value="streetRugby">Street rugby<br>
+      <input name = "rugbyOffer" type="checkbox" value="mixedAbility">Mixed ability<br>
+      <input name = "rugbyOffer" type="checkbox" value="multiSport">Multi-sport<br>
+      <input name = "rugbyOffer" type="checkbox" value="Disability">Disability<br>
+      <input name = "rugbyOffer" type="checkbox" value="other" onchange="otherChecked(this)">Other
+      <input name = "rugbyOffer" type="text" id = "otherbox">
+    </section>
 
-      <label for="genderRatio">Gender ratio</label>
-      <input name="genderRatio" type="range" min="0" max="100" value="50" id="genderRatio"
-      step="10" list="tickmarks" oninput="outputUpdate(value)">
-      <datalist id="tickmarks">
-        <option value="0">
-        <option value="10">
-        <option value="10">
-        <option value="20">
-        <option value="30">
-        <option value="40">
-        <option value="50">
-        <option value="60">
-        <option value="70">
-        <option value="80">
-        <option value="90">
-        <option value="100">
-      </datalist>
-      <div id = "maleRatio">Male: 50%</div>
-      <div id = "femaleRatio">Female: 50%</div>
+    <label for="genderRatio">Gender ratio</label>
+    <input name="genderRatio" type="range" min="0" max="100" value="50" id="genderRatio"
+    step="10" list="tickmarks" oninput="outputUpdate(value)">
+    <datalist id="tickmarks">
+      <option value="0">
+      <option value="10">
+      <option value="10">
+      <option value="20">
+      <option value="30">
+      <option value="40">
+      <option value="50">
+      <option value="60">
+      <option value="70">
+      <option value="80">
+      <option value="90">
+      <option value="100">
+    </datalist>
+    <div id = "maleRatio">Male: 50%</div>
+    <div id = "femaleRatio">Female: 50%</div>
 
       <!-- broken -->
       <!-- <script>
@@ -87,15 +86,14 @@
         });
       </script> -->
 
-      <div id='slider'></div>
-      <br>
-      <button type="submit" value="submit">Submit form</button>
-      <br>
-      <br>
-      <!-- The form-data will be reset to default values if pressed -->
-      <button type="reset">Reset form</button> <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_reset (Retrieved 17/11/17)-->
-    </form>
-  </div>
+    <div id='slider'></div>
+    <br>
+    <button type="submit" value="submit">Submit form</button>
+    <br>
+    <br>
+    <!-- The form-data will be reset to default values if pressed -->
+    <button type="reset">Reset form</button> <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_reset (Retrieved 17/11/17)-->
+  </form>
   <span id='txt'></span>
   <script type="text/javascript" src="../static/js/nouislider.min.js"></script>
 </section>
