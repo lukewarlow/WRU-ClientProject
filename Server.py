@@ -35,6 +35,8 @@ def returnHome():
 def redirectHome():
     return redirect("/Home")
 
+#http://flask.pocoo.org/snippets/50/ Accessed: 29/11/2017
+#https://pythonhosted.org/itsdangerous/ Accessed: 29/11/2017
 @app.route('/Staff/Verify/<payload>', methods=['GET'])
 def returnStaffVerify(payload):
     if request.method == "GET":
@@ -42,6 +44,7 @@ def returnStaffVerify(payload):
             return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=checkIsLoggedIn(), isverified=checkIsVerified(), payload=payload)
         else:
             return redirect("/Home")
+
 
 @app.route('/Staff/Verify', methods=['POST'])
 def returnStaffVerifyPost():
@@ -81,7 +84,7 @@ def returnStaffVerifyPost():
                         session['usertype'] = check.split(":")[2]
                         session['verified'] = "True"
                         print(str(username) + " has verified")
-                        
+
                         data = getDetailsFromUsername(username)
                         message = """\
                         <p>
@@ -255,7 +258,6 @@ def returnTourForm():
 def redirectTournament():
     return redirect("/Staff/TournamentForm")
 
-# adding staff to database on the admin page
 @app.route("/Admin/AddStaff", methods=['POST', 'GET'])
 def returnAddStaff():
     if request.method == 'GET':
