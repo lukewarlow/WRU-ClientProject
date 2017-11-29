@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
-{% block head %}
-{{ super() }}
-<script type="text/javascript" src="../static/js/formhandling.js"></script>
-{%endblock%}
 
 {% block header %}
-<div class = "banner">Admin</div>
+<div class = "header-item text">Admin</div>
 {%endblock%}
 
 {% block main %}
 <section class = "main-item">
   <h1> Add Staff member </h1>
   <p>Input Staff details below.</p>
-  <form id='addstaff' onsubmit="return validatePassword('addstaff')">
+  <form id='addstaff' onsubmit="return validatePassword('addstaff', 'password')">
     First name: <input type = "text" placeholder="Enter first name here" name = "firstName" required><br>
     Surname: <input type = "text" placeholder="Enter surname here" name = "surname" required><br>
     Password: <input type = "password" placeholder="Enter password here" name = "password" required><br>

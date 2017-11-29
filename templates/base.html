@@ -4,19 +4,22 @@
     {% block head %}
     <title>{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-    <link rel="shortcut icon" href="../static/resources/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="http://localhost:5000/static/css/style.css">
+    <link rel="shortcut icon" href="http://localhost:5000/static/resources/images/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <script type="text/javascript" src="http://localhost:5000/static/js/formhandling.js"></script>
     {% endblock %}
   </head>
 
-  <body>
+  <body onload"verifyload()">
     <header class = "header-container">
       <div class = "header">
         <div class = "header-item logo">
-          <img src="../static/resources/images/logo.png" alt="WRU Logo">
+          <img src="http://localhost:5000/static/resources/images/logo.png" alt="WRU Logo">
         </div>
+        {% block header %}
         <div class = "header-item text">Welcome</div>
+        {% endblock %}
         <form class = "header-item logoutform" action="/Logout" method="post">
           <button class = "logoutbutton" type="submit">Logout</button>
         </form>
@@ -27,16 +30,16 @@
               <label class = "droptext"> Staff Pages &#9660;</label>
               <div class = "dropdown-content staff">
                 <a href="/Staff/Login"> Login </a>
-                {% if isloggedin != None %}
-                  {% if isloggedin == True %}
+                {% if isloggedin == True %}
+                  {% if isverified == True %}
                   <a href="/Staff/EventForm"> Event Form </a>
                   <a href="/Staff/TournamentForm"> Tournament Form </a>
                   {% endif %}
                 {% endif %}
               </div>
             </li>
-            {% if admin != None %}
-              {% if admin == True %}
+            {% if admin == True %}
+              {% if isverified == True %}
               <li class = "dropdown">
                 <label class = "droptext"> Admin &#9660;</label>
                 <div class = "dropdown-content">

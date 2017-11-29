@@ -1,6 +1,37 @@
-function validatePassword(form)
+function verifyForm()
 {
-  var password = document.forms[form]["password"].value;
+  if (validatePassword("verify", "password"))
+  {
+    if (validatePassword("verify", "newpassword"))
+    {
+      var username = document.forms["verify"]["username"].value;
+      var password = document.forms["verify"]["password"].value;
+      var newpassword = document.forms["verify"]["newpassword"].value;
+      var payload = document.getElementById("txt").innerHTML;
+      params = 'username='+username+'&password='+password+'&newpassword='+newpassword+'&payload='+"InNtaXRoaiI.DQC4Jw.tmGNO3tSCR7OSWNdjgj6SsASJv4";
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("POST", '/Staff/Verify', true); // true is asynchronous
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.onload = function()
+      {
+        if (xhttp.readyState === 4 && xhttp.status === 200)
+        {
+          console.log(xhttp.responseText);
+          document.getElementById("txt").innerHTML = xhttp.responseText;
+        }
+        else console.error(xhttp.statusText);
+      };
+      xhttp.send(params);
+      return false;
+    }
+    return false;
+  }
+  return false;
+}
+
+function validatePassword(form, id)
+{
+  var password = document.forms[form][id].value;
 
   if(password.length > 8)
   {
@@ -9,6 +40,7 @@ function validatePassword(form)
     {
       if (form == "login") login();
       else if (form == "addstaff") addStaff();
+      else return true;
     }
     else alert("Passwords contain at least 1 lower and upper case letter. And 1 number.");
   }

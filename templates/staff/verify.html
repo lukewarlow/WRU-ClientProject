@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block header %}
+<div class = "header-item text">Verify Account</div>
+{%endblock%}
+
+{% block main %}
+<section class = "main-item verifyform">
+  <form id='verify' onsubmit="return verifyForm()">
+    <b>Username:</b>
+    <input type="text" placeholder="Enter your username here" name="username" required>
+    <br>
+    <b>Password:</b>
+    <input type="password" placeholder="Enter your password here" name="password" required>
+    <br>
+    <br>
+    <b>Please set new password</b>
+    <br>
+    <b>Password:</b>
+    <input type="password" placeholder="Enter your password here" name="newpassword" required>
+    <br>
+    <!-- <b>Re-enter Password:</b>
+    <input type="password" placeholder="Re-enter your password here" name="checknewpassword" required>
+    <br> -->
+    <button name "verify" type = "submit">Verify</button>
+  </form>
+  <span id='txt' hidden>{{ payload }}</span>
+</section>
+{% endblock %}

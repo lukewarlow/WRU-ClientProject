@@ -8,6 +8,7 @@ from bcrypt import hashpw, gensalt
 import sys
 import datetime
 import smtplib
+from itsdangerous import URLSafeTimedSerializer
 
 app = Flask(__name__)
 server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -20,12 +21,13 @@ DATABASE = "database.db"
 #Generated using os.urandom(24), got from flask documentation.
 #http://flask.pocoo.org/docs/0.12/quickstart/ Accessed: 28/11/2017
 app.secret_key = b'\xac\x9b.\x8ew\xa2\x1b\x8d\xdf\xdbB\x00\xf6r95\xb5fy"\x85G\x11"'
+verificationSigner = URLSafeTimedSerializer(b'\xb7\xa8j\xfc\x1d\xb2S\\\xd9/\xa6y\xe0\xefC{\xb6k\xab\xa0\xcb\xdd\xdbV')
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 @app.route("/Home", methods=['GET'])
 def returnHome():
     if request.method == 'GET':
-        return render_template('home.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
+        return render_template('home.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), isverified=checkIsVerified())
 
 @app.route("/home", methods=['GET'])
 @app.route("/index", methods=['GET'])
@@ -33,36 +35,110 @@ def returnHome():
 def redirectHome():
     return redirect("/Home")
 
+@app.route('/Staff/Verify/<payload>', methods=['GET'])
+def returnStaffVerify(payload):
+    if request.method == "GET":
+        if checkIsLoggedIn() == False and checkIsVerified() == False:
+            return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=checkIsLoggedIn(), isverified=checkIsVerified(), payload=payload)
+        else:
+            return redirect("/Home")
+
+@app.route('/Staff/Verify', methods=['POST'])
+def returnStaffVerifyPost():
+    if request.method == "POST":
+        if checkIsLoggedIn() == False and checkIsVerified() == False:
+            payload = request.form.get('payload', default="Error")
+            try:
+                user = verificationSigner.loads(payload)
+            except Exception as e:
+                print(str(e))
+                return "Verification failed"
+            username = request.form.get('username', default="Error")
+            password = request.form.get('password', default="Error")
+            newpassword = encrypt(request.form.get('newpassword', default="Error"))
+            if (user == username):
+                userexists = checkIfUserExists(username)
+                if (userexists != "False"):
+                    check = checkLogin(username, password)
+                    if (check == False):
+                        print("Failed to log in, incorrect password.")
+                        return "unsuccessful"
+                    else:
+                        session['username'] = check.split(":")[1]
+                        try:
+                            conn = sql.connect(DATABASE)
+                            cur = conn.cursor()
+                            cur.execute("UPDATE tblStaff SET password=?, verified='True' WHERE username=?", [newpassword, username])
+                            conn.commit()
+                            print("Password updated")
+                        except Exception as e:
+                            conn.rollback()
+                            print(str(e))
+                            print("Error")
+                        finally:
+                            conn.close()
+
+                        session['usertype'] = check.split(":")[2]
+                        session['verified'] = "True"
+                        print(str(username) + " has verified")
+                        return "successful"
+                else:
+                    return "User doesn't exist"
+            else:
+                return "Username doesn't match, your email"
+
+
+@app.route('/Staff/Verify', methods=['GET'])
+@app.route('/Staff/verify', methods=['GET'])
+@app.route('/staff/Verify', methods=['GET'])
+@app.route('/staff/verify', methods=['GET'])
+def redirectVerify():
+    return redirect("/Staff/Verify")
+
 # staff page
 @app.route('/Staff/Login', methods=['POST', 'GET'])
 def returnLogin():
     if request.method == 'POST':
         username = request.form.get('username', default="Error").lower()
         password = request.form.get('password', default="Error")
-        try:
-            conn = sql.connect(DATABASE)
-            cur = conn.cursor()
-            cur.execute("SELECT username, password, usertype FROM tblStaff WHERE username=?;", [username])
-            data = cur.fetchone()
-            pw = data[1]
-            username = data[0]
-            usertype = data[2]
-        except sql.ProgrammingError as e:
-            print("Error in operation," + str(e))
-        finally:
-            conn.close()
-        if (encrypt(password, pw) == pw):
-            session['username'] = username
-            session['password'] = password
-            session['usertype'] = usertype
-            print(str(username) + " has logged in")
-            return "successful"
-        else:
-            print("Failed to log in, incorrect password.")
-            return "unsuccessful"
-    else:
-        return render_template('staff/login.html', title="Log In", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
+        userexists = checkIfUserExists(username).split(":")
+        if (len(userexists) == 2):
+            check = checkLogin(username, password)
+            if (check == False):
+                print("Failed to log in, incorrect password.")
+                return "unsuccessful"
+            else:
+                session['username'] = check.split(":")[1]
+                session['usertype'] = check.split(":")[2]
+                session['verified'] = check.split(":")[3]
+                print(str(username) + " has logged in")
+                return "successful"
 
+        else:
+            print("Failed to log in, incorrect username.")
+            return "unsuccessful user not found"
+    else:
+        return render_template('staff/login.html', title="Log In", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), isverified=checkIsVerified())
+
+def checkLogin(username, password):
+    try:
+        conn = sql.connect(DATABASE)
+        cur = conn.cursor()
+        cur.execute("SELECT username, password, usertype, verified FROM tblStaff WHERE username=?;", [username])
+        data = cur.fetchone()
+        pw = data[1]
+        user = data[0]
+        usertype = data[2]
+        verified = data[3]
+        conn.close()
+    except sql.ProgrammingError as e:
+        print("Error in operation," + str(e))
+        conn.close()
+        return False;
+    if (encrypt(password, pw) == pw):
+        return "True:{}:{}:{}".format(user, usertype, verified)
+    else:
+        return False;
 @app.route("/Staff/login", methods=['GET'])
 @app.route("/staff/Login", methods=['GET'])
 @app.route("/staff/login", methods=['GET'])
@@ -73,7 +149,7 @@ def redirectLogin():
 def returnEventForm():
     if request.method == 'GET':
         now = datetime.datetime.now()
-        return render_template('staff/event.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
+        return render_template('staff/event.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), isverified=checkIsVerified(), date=now.strftime("%Y-%m-%d"))
     elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
@@ -83,7 +159,6 @@ def returnEventForm():
         inclusivity = request.form.get('inclusivity', default="error")
         activityTypes = request.form.get('activityTypes', default="error")
         comments = request.form.get('comments', default="error")
-        print(request.form)
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
@@ -98,7 +173,6 @@ def returnEventForm():
             conn.rollback()
             msg = "Error in insert operation"
         finally:
-            print(msg)
             conn.close()
             return msg;
 
@@ -117,7 +191,7 @@ def returnTourForm():
     if request.method == 'GET':
         #https://www.saltycrane.com/blog/2008/06/how-to-get-current-date-and-time-in/ Date Accessed: 29/11/2017
         now = datetime.datetime.now()
-        return render_template('staff/tournament.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
+        return render_template('staff/tournament.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), isverified=checkIsVerified(), date=now.strftime("%Y-%m-%d"))
     elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
@@ -177,7 +251,7 @@ def redirectTournament():
 def returnAddStaff():
     if request.method == 'GET':
         if checkIsAdmin():
-            return render_template('admin/addstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+            return render_template('admin/addstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), isverified=checkIsVerified())
         else:
             return redirect("/Home")
     elif request.method == 'POST':
@@ -201,9 +275,9 @@ def returnAddStaff():
                 cur = conn.cursor()
 
                 cur.execute("INSERT INTO tblStaff ('username', 'password', 'email',\
-                 'usertype', 'firstname', 'surname', 'organisation')\
-                            VALUES (?,?,?,?,?,?,?)", (username, password, email,\
-                             usertype, firstName, surname, organisation))
+                 'usertype', 'firstname', 'surname', 'organisation', 'verified')\
+                            VALUES (?,?,?,?,?,?,?,?)", (username, password, email,\
+                             usertype, firstName, surname, organisation, "False"))
                 conn.commit()
                 msg = "User {} successfully added".format(username)
                 print("Added staff member: " + username)
@@ -213,8 +287,8 @@ def returnAddStaff():
                     Hi,<br>
                     You've been added to the WRU staff database for there event data collection tool.<br>
                     Username: {}<br>
-                    <a href="http://127.0.0.1:5000/Staff/Login">Click to login.</a>
-                </p>""".format(username)
+                    <a href="http://localhost:5000/Staff/Verify/{}">Click to login.</a>
+                </p>""".format(username, verificationSigner.dumps(username))
                 sendEmail(email, "New Account", message)
             except Exception as e:
                 conn.rollback()
@@ -267,7 +341,7 @@ def verifyEmail(email):
 def returnDeleteStaff():
     if request.method == 'GET':
         if checkIsAdmin():
-            return render_template('admin/deletestaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+            return render_template('admin/deletestaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), isverified=checkIsVerified())
         else:
             return redirect("/Home")
     elif request.method == 'POST':
@@ -307,16 +381,24 @@ def logout():
     session['username'] = ""
     session['password'] = ""
     session['usertype'] = ""
+    session['verified'] = ""
     return redirect("/Home")
 
 def checkIsLoggedIn():
     usertype = ""
     if 'usertype' in session:
         usertype = escape(session['usertype'])
-    if usertype == "Admin" or usertype == "Staff":
+    if usertype == "Admin" or usertype == "Staff" or usertype == "Guest":
         return True
-    else:
-        return False
+    return False
+
+def checkIsVerified():
+    verified = ""
+    if 'verified' in session:
+        verified = escape(session['verified'])
+    if verified == "True":
+        return True
+    return False
 
 def checkIsAdmin():
     usertype = ""
@@ -324,8 +406,7 @@ def checkIsAdmin():
         usertype = escape(session['usertype'])
     if usertype == "Admin":
         return True
-    else:
-        return False
+    return False
 
 def checkIfUserExists(username):
     try:
@@ -338,6 +419,7 @@ def checkIfUserExists(username):
         data = ""
     finally:
         conn.close()
+
         if (len(data) > 0):
             return "True:{}".format(len(data) + 1)
         else:
@@ -345,7 +427,8 @@ def checkIfUserExists(username):
 
 #http://dustwell.com/how-to-handle-passwords-bcrypt.html Date Accessed 20/11/2017
 def encrypt(data, salt=gensalt()):
-    return hashpw(bytes(data, 'utf-8'), salt)
+    hashed = hashpw(bytes(data, 'utf-8'), salt)
+    return hashed
 
 if __name__ == "__main__":
     app.run(debug=True)
