@@ -88,8 +88,16 @@ function login()
 
 function validateEventForm()
 {
-  //TODO add validation
-  return addEvent();
+  var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+  if (checkboxes.length == 0)
+  {
+    alert("You need to select at least one activity type!");
+    return false;
+  }
+  else
+  {
+    return addEvent();
+  }
 }
 
 function addEvent()
@@ -154,8 +162,16 @@ function otherChecked(checkbox)
 
 function validateTournamentForm()
 {
-  //TODO add validation
-  return addTournament();
+  var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+  if (checkboxes.length == 0)
+  {
+    alert("You need to select at least one rugby offer!");
+    return false;
+  }
+  else
+  {
+    return addTournament();
+  }
 }
 
 function addTournament()
