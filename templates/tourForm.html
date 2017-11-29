@@ -17,6 +17,8 @@
     <form id="tournamentForm" onsubmit="return validateTournamentForm()">
       <!-- <h2> Event information </h2> -->
       <h3> Venue information: </h3>
+      <div>Event name:<div>
+      <input type = "text" name = "eventName">
       <div>Event date:</div>
       <input type="date" name="eventDate" required>
       <br>
@@ -38,39 +40,39 @@
 
       <div>Rugby offer:</div>
       <div class="italics">Check all that apply</div>
-      <section name="rugbyOffer">
-        <input type="checkbox" value="standard">15s/12s/10s</input><br>
-        <input type="checkbox" value="sevens">Sevens</input><br>
-        <input type="checkbox" value="touch">Touch</input><br>
-        <input type="checkbox" value="tag">Tag</input><br>
-        <input type="checkbox" value="beach">Beach</input><br>
-        <input type="checkbox" value="streetRugby">Street rugby</input><br>
-        <input type="checkbox" value="mixedAbility">Mixed ability</input><br>
-        <input type="checkbox" value="multiSport">Multi-sport</input><br>
-        <input type="checkbox" value="Disability">Disability</input><br>
-        <input type="checkbox" value="other" onchange="otherChecked(this)">Other</input>
-        <input type="text" id = "otherbox" value=""></input>
+      <section name="rugbyOffers">
+        <input name = "rugbyOffer" type="checkbox" value="standard">15s/12s/10s</input><br>
+        <input name = "rugbyOffer" type="checkbox" value="sevens">Sevens</input><br>
+        <input name = "rugbyOffer" type="checkbox" value="touch">Touch</input><br>
+        <input name = "rugbyOffer" type="checkbox" value="tag">Tag</input><br>
+        <input name = "rugbyOffer" type="checkbox" value="beach">Beach</input><br>
+        <input name = "rugbyOffer" type="checkbox" value="streetRugby">Street rugby</input><br>
+        <input name = "rugbyOffer" type="checkbox" value="mixedAbility">Mixed ability</input><br>
+        <input name = "rugbyOffer" type="checkbox" value="multiSport">Multi-sport</input><br>
+        <input name = "rugbyOffer" type="checkbox" value="Disability">Disability</input><br>
+        <input name = "rugbyOffer" type="checkbox" value="other" onchange="otherChecked(this)">Other</input>
+        <input name = "rugbyOffer" type="text" id = "otherbox"></input>
       </section>
+
       <label for="genderRatio">Gender ratio</label>
-      <dir> Percentage of males: </dir>
-      <br>
-      <br>
       <input name="genderRatio" type="range" min="0" max="100" value="50" id="genderRatio"
       step="10" list="tickmarks" oninput="outputUpdate(value)">
-      <output for="genderRatio" id="ratio">50</output>
       <datalist id="tickmarks">
-         <option value="0" label="0/100">
-         <option value="10" label="90/10">
-         <option value="20" label="20/80">
-         <option value="30" label="30/70">
-         <option value="40" label="40/60">
-         <option value="50" label="50/50">
-         <option value="60" label="60/40">
-         <option value="70" label="70/30">
-         <option value="80" label="80/20">
-         <option value="90" label="90/10">
-         <option value="100" label="100/0">
+        <option value="0">
+        <option value="10">
+        <option value="10">
+        <option value="20">
+        <option value="30">
+        <option value="40">
+        <option value="50">
+        <option value="60">
+        <option value="70">
+        <option value="80">
+        <option value="90">
+        <option value="100">
       </datalist>
+      <div id = "maleRatio">Male: 50%</div>
+      <div id = "femaleRatio">Female: 50%</div>
 
       <!-- broken -->
       <!-- <script>

@@ -100,10 +100,18 @@ function addEvent()
   var eventName = document.forms["eventForm"]["eventname"].values;
   var inclusivity = document.forms["eventForm"]["inclusivity"].value;
   if (inclusivity == "Other") inclusivity = document.getElementById("otherbox2").value;
-  var activityType = document.forms["tournamentForm"]["activityType"].value;
-  if (activityType == "Other") activityType = document.getElementById("otherbox").value;
   var comments = document.forms["eventForm"]["comments"].value;
-  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&eventName='+eventName+'&inclusivity='+inclusivity+'&activityType'+activityType+'&comments='+comments;
+
+  var activityTypes = []
+  var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+  for (var i = 0; i < checkboxes.length; i++)
+  {
+    if (checkboxes[i].value == "Other") activityTypes.push(document.getElementById("otherbox").value)
+    else activityTypes.push(checkboxes[i].value)
+  }
+
+  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&eventName='+eventName+'&inclusivity='+inclusivity+'&activityTypes'+activityTypes+'&comments='+comments;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/EventForm', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -149,11 +157,19 @@ function addTournament()
   var eventName = document.forms["tournamentForm"]["eventName"].value;
   var peopleNum = document.forms["tournamentForm"]["peopleNum"].value;
   var ageRange = document.forms["tournamentForm"]["ageRange"].value;
-  var rugbyOffer = documemt.forms["tournamentForm"]["rugbyOffer"].value;
-  if (rugbyOffer == "Other") rugbyOffer = document.getElementById("otherbox").value;
   var genderRatio = document.forms["tournamentForm"]["genderRatio"].value;
 
-  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventName'+eventName+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&genderRatio='+genderRatio;
+  var rugbyOffers = []
+  var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+  for (var i = 0; i < checkboxes.length; i++)
+  {
+    if (checkboxes[i].value == "Other") rugbyOffers.push(document.getElementById("otherbox").value)
+    else rugbyOffers.push(checkboxes[i].value)
+  }
+
+  console.log(rugbyOffers);
+  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventName'+eventName+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&rugbyOffers='+rugbyOffers+'&genderRatio='+genderRatio;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/TournamentForm', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -177,5 +193,6 @@ function addTournament()
 //SLider work in progress
 function outputUpdate(ratio)
 {
-  document.querySelector('#ratio').value = ratio;
+  document.getElementById("maleRatio").innerHTML = "Male: " + ratio + "%"
+  document.getElementById("femaleRatio").innerHTML = "Female: " + (100 - ratio) + "%"
 }

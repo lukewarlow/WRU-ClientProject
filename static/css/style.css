@@ -249,7 +249,7 @@ input[type=text], input[type=password], input[type=email], select
 
 select
 {
-  width: 40%
+  width: 55%
 }
 
  /*Small screen adaptation for small screens (phones) */
