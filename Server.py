@@ -1,13 +1,22 @@
 import os
 from flask import Flask, redirect, request, render_template, jsonify, make_response, escape, session
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import random
 import sqlite3 as sql
 from bcrypt import hashpw, gensalt
 import sys
 import datetime
-app = Flask(__name__)
+import smtplib
 
+app = Flask(__name__)
+server = smtplib.SMTP('smtp.gmail.com', 587)
+server.ehlo()
+server.starttls()
+server.ehlo()
+server.login("acc0untcreation123", "Lithium3")
 DATABASE = "database.db"
+
 #Generated using os.urandom(24), got from flask documentation.
 #http://flask.pocoo.org/docs/0.12/quickstart/ Accessed: 28/11/2017
 app.secret_key = b'\xac\x9b.\x8ew\xa2\x1b\x8d\xdf\xdbB\x00\xf6r95\xb5fy"\x85G\x11"'
@@ -148,31 +157,68 @@ def returnAddStaff():
         response = checkIfUserExists(username)
         if (response.split(":")[0] == "True"):
             username = username + response.split(":")[1]
-        password = request.form.get('password', default="Error")
-        password = encrypt(password)
+
+        password = encrypt(request.form.get('password', default="Error"))
         email = request.form.get('email', default="Error").lower()
         usertype = request.form.get('usertype', default="Error")
+        organisation = request.form.get('organisation', default="Error")
 
         print("Adding staff member: " + username)
+        if (verifyEmail(email)):
+            try:
+                conn = sql.connect(DATABASE)
+                cur = conn.cursor()
 
-        try:
-            conn = sql.connect(DATABASE)
-            cur = conn.cursor()
+                cur.execute("INSERT INTO tblStaff ('username', 'password', 'email',\
+                 'usertype', 'firstname', 'surname', 'organisation')\
+                            VALUES (?,?,?,?,?,?,?)", (username, password, email,\
+                             usertype, firstName, surname, organisation))
+                conn.commit()
+                msg = "User {} successfully added".format(username)
+                print("Added staff member: " + username)
 
-            cur.execute("INSERT INTO tblStaff ('username', 'password', 'email',\
-             'usertype', 'firstname', 'surname')\
-                        VALUES (?,?,?,?,?,?)", (username, password, email,\
-                         usertype, firstName, surname))
-            conn.commit()
-            msg = "User {} successfully added".format(username)
-            print("Added staff member: " + username)
-        except:
-            conn.rollback()
-            msg = "Error in insert operation"
-            print("Failed to add staff member: " + username)
-        finally:
-            conn.close()
-            return msg
+                html = """\
+                <html>
+                  <head></head>
+                  <body>
+                    <p>
+                        Hi,<br>
+                        You've been added to the WRU staff database for there event data collection tool.<br>
+                        Username: {}<br>
+                        <a href="http://127.0.0.1:5000/Staff/Login">Click to login.</a>
+                    </p>
+                  </body>
+                </html>
+                """.format(username)
+                sendEmail(email, "New Account", html)
+            except Exception as e:
+                conn.rollback()
+                msg = "Error in insert operation: " + str(e)
+                print("Failed to add staff member: " + username)
+            finally:
+                conn.close()
+                return msg
+        else:
+            return "Email address not found"
+
+#https://en.wikibooks.org/wiki/Python_Programming/Email Accessed: 29/11/2017
+def sendEmail(recipientEmail, subject, messageHtml):
+    fromAddr = "acc0untcreation123@gmail.com"
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = subject
+    msg['From'] = fromAddr
+    msg['To'] = recipientEmail
+    msg.attach(MIMEText(messageHtml, 'html'))
+    text = msg.as_string()
+    server.sendmail(fromAddr, recipientEmail, text)
+
+#https://docs.python.org/3.5/library/smtplib.html#smtplib.SMTP.verify Accessed: 29/11/2017
+def verifyEmail(email):
+    try:
+        server.verify(email)
+        return True;
+    except:
+        return False;
 
 @app.route("/Admin/DeleteStaff", methods=['POST', 'GET'])
 def returnDeleteStaff():

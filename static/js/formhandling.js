@@ -44,8 +44,9 @@ function addStaff()
   var password = document.forms["addstaff"]["password"].value;
   var email = document.forms["addstaff"]["email"].value;
   var usertype = document.forms["addstaff"]["usertype"].value;
+  var organisation = document.forms["addstaff"]["organisation"].value;
   document.forms["addstaff"].reset();
-  params = 'firstName='+firstName+'&surname='+surname+'&password='+password+'&email='+email+'&usertype='+usertype;
+  params = 'firstName='+firstName+'&surname='+surname+'&password='+password+'&email='+email+'&usertype='+usertype+'&organisation='+organisation;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Admin/AddStaff', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

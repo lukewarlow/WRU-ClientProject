@@ -21,7 +21,11 @@
     User type: <select value = "usertype" name="usertype">
       <option value="Staff">Staff</option>
       <option value="Admin">Admin</option>
-    </select>
+    </select><br>
+    Organisation: <select value = "organisation" name="organisation" onchange="otherSelected(this, 'otherbox3')">
+      <option value="wru">WRU</option>
+      <option value="other">Other</option>
+    </select><br>
     <button type = "submit"> Submit </button>
   </form>
   <span id='txt'></span>
