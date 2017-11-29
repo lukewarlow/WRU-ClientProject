@@ -67,10 +67,10 @@ def returnEventForm():
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
-            cur.execute("INSERT INTO tblEvent ('eventDate', 'postcode', \
-            'eventRegion','eventName', 'inclusivity', 'activityTypes', 'comments')\
-                        VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion,\
-                         eventName, inclusivity, activityTypes, comments))
+            cur.execute("INSERT INTO tblEvent ('eventName', 'eventDate', 'postcode', \
+            'eventRegion', 'inclusivity', 'activityTypes', 'comments')\
+                        VALUES (?,?,?,?,?,?,?)",(eventName, eventDate, postcode, eventRegion,\
+                         inclusivity, activityTypes, comments))
             conn.commit()
             msg = "Record successfully added"
         except sql.ProgrammingError as e:
@@ -102,7 +102,7 @@ def returnTourForm():
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
             cur.execute("SELECT ID FROM tblEvent WHERE eventDate=? AND postcode=? ;", [eventDate, postcode])
-            cur.execute("SELECT ID FROM tblEvent WHERE (eventDate=? AND postcode=?) OR (eventName=? AND eventDate=?);", [eventDate, postcode])
+            # cur.execute("SELECT ID FROM tblEvent WHERE (eventDate=? AND postcode=?) OR (eventName=? AND eventDate=?);", [eventDate, postcode])
             data = cur.fetchone()
             if data:
                 eventID = data[0]

@@ -253,7 +253,7 @@ select
 }
 
  /*Small screen adaptation for small screens (phones) */
-@media screen and (max-width: 700px)
+@media screen and (max-width: 450px)
 {
   html
   {

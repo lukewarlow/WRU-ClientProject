@@ -16,12 +16,14 @@
       <h2> What's happening at your event? </h2>
 
       <h3> Venue information: </h3>
+      <div>Event name:</div>
+      <input type="text" name="eventName" placeholder="Optional">
       <div>Event date:</div>
       <input type="date" name="eventDate" value="{{ date }}" required>
       <br>
       <div>Location postcode:</div>
       <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->
-      <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}"required>
+      <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}" required>
       <div>Select the event region:</div>
       <select value="region" onchange="otherSelected(this, 'otherbox3')" name="eventRegion">
         <option value="Scarlets">Scarlets</option>
@@ -31,11 +33,10 @@
         <option value="RGC">RGC</option>
         <option value="AllWales">All Wales</option>
         <option value="Other">Other</option>
-        <input type="text" id = "otherbox3" required>
+        <input type="text" id = "otherbox3">
       </select>
       <br>
-      <div>Event name:</div>
-      <input type="text" name="eventName">
+
       <br>
       <h3> Event information </h3>
       <div>Event inclusivity</div>

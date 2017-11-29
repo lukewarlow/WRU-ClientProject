@@ -98,7 +98,14 @@ function addEvent()
   var postcode = document.forms["eventForm"]["postcode"].value;
   var eventRegion = document.forms["eventForm"]["eventRegion"].value;
   if (eventRegion == "Other") eventRegion = document.forms["eventForm"]["otherbox3"].value;
-  var eventName = document.forms["eventForm"]["eventname"].values;
+  try
+  {
+    var eventName = document.forms["eventForm"]["eventname"].values;
+  }
+  catch (TypeError)
+  {
+    var eventName = "";
+  }
   var inclusivity = document.forms["eventForm"]["inclusivity"].value;
   if (inclusivity == "Other") inclusivity = document.getElementById("otherbox2").value;
   var comments = document.forms["eventForm"]["comments"].value;
@@ -112,7 +119,7 @@ function addEvent()
     else activityTypes.push(checkboxes[i].value)
   }
 
-  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&eventName='+eventName+'&inclusivity='+inclusivity+'&activityTypes'+activityTypes+'&comments='+comments;
+  params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&eventName='+eventName+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/EventForm', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -169,8 +176,16 @@ function addTournament()
     else rugbyOffers.push(checkboxes[i].value)
   }
 
-  console.log(rugbyOffers);
-  params = 'eventDate='+eventDate+'&postcode='+postcode+'&eventName'+eventName+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&rugbyOffers='+rugbyOffers+'&genderRatio='+genderRatio;
+  try
+  {
+    var eventName = document.forms["eventForm"]["eventname"].values;
+  }
+  catch (TypeError)
+  {
+    var eventName = "";
+  }
+
+  params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&eventName'+eventName+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&rugbyOffers='+rugbyOffers+'&genderRatio='+genderRatio;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/TournamentForm', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
