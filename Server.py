@@ -27,6 +27,12 @@ def returnHome():
     if request.method == 'GET':
         return render_template('home.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
 
+@app.route("/home", methods=['GET'])
+@app.route("/index", methods=['GET'])
+@app.route("/Index", methods=['GET'])
+def redirectHome():
+    return redirect("/Home")
+
 # staff page
 @app.route('/Staff/Login', methods=['POST', 'GET'])
 def returnLogin():
@@ -49,20 +55,25 @@ def returnLogin():
             session['username'] = username
             session['password'] = password
             session['usertype'] = usertype
-            resp = make_response(render_template('login.html', username = username, admin = checkIsAdmin(), isloggedin=checkIsLoggedIn()))
             print(str(username) + " has logged in")
             return "successful"
         else:
             print("Failed to log in, incorrect password.")
             return "unsuccessful"
     else:
-        return render_template('login.html', title="Log In", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
+        return render_template('staff/login.html', title="Log In", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
+
+@app.route("/Staff/login", methods=['GET'])
+@app.route("/staff/Login", methods=['GET'])
+@app.route("/staff/login", methods=['GET'])
+def redirectLogin():
+    return redirect("/Staff/Login")
 
 @app.route("/Staff/EventForm", methods = ['POST', 'GET'])
 def returnEventForm():
     if request.method == 'GET':
         now = datetime.datetime.now()
-        return render_template('eventForm.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
+        return render_template('staff/event.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
     elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
@@ -91,12 +102,22 @@ def returnEventForm():
             conn.close()
             return msg;
 
+@app.route("/Staff/Eventform", methods=['GET'])
+@app.route("/Staff/eventForm", methods=['GET'])
+@app.route("/Staff/eventform", methods=['GET'])
+@app.route("/staff/EventForm", methods=['GET'])
+@app.route("/staff/Eventform", methods=['GET'])
+@app.route("/staff/eventForm", methods=['GET'])
+@app.route("/staff/eventform", methods=['GET'])
+def redirectEvent():
+    return redirect("/Staff/EventForm")
+
 @app.route("/Staff/TournamentForm", methods = ['POST', 'GET'])
 def returnTourForm():
     if request.method == 'GET':
         #https://www.saltycrane.com/blog/2008/06/how-to-get-current-date-and-time-in/ Date Accessed: 29/11/2017
         now = datetime.datetime.now()
-        return render_template('tourForm.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
+        return render_template('staff/tournament.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
     elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
@@ -141,6 +162,16 @@ def returnTourForm():
             print("Error: event not found")
             return "Event data incorrect"
 
+@app.route("/Staff/Tournamentform", methods=['GET'])
+@app.route("/Staff/tournamentForm", methods=['GET'])
+@app.route("/Staff/tournamentform", methods=['GET'])
+@app.route("/staff/TournamentForm", methods=['GET'])
+@app.route("/staff/Tournamentform", methods=['GET'])
+@app.route("/staff/tournamentForm", methods=['GET'])
+@app.route("/staff/tournamentform", methods=['GET'])
+def redirectTournament():
+    return redirect("/Staff/TournamentForm")
+
 # adding staff to database on the admin page
 @app.route("/Admin/AddStaff", methods=['POST', 'GET'])
 def returnAddStaff():
@@ -177,20 +208,14 @@ def returnAddStaff():
                 msg = "User {} successfully added".format(username)
                 print("Added staff member: " + username)
 
-                html = """\
-                <html>
-                  <head></head>
-                  <body>
-                    <p>
-                        Hi,<br>
-                        You've been added to the WRU staff database for there event data collection tool.<br>
-                        Username: {}<br>
-                        <a href="http://127.0.0.1:5000/Staff/Login">Click to login.</a>
-                    </p>
-                  </body>
-                </html>
-                """.format(username)
-                sendEmail(email, "New Account", html)
+                message = """\
+                <p>
+                    Hi,<br>
+                    You've been added to the WRU staff database for there event data collection tool.<br>
+                    Username: {}<br>
+                    <a href="http://127.0.0.1:5000/Staff/Login">Click to login.</a>
+                </p>""".format(username)
+                sendEmail(email, "New Account", message)
             except Exception as e:
                 conn.rollback()
                 msg = "Error in insert operation: " + str(e)
@@ -201,6 +226,16 @@ def returnAddStaff():
         else:
             return "Email address not found"
 
+@app.route("/Admin/Addstaff", methods=['POST', 'GET'])
+@app.route("/Admin/addStaff", methods=['POST', 'GET'])
+@app.route("/Admin/addstaff", methods=['POST', 'GET'])
+@app.route("/admin/AddStaff", methods=['POST', 'GET'])
+@app.route("/admin/Addstaff", methods=['POST', 'GET'])
+@app.route("/admin/addStaff", methods=['POST', 'GET'])
+@app.route("/admin/addstaff", methods=['POST', 'GET'])
+def redirectAddStaff():
+    return redirect("/Admin/AddStaff")
+
 #https://en.wikibooks.org/wiki/Python_Programming/Email Accessed: 29/11/2017
 def sendEmail(recipientEmail, subject, messageHtml):
     fromAddr = "acc0untcreation123@gmail.com"
@@ -208,6 +243,14 @@ def sendEmail(recipientEmail, subject, messageHtml):
     msg['Subject'] = subject
     msg['From'] = fromAddr
     msg['To'] = recipientEmail
+    html = """\
+    <html>
+      <head></head>
+      <body>
+        """ + messageHtml + """
+      </body>
+    </html>
+    """
     msg.attach(MIMEText(messageHtml, 'html'))
     text = msg.as_string()
     server.sendmail(fromAddr, recipientEmail, text)
@@ -248,6 +291,16 @@ def returnDeleteStaff():
             finally:
                 conn.close()
         return msg
+
+@app.route("/Admin/Deletestaff", methods=['POST', 'GET'])
+@app.route("/Admin/deleteStaff", methods=['POST', 'GET'])
+@app.route("/Admin/deletestaff", methods=['POST', 'GET'])
+@app.route("/admin/DeleteStaff", methods=['POST', 'GET'])
+@app.route("/admin/Deletestaff", methods=['POST', 'GET'])
+@app.route("/admin/deleteStaff", methods=['POST', 'GET'])
+@app.route("/admin/deletestaff", methods=['POST', 'GET'])
+def redirectDeleteStaff():
+    return redirect("/Admin/DeleteStaff")
 
 @app.route("/Logout", methods=['POST'])
 def logout():
