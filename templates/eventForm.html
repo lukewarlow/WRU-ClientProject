@@ -23,7 +23,7 @@
       <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->
       <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}"required>
       <div>Select the event region:</div>
-      <select value="region" name="eventRegion">
+      <select value="region" onchange="otherSelected(this, 'otherbox3')" name="eventRegion">
         <option value="Scarlets">Scarlets</option>
         <option value="Ospreys">Ospreys</option>
         <option value="Blues">Blues</option>
@@ -31,7 +31,7 @@
         <option value="RGC">RGC</option>
         <option value="AllWales">All Wales</option>
         <option value="Other">Other</option>
-        <input type='text'>
+        <input type="text" id = "otherbox3" required>
       </select>
       <br>
       <div>Event name:</div>
@@ -39,28 +39,28 @@
       <br>
       <h3> Event information </h3>
       <div>Event inclusivity</div>
-      <select value="inclusivity" name="inclusivity" onchange="otherSelected(this)">
+      <select value="inclusivity" name="inclusivity" onchange="otherSelected(this, 'otherbox2')">
         <option value="N/A">Not applicable</option>
         <option value="BME">BME</option>
         <option value="Disability">Disability</option>
         <option value="Deprivation">Deprivation</option>
         <option value="Female">Female</option>
         <option value="Other">Other</option>
-        <input type="text" id = "otherbox2" value=""></input>
+        <input type="text" id = "otherbox2"></input>
       </select>
       <br>
       <div>Activity type</div>
       <div class="italics">Select all that apply</div>
       <section value="activity" name="activityTypes">
-        <input name = "activityType" type="checkbox" value="hubActivity">Hub activity</input><br>
-        <input name = "activityType" type="checkbox" value="communityFestival">Community festival</input><br>
-        <input name = "activityType" type="checkbox" value="competition">Competition</input><br>
-        <input name = "activityType" type="checkbox" value="communityProv">Community provision</input><br>
-        <input name = "activityType" type="checkbox" value="womenAndGirls">Women and girls cluster</input><br>
-        <input name = "activityType" type="checkbox" value="regionalRugbyCamps">Regional rugby camps</input><br>
-        <input name = "activityType" type="checkbox" value="exilesCamps">Exiles camps</input><br>
-        <input name = "activityType" type="checkbox" value="collaborativeDelivery">Collaborative delivery</input><br>
-        <input name = "activityType" type="checkbox" value="other" onchange="otherChecked(this)">Other</input>
+        <input name = "activityType" type="checkbox" value="hubActivity">Hub activity<br>
+        <input name = "activityType" type="checkbox" value="communityFestival">Community festival<br>
+        <input name = "activityType" type="checkbox" value="competition">Competition<br>
+        <input name = "activityType" type="checkbox" value="communityProv">Community provision<br>
+        <input name = "activityType" type="checkbox" value="womenAndGirls">Women and girls cluster<br>
+        <input name = "activityType" type="checkbox" value="regionalRugbyCamps">Regional rugby camps<br>
+        <input name = "activityType" type="checkbox" value="exilesCamps">Exiles camps<br>
+        <input name = "activityType" type="checkbox" value="collaborativeDelivery">Collaborative delivery<br>
+        <input name = "activityType" type="checkbox" value="other" onchange="otherChecked(this)">Other
         <input type="text" id = "otherbox" value=""></input>
       </section>
       <br>

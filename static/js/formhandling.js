@@ -97,6 +97,7 @@ function addEvent()
   var eventDate = document.forms["eventForm"]["eventDate"].value;
   var postcode = document.forms["eventForm"]["postcode"].value;
   var eventRegion = document.forms["eventForm"]["eventRegion"].value;
+  if (eventRegion == "Other") eventRegion = document.forms["eventForm"]["otherbox3"].value;
   var eventName = document.forms["eventForm"]["eventname"].values;
   var inclusivity = document.forms["eventForm"]["inclusivity"].value;
   if (inclusivity == "Other") inclusivity = document.getElementById("otherbox2").value;
@@ -132,10 +133,10 @@ function addEvent()
   return false;
 }
 
-function otherSelected(selectbox)
+function otherSelected(selectbox, idOfTextBox)
 {
-    if (selectbox.value == "Other") document.getElementById("otherbox2").style.display = "block";
-    else document.getElementById("otherbox2").style.display = "none";
+    if (selectbox.value == "Other") document.getElementById(idOfTextBox).style.display = "block";
+    else document.getElementById(idOfTextBox).style.display = "none";
 }
 
 function otherChecked(checkbox)
