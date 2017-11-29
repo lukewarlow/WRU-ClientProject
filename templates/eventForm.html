@@ -11,14 +11,13 @@
 
 {% block main%}
 <section class = "main-item">
-  <!-- <form id="eventForm" action="#" onsubmit="filloutForm()" method="post"> -->
   <div class="eveform">
     <form id="eventForm" onsubmit="return validateEventForm()">
       <h2> What's happening at your event? </h2>
 
       <h3> Venue information: </h3>
       <div>Event date:</div>
-      <input type="date" name="eventDate" required>
+      <input type="date" name="eventDate" value="{{ date }}" required>
       <br>
       <div>Location postcode:</div>
       <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->

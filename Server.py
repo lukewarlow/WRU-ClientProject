@@ -4,6 +4,7 @@ import random
 import sqlite3 as sql
 from bcrypt import hashpw, gensalt
 import sys
+import datetime
 app = Flask(__name__)
 
 DATABASE = "database.db"
@@ -51,7 +52,8 @@ def returnLogin():
 @app.route("/Staff/EventForm", methods = ['POST', 'GET'])
 def returnEventForm():
     if request.method == 'GET':
-        return render_template('eventForm.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
+        now = datetime.datetime.now()
+        return render_template('eventForm.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
     elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
@@ -59,16 +61,16 @@ def returnEventForm():
         eventRegion = request.form.get('eventRegion', default="error")
         eventName = request.form.get('eventName', default="error")
         inclusivity = request.form.get('inclusivity', default="error")
-        activityName = request.form.get('activityName', default="error")
+        activityTypes = request.form.get('activityTypes', default="error")
         comments = request.form.get('comments', default="error")
         print(request.form)
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
             cur.execute("INSERT INTO tblEvent ('eventDate', 'postcode', \
-            'eventRegion','eventName', 'inclusivity', 'activityName', 'comments')\
+            'eventRegion','eventName', 'inclusivity', 'activityTypes', 'comments')\
                         VALUES (?,?,?,?,?,?,?)",(eventDate, postcode, eventRegion,\
-                         eventName, inclusivity, activityName, comments))
+                         eventName, inclusivity, activityTypes, comments))
             conn.commit()
             msg = "Record successfully added"
         except sql.ProgrammingError as e:
@@ -83,7 +85,9 @@ def returnEventForm():
 @app.route("/Staff/TournamentForm", methods = ['POST', 'GET'])
 def returnTourForm():
     if request.method == 'GET':
-        return render_template('tourForm.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
+        #https://www.saltycrane.com/blog/2008/06/how-to-get-current-date-and-time-in/ Date Accessed: 29/11/2017
+        now = datetime.datetime.now()
+        return render_template('tourForm.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
     elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
@@ -91,12 +95,14 @@ def returnTourForm():
         eventName = request.form.get('eventName', default="error")
         peopleNum = request.form.get('peopleNum', default="error")
         ageCategory = request.form.get('ageRange', default="error")
+        rugbyOffers = request.form.get('rugbyOffers', default="error")
         genderRatio = request.form.get('genderRatio', default="error")
         eventExists = False
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
-            cur.execute("SELECT ID FROM tblEvent WHERE eventDate=? AND postcode=?;", [eventDate, postcode])
+            cur.execute("SELECT ID FROM tblEvent WHERE eventDate=? AND postcode=? ;", [eventDate, postcode])
+            cur.execute("SELECT ID FROM tblEvent WHERE (eventDate=? AND postcode=?) OR (eventName=? AND eventDate=?);", [eventDate, postcode])
             data = cur.fetchone()
             if data:
                 eventID = data[0]
@@ -110,10 +116,10 @@ def returnTourForm():
             try:
                 conn = sql.connect(DATABASE)
                 cur = conn.cursor()
-                cur.execute("INSERT INTO tblTournament ('eventName', 'peopleNum',\
-                 'ageCategory', 'genderRatio', 'eventID')\
-                            VALUES (?,?,?,?,?)",(eventname, peopleNum, ageCategory,\
-                             genderRatio, eventID))
+                cur.execute("INSERT INTO tblTournament ('peopleNum',\
+                 'ageCategory', 'rugbyOffers', 'genderRatio', 'eventID')\
+                            VALUES (?,?,?,?,?)",(peopleNum, ageCategory,\
+                             genderRatio, rugbyOffers, eventID))
                 conn.commit()
                 msg = "Record successfully added"
             except:
