@@ -351,13 +351,20 @@ def returnDeleteStaff():
             msg = "Can't delete self"
         else:
             try:
+                data = getDetailsFromUsername(username)
                 conn = sql.connect(DATABASE)
                 cur = conn.cursor()
-
                 cur.execute("DELETE FROM tblStaff WHERE username=?;", [username]);
                 conn.commit()
                 msg = "User {} successfully deleted".format(username)
                 print("Deleted staff member:" + username)
+                message = """\
+                <p>
+                    Hi {} {},<br>
+                    You've been removed from the WRU staff database.<br>
+                    You will no longer have access to the tool.
+                </p>""".format(data[0], data[1])
+                sendEmail(data[2], "Deleted Account", message)
             except:
                 conn.rollback()
                 msg = "Error in insert operation"
@@ -365,6 +372,19 @@ def returnDeleteStaff():
             finally:
                 conn.close()
         return msg
+
+def getDetailsFromUsername(username):
+    try:
+        conn = sql.connect(DATABASE)
+        cur = conn.cursor()
+        cur.execute("SELECT firstname, surname, email FROM tblStaff WHERE username=?;", [username])
+        data = cur.fetchone()
+    except:
+        print('there was an error', data)
+        data = ""
+    finally:
+        conn.close()
+    return data
 
 @app.route("/Admin/Deletestaff", methods=['POST', 'GET'])
 @app.route("/Admin/deleteStaff", methods=['POST', 'GET'])
