@@ -8,7 +8,7 @@ function verifyForm()
       var password = document.forms["verify"]["password"].value;
       var newpassword = document.forms["verify"]["newpassword"].value;
       var payload = document.getElementById("txt").innerHTML;
-      params = 'username='+username+'&password='+password+'&newpassword='+newpassword+'&payload='+"InNtaXRoaiI.DQC4Jw.tmGNO3tSCR7OSWNdjgj6SsASJv4";
+      params = 'username='+username+'&password='+password+'&newpassword='+newpassword+'&payload='+payload;
       var xhttp = new XMLHttpRequest();
       xhttp.open("POST", '/Staff/Verify', true); // true is asynchronous
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

@@ -11,11 +11,6 @@ import smtplib
 from itsdangerous import URLSafeTimedSerializer
 
 app = Flask(__name__)
-server = smtplib.SMTP('smtp.gmail.com', 587)
-server.ehlo()
-server.starttls()
-server.ehlo()
-server.login("acc0untcreation123", "Lithium3")
 DATABASE = "database.db"
 
 #Generated using os.urandom(24), got from flask documentation.
@@ -268,11 +263,13 @@ def returnAddStaff():
     elif request.method == 'POST':
         firstName = request.form.get('firstName', default="Error")
         surname = request.form.get('surname', default="Error")
-        username = surname + firstName[0]
-        username = username.lower()
-        response = checkIfUserExists(username)
+        enteredusername = surname + firstName[0]
+        enteredusername = enteredusername.lower()
+        response = checkIfUserExists(enteredusername)
         if (response.split(":")[0] == "True"):
-            username = username + response.split(":")[1]
+            username = enteredusername + response.split(":")[1]
+        else:
+            username = enteredusername
 
         password = encrypt(request.form.get('password', default="Error"))
         email = request.form.get('email', default="Error").lower()
@@ -292,7 +289,6 @@ def returnAddStaff():
                 conn.commit()
                 msg = "User {} successfully added".format(username)
                 print("Added staff member: " + username)
-
                 message = """\
                 <p>
                     Hi {} {},<br>
@@ -323,6 +319,11 @@ def redirectAddStaff():
 
 #https://en.wikibooks.org/wiki/Python_Programming/Email Accessed: 29/11/2017
 def sendEmail(recipientEmail, subject, messageHtml):
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+    server.login("acc0untcreation123", "Lithium3")
     fromAddr = "acc0untcreation123@gmail.com"
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
@@ -339,11 +340,18 @@ def sendEmail(recipientEmail, subject, messageHtml):
     msg.attach(MIMEText(messageHtml, 'html'))
     text = msg.as_string()
     server.sendmail(fromAddr, recipientEmail, text)
+    server.quit()
 
 #https://docs.python.org/3.5/library/smtplib.html#smtplib.SMTP.verify Accessed: 29/11/2017
 def verifyEmail(email):
     try:
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
+        server.login("acc0untcreation123", "Lithium3")
         server.verify(email)
+        server.quit()
         return True;
     except:
         return False;
@@ -463,3 +471,4 @@ def encrypt(data, salt=gensalt()):
 
 if __name__ == "__main__":
     app.run(debug=True)
+    # app.run(ssl_context='adhoc',debug=True)
