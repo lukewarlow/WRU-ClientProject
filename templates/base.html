@@ -29,7 +29,10 @@
             <li class = "dropdown staff">
               <label class = "droptext"> Staff Pages &#9660;</label>
               <div class = "dropdown-content staff">
+                {% if isloggedin == False %}
                 <a href="/Staff/Login"> Login </a>
+                {% endif %}
+
                 {% if isloggedin == True %}
                   {% if isverified == True %}
                   <a href="/Staff/EventForm"> Event Form </a>
