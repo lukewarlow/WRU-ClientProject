@@ -60,7 +60,7 @@ def returnStaffVerifyPost():
                     check = checkLogin(username, password)
                     if (check == False):
                         print("Failed to log in, incorrect password.")
-                        return "unsuccessful"
+                        return "unsuccessful wrong password provided."
                     else:
                         session['username'] = check.split(":")[1]
                         try:
@@ -88,11 +88,11 @@ def returnStaffVerifyPost():
                             You will now have access to the WRU event tool.
                         </p>""".format(data[0], data[1])
                         sendEmail(data[2], "Account verified", message)
-                        return "successful"
+                        return "successful."
                 else:
-                    return "User doesn't exist"
+                    return "unsuccessful user doesn't exist, contact system admin."
             else:
-                return "Username doesn't match, your email"
+                return "unsuccessful entered username doesn't match, the one linked to your email."
 
 
 @app.route('/Staff/Verify', methods=['GET'])

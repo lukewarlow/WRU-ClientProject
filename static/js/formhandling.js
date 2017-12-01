@@ -9,6 +9,7 @@ function verifyForm()
       var newpassword = document.forms["verify"]["newpassword"].value;
       var payload = document.getElementById("txt").innerHTML;
       params = 'username='+username+'&password='+password+'&newpassword='+newpassword+'&payload='+payload;
+      document.getElementById("msg").innerHTML = "Verifying";
       var xhttp = new XMLHttpRequest();
       xhttp.open("POST", '/Staff/Verify', true); // true is asynchronous
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -16,8 +17,9 @@ function verifyForm()
       {
         if (xhttp.readyState === 4 && xhttp.status === 200)
         {
-          console.log(xhttp.responseText);
-          document.getElementById("txt").innerHTML = xhttp.responseText;
+          console.log("Verification was: " + xhttp.responseText);
+          document.getElementById("msg").innerHTML = "Verification was: " + xhttp.responseText;
+          if (xhttp.responseText == "successful") setTimeout(redirect, 4000, "/Home")
         }
         else console.error(xhttp.statusText);
       };
@@ -107,16 +109,19 @@ function login()
   {
     if (xhttp.readyState === 4 && xhttp.status === 200)
     {
-      response = "Log in " + xhttp.responseText;
-      console.log(response);
-      alert(response);
-       //if (xhttp.responseText == "successful") document.forms["login"].reset();
-       // if (xhttp.responseText == "unsuccessful") return false; //TO-DO fix
+      console.log("Log in " + xhttp.responseText);
+      document.getElementById("txt").innerHTML = "Log in " + xhttp.responseText;
+      if (xhttp.responseText == "successful") setTimeout(redirect, 4000, "/Home")
     }
     else console.error(xhttp.statusText);
   };
   xhttp.send(params);
-  return false; //TODO fix this
+  return false;
+}
+
+function redirect(location)
+{
+  window.location.href = "/Home";
 }
 
 function validateEventForm()
