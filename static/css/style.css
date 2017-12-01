@@ -56,44 +56,41 @@ a:link:hover
 .header-item
 {
   display: flex;
-  flex: 0;
   padding-bottom: 5px;
 }
 
 .header-item.text
 {
-  flex: 2;
   font-size: 3.125rem;
   font-weight: bold;
   margin-left: 20px;
+  width:auto;
 }
 
-.logoutform
+.header-item.logoutform
 {
-  flex: 3;
+  margin-left: auto;
   justify-content: flex-end;
   margin-right: 5px;
 }
 
 button
 {
-    background-color: black;
-    color: white;
-    padding: 10px 10px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 30%;
-    font-size: 1rem;
-    border-radius: 15px;
+  background-color: black;
+  color: white;
+  padding: 10px 10px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 30%;
+  font-size: 1rem;
+  border-radius: 15px;
 }
 
 .logoutbutton
 {
-  /*display: flex;*/
-  width: 10%;
-  /*margin: 1% 1% 1% 1%;*/
   min-width: 70px;
+  text-align: center;
 }
 
 .navbar-container
@@ -287,11 +284,12 @@ select
   }*/
 }
 
-/*
-button:hover {
-    opacity: 0.65;
-}
 
+button:hover
+{
+  text-decoration: underline;
+}
+/*
 .cancelbtn {
     width: 10%;
     padding: 10px 15px;
