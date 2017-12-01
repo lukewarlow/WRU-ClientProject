@@ -36,9 +36,10 @@ def redirectHome():
 def returnStaffVerify(payload):
     if request.method == "GET":
         if checkIsLoggedIn() == False and checkIsVerified() == False:
-            return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=checkIsLoggedIn(), isverified=checkIsVerified(), payload=payload)
+            return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=False, isverified=False, payload=payload)
         else:
-            return redirect("/Home")
+            logout()
+            return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=False, isverified=False, payload=payload)
 
 
 @app.route('/Staff/Verify', methods=['POST'])
@@ -93,7 +94,6 @@ def returnStaffVerifyPost():
                     return "unsuccessful user doesn't exist, contact system admin."
             else:
                 return "unsuccessful entered username doesn't match, the one linked to your email."
-
 
 @app.route('/Staff/Verify', methods=['GET'])
 @app.route('/Staff/verify', methods=['GET'])
