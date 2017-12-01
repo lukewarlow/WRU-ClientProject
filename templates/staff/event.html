@@ -9,7 +9,6 @@
 <section class = "main-item eventForm">
   <form id="eventForm" onsubmit="return validateEventForm()">
     <h2> What's happening at your event? </h2>
-
     <h3> Venue information: </h3>
     <div>Event name:</div>
     <input type="text" name="eventName" placeholder="Optional">
@@ -70,6 +69,18 @@
     <!-- The form-data will be reset to default values if pressed -->
     <button type="reset">Reset form</button> <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_reset (Retrieved 17/11/17)-->
   </form>
-  <span id='txt'></span>
+  <span id='msg'></span>
 </section>
+<script>
+  //Adapted from https://ponyfoo.com/articles/backgroundsync Accessed: 1/12/2017
+  function isOnline ()
+  {
+    if (navigator.onLine) resendStoredData();
+  }
+
+  window.addEventListener('online', isOnline);
+  isOnline();
+
+
+</script>
 {%endblock%}

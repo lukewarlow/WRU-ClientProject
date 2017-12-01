@@ -22,7 +22,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'ico'])
 @app.route("/Home", methods=['GET'])
 def returnHome():
     if request.method == 'GET':
-        return render_template('home.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
+        return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
 
 @app.route("/home", methods=['GET'])
 @app.route("/index", methods=['GET'])
@@ -423,6 +423,11 @@ def logout():
     session['verified'] = ""
     return redirect("/Home")
 
+@app.route("/SW", methods = ['GET'])
+def serviceWorker():
+	return app.send_static_file('sw.js')
+
+
 def checkIsLoggedIn():
     usertype = ""
     if 'usertype' in session:
@@ -468,6 +473,10 @@ def checkIfUserExists(username):
 def encrypt(data, salt=gensalt()):
     hashed = hashpw(bytes(data, 'utf-8'), salt)
     return hashed
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
 
 if __name__ == "__main__":
     app.run(debug=True)

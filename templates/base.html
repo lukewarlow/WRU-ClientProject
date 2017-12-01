@@ -4,10 +4,10 @@
     {% block head %}
     <title>{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="http://localhost:5000/static/css/style.css">
-    <link rel="shortcut icon" href="http://localhost:5000/static/resources/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="shortcut icon" href="/static/resources/images/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-    <script type="text/javascript" src="http://localhost:5000/static/js/formhandling.js"></script>
+    <script type="text/javascript" src="/static/js/formhandling.js"></script>
     {% endblock %}
   </head>
 
@@ -74,5 +74,37 @@
       </ul>
     </footer>
     {% endblock %}
+    <script>
+      if('serviceWorker' in navigator)
+      {
+        navigator.serviceWorker
+        .register('/SW')
+        .then(function() { console.log("Service Worker Registered"); });
+      }
+      else
+      {
+        console.log('Service worker not supported.');
+      }
+
+      // if ('serviceWorker' in navigator)
+      // {
+      //   navigator.serviceWorker
+      //     .register('/sw.js')
+      //     .then(registration => navigator.serviceWorker.ready)
+      //     .then(registration => { // register sync
+      //       document.getElementById('requestButton').addEventListener('click', () => {
+      //         registration.sync.register('image-fetch').then(() => {
+      //             console.log('Sync registered');
+      //         });
+      //       });
+      //     });
+      // }
+      // else
+      // {
+      //   document.getElementById('requestButton').addEventListener('click', () => {
+      //     console.log('Fallback to fetch the image as usual');
+      //   });
+      // }
+    </script>
   </body>
 </html>

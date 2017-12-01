@@ -63,7 +63,7 @@ function deleteStaff()
     if (xhttp.readyState === 4 && xhttp.status === 200)
     {
       console.log(xhttp.responseText);
-      document.getElementById("txt").innerHTML = xhttp.responseText;
+      document.getElementById("msg").innerHTML = xhttp.responseText;
     }
     else console.error(xhttp.statusText);
   };
@@ -89,7 +89,7 @@ function addStaff()
     if (xhttp.readyState === 4 && xhttp.status === 200)
     {
       console.log(xhttp.responseText);
-      document.getElementById("txt").innerHTML = xhttp.responseText;
+      document.getElementById("msg").innerHTML = xhttp.responseText;
     }
     else console.error(xhttp.statusText);
   };
@@ -110,7 +110,7 @@ function login()
     if (xhttp.readyState === 4 && xhttp.status === 200)
     {
       console.log("Log in " + xhttp.responseText);
-      document.getElementById("txt").innerHTML = "Log in " + xhttp.responseText;
+      document.getElementById("msg").innerHTML = "Log in " + xhttp.responseText;
       if (xhttp.responseText == "successful") setTimeout(redirect, 700, "/Home")
     }
     else console.error(xhttp.statusText);
@@ -166,24 +166,34 @@ function addEvent()
   }
 
   params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&eventName='+eventName+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
-  var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", '/Staff/EventForm', true); // true is asynchronous
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.onload = function()
-  {
-    if (xhttp.readyState === 4 && xhttp.status === 200)
-    {
-      console.log(xhttp.responseText);
-      document.getElementById("txt").innerHTML = xhttp.responseText;
-      if (xhttp.responseText.includes("successful"))
-      {
-        document.forms["eventForm"].reset();
-      }
-    }
-    else console.error(xhttp.statusText);
-  };
-  xhttp.send(params);
+  ajaxData("POST", "/Staff/EventForm", params);
   return false;
+  // var xhttp = new XMLHttpRequest();
+  // xhttp.open("POST", '/Staff/EventForm', true); // true is asynchronous
+  // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  // xhttp.onload = function()
+  // {
+  //   if (xhttp.readyState === 4 && xhttp.status === 200)
+  //   {
+  //     console.log(xhttp.responseText);
+  //     document.getElementById("msg").innerHTML = xhttp.responseText;
+  //     if (xhttp.responseText.includes("successful"))
+  //     {
+  //       document.forms["eventForm"].reset();
+  //     }
+  //   }
+  //   else console.error(xhttp.statusText);
+  // };
+  // xhttp.send(params);
+  // return false;
+}
+
+function storeOffline(method, action, params)
+{
+  myStorage = window.localStorage;
+  console.log(myStorage.length);
+  storageItem = JSON.stringify({"action":action, "method":method, "params":params});
+  myStorage.setItem("eventData", storageItem);
 }
 
 function otherSelected(selectbox, idOfTextBox)
@@ -206,10 +216,7 @@ function validateTournamentForm()
     alert("You need to select at least one rugby offer!");
     return false;
   }
-  else
-  {
-    return addTournament();
-  }
+  else return addTournament();
 }
 
 function addTournament()
@@ -240,24 +247,70 @@ function addTournament()
   }
 
   params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&eventName'+eventName+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&rugbyOffers='+rugbyOffers+'&genderRatio='+genderRatio;
-  var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", '/Staff/TournamentForm', true); // true is asynchronous
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.onload = function()
+  ajaxData("POST", "/Staff/TournamentForm", params);
+  return false;
+}
+
+function resendStoredData()
+{
+  var msg = "null"
+  var myStorage = window.localStorage;
+  messages = [];
+  console.log(messages.length);
+  for (message in myStorage)
   {
-    if (xhttp.readyState === 4 && xhttp.status === 200)
+    var messageObj = JSON.parse(myStorage.getItem(message));
+    messages.push(messageObj);
+  }
+  myStorage.clear()
+  console.log(messages);
+  for (i=0;i< messages.length;i++)
+  {
+    if (messages[i] != null)
     {
-      console.log(xhttp.responseText);
-      document.getElementById("txt").innerHTML = xhttp.responseText;
-      if (xhttp.responseText.includes("successful"))
-      {
-        document.forms["tournamentForm"].reset();
-      }
+      console.log(messages[i]);
+      ajaxData(messages[i]["method"], messages[i]["action"], messages[i]["params"]);
     }
-    else console.error(xhttp.statusText);
+  }
+}
+
+function ajaxData(method, action, params)
+{
+  var xhttp = new XMLHttpRequest();
+  xhttp.open(method, action, true); // true is asynchronous
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.onreadystatechange = function()
+  {
+    var msg = null;
+    if (xhttp.readyState === 4)
+    {
+      if (xhttp.status === 200)
+      {
+        console.log(xhttp.responseText);
+        msg = xhttp.responseText;
+      }
+      else if (xhttp.status === 503 || xhttp.status === 0)
+      {
+        console.error(xhttp.statusText);
+        storeOffline(method, action, params);
+        msg = "Browser off line data stored for later use";
+      }
+      else
+      {
+        console.error(xhttp.statusText);
+        msg = "other wierd error " + xhttp.status;
+      }
+      document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
+    }
   };
   xhttp.send(params);
-  return false;
+}
+
+function storeOffline(method, action, params)
+{
+  myStorage = window.localStorage;
+  storageItem = JSON.stringify({"action":action, "method":method, "params":params});
+  myStorage.setItem('dataStorage', storageItem);
 }
 
 //SLider work in progress
