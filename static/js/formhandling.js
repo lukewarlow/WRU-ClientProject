@@ -19,7 +19,7 @@ function verifyForm()
         {
           console.log("Verification was: " + xhttp.responseText);
           document.getElementById("msg").innerHTML = "Verification was: " + xhttp.responseText;
-          if (xhttp.responseText == "successful") setTimeout(redirect, 4000, "/Home")
+          if (xhttp.responseText == "successful") setTimeout(redirect, 700, "/Home")
         }
         else console.error(xhttp.statusText);
       };
@@ -111,7 +111,7 @@ function login()
     {
       console.log("Log in " + xhttp.responseText);
       document.getElementById("txt").innerHTML = "Log in " + xhttp.responseText;
-      if (xhttp.responseText == "successful") setTimeout(redirect, 4000, "/Home")
+      if (xhttp.responseText == "successful") setTimeout(redirect, 700, "/Home")
     }
     else console.error(xhttp.statusText);
   };

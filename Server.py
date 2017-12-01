@@ -17,12 +17,12 @@ DATABASE = "database.db"
 #http://flask.pocoo.org/docs/0.12/quickstart/ Accessed: 28/11/2017
 app.secret_key = b'\xac\x9b.\x8ew\xa2\x1b\x8d\xdf\xdbB\x00\xf6r95\xb5fy"\x85G\x11"'
 verificationSigner = URLSafeTimedSerializer(b'\xb7\xa8j\xfc\x1d\xb2S\\\xd9/\xa6y\xe0\xefC{\xb6k\xab\xa0\xcb\xdd\xdbV')
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'ico'])
 
 @app.route("/Home", methods=['GET'])
 def returnHome():
     if request.method == 'GET':
-        return render_template('home.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), isverified=checkIsVerified())
+        return render_template('home.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
 
 @app.route("/home", methods=['GET'])
 @app.route("/index", methods=['GET'])
@@ -36,10 +36,10 @@ def redirectHome():
 def returnStaffVerify(payload):
     if request.method == "GET":
         if checkIsLoggedIn() == False and checkIsVerified() == False:
-            return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=False, isverified=False, payload=payload)
+            return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=False, payload=payload)
         else:
             logout()
-            return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=False, isverified=False, payload=payload)
+            return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=False, payload=payload)
 
 
 @app.route('/Staff/Verify', methods=['POST'])
@@ -125,7 +125,7 @@ def returnLogin():
             print("Failed to log in, incorrect username.")
             return "unsuccessful user not found"
     else:
-        return render_template('staff/login.html', title="Log In", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), isverified=checkIsVerified())
+        return render_template('staff/login.html', title="Log In", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
 
 def checkLogin(username, password):
     try:
@@ -156,7 +156,7 @@ def redirectLogin():
 def returnEventForm():
     if request.method == 'GET':
         now = datetime.datetime.now()
-        return render_template('staff/event.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), isverified=checkIsVerified(), date=now.strftime("%Y-%m-%d"))
+        return render_template('staff/event.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
     elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
@@ -198,7 +198,7 @@ def returnTourForm():
     if request.method == 'GET':
         #https://www.saltycrane.com/blog/2008/06/how-to-get-current-date-and-time-in/ Date Accessed: 29/11/2017
         now = datetime.datetime.now()
-        return render_template('staff/tournament.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), isverified=checkIsVerified(), date=now.strftime("%Y-%m-%d"))
+        return render_template('staff/tournament.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
     elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
@@ -257,7 +257,7 @@ def redirectTournament():
 def returnAddStaff():
     if request.method == 'GET':
         if checkIsAdmin():
-            return render_template('admin/addstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), isverified=checkIsVerified())
+            return render_template('admin/addstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
     elif request.method == 'POST':
@@ -360,7 +360,7 @@ def verifyEmail(email):
 def returnDeleteStaff():
     if request.method == 'GET':
         if checkIsAdmin():
-            return render_template('admin/deletestaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), isverified=checkIsVerified())
+            return render_template('admin/deletestaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
     elif request.method == 'POST':

@@ -20,37 +20,37 @@
         {% block header %}
         <div class = "header-item text">Welcome</div>
         {% endblock %}
+        {% if isloggedin == True %}
         <form class = "header-item logoutform" action="/Logout" method="post">
           <button class = "logoutbutton" type="submit">Logout</button>
         </form>
+        {% endif %}
         <nav class = "navbar-container">
           <ul class="navbar">
             <li><a href = "/Home"> Home </a></li>
+            {% if isloggedin == False %}
+            <li><a href="/Staff/Login"> Login </a></li>
+            {% endif %}
+            {% if isloggedin == True %}
             <li class = "dropdown staff">
               <label class = "droptext"> Staff Pages &#9660;</label>
               <div class = "dropdown-content staff">
-                {% if isloggedin == False %}
-                <a href="/Staff/Login"> Login </a>
-                {% endif %}
-
-                {% if isloggedin == True %}
-                  {% if isverified == True %}
-                  <a href="/Staff/EventForm"> Event Form </a>
-                  <a href="/Staff/TournamentForm"> Tournament Form </a>
-                  {% endif %}
-                {% endif %}
+              {% if isloggedin == True %}
+                <a href="/Staff/EventForm"> Event Form </a>
+                <a href="/Staff/TournamentForm"> Tournament Form </a>
+              {% endif %}
               </div>
             </li>
+            {% endif %}
+
             {% if admin == True %}
-              {% if isverified == True %}
-              <li class = "dropdown">
-                <label class = "droptext"> Admin &#9660;</label>
-                <div class = "dropdown-content">
-                  <a href="/Admin/AddStaff"> Add staff </a>
-                  <a href="/Admin/DeleteStaff"> Delete staff </a>
-                </div>
-              </li>
-              {% endif %}
+            <li class = "dropdown">
+              <label class = "droptext"> Admin &#9660;</label>
+              <div class = "dropdown-content">
+                <a href="/Admin/AddStaff"> Add staff </a>
+                <a href="/Admin/DeleteStaff"> Delete staff </a>
+              </div>
+            </li>
             {% endif %}
           </ul>
         </nav>
