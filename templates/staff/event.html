@@ -71,16 +71,4 @@
   </form>
   <span id='msg'></span>
 </section>
-<script>
-  //Adapted from https://ponyfoo.com/articles/backgroundsync Accessed: 1/12/2017
-  function isOnline ()
-  {
-    if (navigator.onLine) resendStoredData();
-  }
-
-  window.addEventListener('online', isOnline);
-  isOnline();
-
-
-</script>
 {%endblock%}

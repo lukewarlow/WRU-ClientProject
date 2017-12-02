@@ -81,30 +81,7 @@
         .register('/SW')
         .then(function() { console.log("Service Worker Registered"); });
       }
-      else
-      {
-        console.log('Service worker not supported.');
-      }
-
-      // if ('serviceWorker' in navigator)
-      // {
-      //   navigator.serviceWorker
-      //     .register('/sw.js')
-      //     .then(registration => navigator.serviceWorker.ready)
-      //     .then(registration => { // register sync
-      //       document.getElementById('requestButton').addEventListener('click', () => {
-      //         registration.sync.register('image-fetch').then(() => {
-      //             console.log('Sync registered');
-      //         });
-      //       });
-      //     });
-      // }
-      // else
-      // {
-      //   document.getElementById('requestButton').addEventListener('click', () => {
-      //     console.log('Fallback to fetch the image as usual');
-      //   });
-      // }
+      else console.log('Service worker not supported.');
     </script>
   </body>
 </html>

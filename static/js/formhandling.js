@@ -168,32 +168,6 @@ function addEvent()
   params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&eventName='+eventName+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
   ajaxData("POST", "/Staff/EventForm", params);
   return false;
-  // var xhttp = new XMLHttpRequest();
-  // xhttp.open("POST", '/Staff/EventForm', true); // true is asynchronous
-  // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  // xhttp.onload = function()
-  // {
-  //   if (xhttp.readyState === 4 && xhttp.status === 200)
-  //   {
-  //     console.log(xhttp.responseText);
-  //     document.getElementById("msg").innerHTML = xhttp.responseText;
-  //     if (xhttp.responseText.includes("successful"))
-  //     {
-  //       document.forms["eventForm"].reset();
-  //     }
-  //   }
-  //   else console.error(xhttp.statusText);
-  // };
-  // xhttp.send(params);
-  // return false;
-}
-
-function storeOffline(method, action, params)
-{
-  myStorage = window.localStorage;
-  console.log(myStorage.length);
-  storageItem = JSON.stringify({"action":action, "method":method, "params":params});
-  myStorage.setItem("eventData", storageItem);
 }
 
 function otherSelected(selectbox, idOfTextBox)
@@ -256,7 +230,6 @@ function resendStoredData()
   var msg = "null"
   var myStorage = window.localStorage;
   messages = [];
-  console.log(messages.length);
   for (message in myStorage)
   {
     var messageObj = JSON.parse(myStorage.getItem(message));
@@ -312,6 +285,15 @@ function storeOffline(method, action, params)
   storageItem = JSON.stringify({"action":action, "method":method, "params":params});
   myStorage.setItem('dataStorage', storageItem);
 }
+
+//Adapted from https://ponyfoo.com/articles/backgroundsync Accessed: 1/12/2017
+function isOnline ()
+{
+  if (navigator.onLine) resendStoredData();
+}
+
+window.addEventListener('online', isOnline);
+isOnline();
 
 //SLider work in progress
 function outputUpdate(ratio)
