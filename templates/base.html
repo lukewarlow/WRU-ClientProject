@@ -27,6 +27,7 @@
         {% endif %}
         <nav class = "navbar-container">
           <ul class="navbar">
+            <li><span id='connectionStatus'></span></li>
             <li><a href = "/Home"> Home </a></li>
             {% if isloggedin == False %}
             <li><a href="/Staff/Login"> Login </a></li>
@@ -82,6 +83,26 @@
         .then(function() { console.log("Service Worker Registered"); });
       }
       else console.log('Service worker not supported.');
+
+      //Adapted from https://ponyfoo.com/articles/backgroundsync Accessed: 1/12/2017
+      function updateConnectivityStatus ()
+      {
+        var connectionStatus = document.getElementById('connectionStatus');
+        if (navigator.onLine)
+        {
+          console.log("Online");
+          connectionStatus.className = "greencircle";
+        }
+        else
+        {
+          console.log("Offline");
+          connectionStatus.className = "redcircle";
+        }
+      }
+
+      window.addEventListener('online', updateConnectivityStatus);
+      window.addEventListener('offline', updateConnectivityStatus);
+      updateConnectivityStatus();
     </script>
   </body>
 </html>
