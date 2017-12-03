@@ -289,13 +289,24 @@ function storeOffline(method, action, params)
 //Adapted from https://ponyfoo.com/articles/backgroundsync Accessed: 1/12/2017
 function isOnline ()
 {
-  if (navigator.onLine) resendStoredData();
+  var connectionStatus = document.getElementById('connectionStatus');
+  if (navigator.onLine)
+  {
+    resendStoredData();
+    connectionStatus.className = "greencircle";
+    console.log("Online");
+  }
+  else
+  {
+    connectionStatus.className = "redcircle";
+    console.log("Offline");
+  }
 }
 
 window.addEventListener('online', isOnline);
-isOnline();
+window.addEventListener('offline', isOnline);
 
-//SLider work in progress
+//Slider work in progress
 function outputUpdate(ratio)
 {
   document.getElementById("maleRatio").innerHTML = "Male: " + ratio + "%"
