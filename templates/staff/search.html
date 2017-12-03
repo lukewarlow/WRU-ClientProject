@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class = "header-item text">Search form</div>
+{%endblock%}
+
+{% block main %}
+<section class = "main-item searchForm">
+<h1>Event Data</h1>
+<form id='myForm' action='/staff/Search' method = 'post'>
+  Event:<input type = "text" name = "eventsearch"><br>
+  <button type = "submit"> Find data </button>
+</form>
+<span id='txt'></span>
+{%endblock%}
