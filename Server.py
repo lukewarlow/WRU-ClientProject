@@ -114,15 +114,16 @@ def returnLogin():
             if (check == False):
                 print("Failed to log in, incorrect password.")
                 return "unsuccessful"
-            else:
+            elif (check.split(":")[3] == "True"):
                 session['username'] = check.split(":")[1]
                 session['usertype'] = check.split(":")[2]
-                session['verified'] = check.split(":")[3]
                 print(str(username) + " has logged in")
                 return "successful"
+            else:
+                return "unsuccessful please verify account through the link in email."
 
         else:
-            print("Failed to log in, incorrect username.")
+            print("Failed to log in, incorrect username or use.")
             return "unsuccessful user not found"
     else:
         return render_template('staff/login.html', title="Log In", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
@@ -415,14 +416,14 @@ def getDetailsFromUsername(username):
 def redirectDeleteStaff():
     return redirect("/Admin/DeleteStaff")
 
-@app.route("/Logout", methods=['POST', 'GET'])
+@app.route("/Logout", methods=['POST'])
 def logout():
     if request.method == "POST":
         session['username'] = ""
         session['password'] = ""
         session['usertype'] = ""
         session['verified'] = ""
-    return redirect("/Home")
+        return "successful"
 
 @app.route("/SW", methods = ['GET'])
 def serviceWorker():
