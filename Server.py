@@ -479,6 +479,25 @@ def encrypt(data, salt=gensalt()):
 def make_session_permanent():
     session.permanent = True
 
+@app.route("/staff/Search", methods = ['GET','POST'])
+def moduleSearch():
+	if request.method =='GET':
+		return render_template('staff/search.html')
+	if request.method =='POST':
+		try:
+			name = request.form.get('eventsearch', default="Error") #rem: args for get form for post
+			conn = sqlite3.connect(DATABASE)
+			cur = conn.cursor()
+			cur.execute("SELECT * FROM tblEvent WHERE eventName=? ;", [name])
+			data = cur.fetchall()
+			print(data)
+		except:
+			print('there was an error', data)
+			conn.close()
+		finally:
+			conn.close()
+			return str(data)
+
 if __name__ == "__main__":
     app.run(debug=True)
     # app.run(ssl_context='adhoc',debug=True)
