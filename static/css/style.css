@@ -6,6 +6,28 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.greencircle
+{
+  display: flex;
+  align-content: center;
+  background: #0f0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-top: 5px;
+}
+
+.redcircle
+{
+  display: flex;
+  align-content: center;
+  background: #f00;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-top: 5px;
+}
+
 #otherbox, #otherbox2, #otherbox3
 {
   display: none;
@@ -28,6 +50,7 @@ a:visited
 {
   color: white;
   text-decoration: none;
+  cursor: pointer;
 }
 
 a:link:hover
@@ -67,13 +90,6 @@ a:link:hover
   width:auto;
 }
 
-.header-item.logoutform
-{
-  margin-left: auto;
-  justify-content: flex-end;
-  margin-right: 5px;
-}
-
 button
 {
   background-color: black;
@@ -85,12 +101,6 @@ button
   width: 30%;
   font-size: 1rem;
   border-radius: 15px;
-}
-
-.logoutbutton
-{
-  min-width: 70px;
-  text-align: center;
 }
 
 .navbar-container
@@ -153,7 +163,6 @@ button
   display: block;
   margin: 5px;
   text-align: left;
-  cursor: pointer;
 }
 
 .dropdown-content a:hover
@@ -251,7 +260,7 @@ select
 }
 
  /*Small screen adaptation for small screens (phones) */
-@media screen and (max-width: 450px)
+@media screen and (max-width: 550px)
 {
   html
   {

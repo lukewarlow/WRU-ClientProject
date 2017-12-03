@@ -415,14 +415,14 @@ def getDetailsFromUsername(username):
 def redirectDeleteStaff():
     return redirect("/Admin/DeleteStaff")
 
-@app.route("/Logout", methods=['POST', 'GET'])
+@app.route("/Logout", methods=['POST'])
 def logout():
     if request.method == "POST":
         session['username'] = ""
         session['password'] = ""
         session['usertype'] = ""
         session['verified'] = ""
-    return redirect("/Home")
+        return "successful"
 
 @app.route("/SW", methods = ['GET'])
 def serviceWorker():

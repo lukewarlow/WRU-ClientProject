@@ -24,9 +24,20 @@ self.addEventListener('fetch', function(event)
 {
   console.log(event.request.url);
   event.respondWith(
-    caches.match(event.request).then(function(response)
+    //https://jakearchibald.com/2014/offline-cookbook/#network-falling-back-to-cache Accessed: 3/12/2017
+
+    //New network first cache second way to load.
+    //Updates navbar on login etc
+    fetch(event.request).catch(function()
     {
-      return response || fetch(event.request);
+      return caches.match(event.request)
     })
+
+    //Old cache first network second way to load.
+    //Didn't update navbar on login etc
+    // caches.match(event.request).then(function(response)
+    // {
+    //   return response || fetch(event.request);
+    // })
   );
 });

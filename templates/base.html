@@ -11,7 +11,7 @@
     {% endblock %}
   </head>
 
-  <body>
+  <body onload="isOnline()">
     <header class = "header-container">
       <div class = "header">
         <div class = "header-item logo">
@@ -20,11 +20,6 @@
         {% block header %}
         <div class = "header-item text">Welcome</div>
         {% endblock %}
-        {% if isloggedin == True %}
-        <form class = "header-item logoutform" action="/Logout" method="post">
-          <button class = "logoutbutton" type="submit">Logout</button>
-        </form>
-        {% endif %}
       </div>
     </header>
     <nav class = "navbar-container">
@@ -46,7 +41,6 @@
           </div>
         </li>
         {% endif %}
-
         {% if admin == True %}
         <li class = "dropdown">
           <label class = "droptext"> Admin &#9660;</label>
@@ -55,6 +49,9 @@
             <a href="/Admin/DeleteStaff"> Delete staff </a>
           </div>
         </li>
+        {% endif %}
+        {% if isloggedin == True %}
+        <li><a onclick="logout()"> Logout </a></li>
         {% endif %}
       </ul>
     </nav>
@@ -75,36 +72,16 @@
       </ul>
     </footer>
     {% endblock %}
-    <!--
+
     <script>
-      if('serviceWorker' in navigator)
-      {
-        navigator.serviceWorker
-        .register('/SW')
-        .then(function() { console.log("Service Worker Registered"); });
-      }
-      else console.log('Service worker not supported.');
-
-      //Adapted from https://ponyfoo.com/articles/backgroundsync Accessed: 1/12/2017
-      function updateConnectivityStatus ()
-      {
-        var connectionStatus = document.getElementById('connectionStatus');
-        if (navigator.onLine)
-        {
-          console.log("Online");
-          connectionStatus.className = "greencircle";
-        }
-        else
-        {
-          console.log("Offline");
-          connectionStatus.className = "redcircle";
-        }
-      }
-
-      window.addEventListener('online', updateConnectivityStatus);
-      window.addEventListener('offline', updateConnectivityStatus);
-      updateConnectivityStatus();
+      // if('serviceWorker' in navigator)
+      // {
+      //   navigator.serviceWorker
+      //   .register('/SW')
+      //   .then(function(registration) { console.log("Service Worker Registered"); });
+      // }
+      // else console.log('Service worker not supported.');
     </script>
-  -->
+
   </body>
 </html>

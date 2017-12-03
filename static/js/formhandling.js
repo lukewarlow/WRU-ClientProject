@@ -170,6 +170,24 @@ function addEvent()
   return false;
 }
 
+function logout()
+{
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", '/Logout', true); // true is asynchronous
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.onload = function()
+  {
+    if (xhttp.readyState === 4 && xhttp.status === 200)
+    {
+      console.log("Log out " + xhttp.responseText);
+      if (xhttp.responseText == "successful") setTimeout(redirect, 700, "/Home")
+    }
+    else console.error(xhttp.statusText);
+  };
+  xhttp.send();
+  return false;
+}
+
 function otherSelected(selectbox, idOfTextBox)
 {
     if (selectbox.value == "Other") document.getElementById(idOfTextBox).style.display = "block";
@@ -289,13 +307,24 @@ function storeOffline(method, action, params)
 //Adapted from https://ponyfoo.com/articles/backgroundsync Accessed: 1/12/2017
 function isOnline ()
 {
-  if (navigator.onLine) resendStoredData();
+  var connectionStatus = document.getElementById('connectionStatus');
+  if (navigator.onLine)
+  {
+    resendStoredData();
+    connectionStatus.className = "greencircle";
+    console.log("Online");
+  }
+  else
+  {
+    connectionStatus.className = "redcircle";
+    console.log("Offline");
+  }
 }
 
 window.addEventListener('online', isOnline);
-isOnline();
+window.addEventListener('offline', isOnline);
 
-//SLider work in progress
+//Slider work in progress
 function outputUpdate(ratio)
 {
   document.getElementById("maleRatio").innerHTML = "Male: " + ratio + "%"
