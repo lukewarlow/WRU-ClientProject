@@ -27,22 +27,20 @@
         <li><span id='connectionStatus'></span></li>
         <li><a href = "/Home"> Home </a></li>
         {% if isloggedin == False %}
-        <li><a href="/Staff/Login"> Login </a></li>
+        <li><a id="login" href="/Staff/Login"> Login </a></li>
         {% endif %}
         {% if isloggedin == True %}
-        <li class = "dropdown staff">
+        <li class = "dropdown">
           <label class = "droptext"> Staff Pages &#9660;</label>
           <div class = "dropdown-content staff">
-          {% if isloggedin == True %}
             <a href="/Staff/EventForm"> Event Form </a>
             <a href="/Staff/TournamentForm"> Tournament Form </a>
             <a href="/staff/Search"> Data Search </a>
-          {% endif %}
           </div>
         </li>
         {% endif %}
         {% if admin == True %}
-        <li class = "dropdown">
+        <li id="adminsection" class = "dropdown">
           <label class = "droptext"> Admin &#9660;</label>
           <div class = "dropdown-content">
             <a href="/Admin/AddStaff"> Add staff </a>
@@ -51,7 +49,7 @@
         </li>
         {% endif %}
         {% if isloggedin == True %}
-        <li><a onclick="logout()"> Logout </a></li>
+        <li><a id="logout" onclick="logout()"> Logout </a></li>
         {% endif %}
       </ul>
     </nav>

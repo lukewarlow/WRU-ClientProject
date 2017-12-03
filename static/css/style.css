@@ -53,7 +53,7 @@ a:visited
   cursor: pointer;
 }
 
-a:link:hover
+a:hover
 {
   text-decoration: underline;
 }
@@ -297,6 +297,7 @@ button:hover
 {
   text-decoration: underline;
 }
+
 /*
 .cancelbtn {
     width: 10%;

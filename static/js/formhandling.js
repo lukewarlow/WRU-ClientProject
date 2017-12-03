@@ -254,7 +254,7 @@ function resendStoredData()
     messages.push(messageObj);
   }
   myStorage.clear()
-  console.log(messages);
+  if (messages.length > 0) console.log(messages);
   for (i=0;i< messages.length;i++)
   {
     if (messages[i] != null)
@@ -282,9 +282,8 @@ function ajaxData(method, action, params)
       }
       else if (xhttp.status === 503 || xhttp.status === 0)
       {
-        console.error(xhttp.statusText);
         storeOffline(method, action, params);
-        msg = "Browser off line data stored for later use";
+        msg = "Browser offline data stored for submission when online";
       }
       else
       {
@@ -312,17 +311,46 @@ function isOnline ()
   {
     resendStoredData();
     connectionStatus.className = "greencircle";
+    toggleOnlineOnlyStuff(true);
     console.log("Online");
   }
   else
   {
     connectionStatus.className = "redcircle";
+    toggleOnlineOnlyStuff(false);
     console.log("Offline");
   }
 }
 
 window.addEventListener('online', isOnline);
 window.addEventListener('offline', isOnline);
+
+function toggleOnlineOnlyStuff(status)
+{
+  if (status) display = "block";
+  else display = "none";
+  var loginbutton = document.getElementById("login");
+  if (loginbutton != null)
+  {
+    loginbutton.style.display = display;
+    var homepagemessage = document.getElementById("homepagemessage");
+    if (homepagemessage != null && status)
+    {
+      homepagemessage.innerHTML = "Welcome to the Welsh Rugby Union's data collection tool. <br>Unfortunately you only have offline access to this site when logged in.";
+    }
+    else if (homepagemessage != null && !status)
+    {
+      homepagemessage.innerHTML = "Welcome to the Welsh Rugby Union's data collection tool.";
+    }
+  }
+  var logoutbutton = document.getElementById("logout");
+  if (logoutbutton != null) logoutbutton.style.display = display;
+  var admindropdown = document.getElementById("adminsection");
+  if (admindropdown != null) admindropdown.style.display = display;
+  var submit = document.getElementById("submit");
+  if (status && submit != null) submit.textContent = "Submit";
+  else if (submit != null) submit.textContent = "Submit when online";
+}
 
 //Slider work in progress
 function outputUpdate(ratio)
