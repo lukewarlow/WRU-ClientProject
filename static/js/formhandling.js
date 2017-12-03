@@ -334,11 +334,11 @@ function toggleOnlineOnlyStuff(status)
   {
     loginbutton.style.display = display;
     var homepagemessage = document.getElementById("homepagemessage");
-    if (homepagemessage != null && status)
+    if (homepagemessage != null && !status)
     {
       homepagemessage.innerHTML = "Welcome to the Welsh Rugby Union's data collection tool. <br>Unfortunately you only have offline access to this site when logged in.";
     }
-    else if (homepagemessage != null && !status)
+    else if (homepagemessage != null && status)
     {
       homepagemessage.innerHTML = "Welcome to the Welsh Rugby Union's data collection tool.";
     }
