@@ -415,14 +415,14 @@ def getDetailsFromUsername(username):
 def redirectDeleteStaff():
     return redirect("/Admin/DeleteStaff")
 
-@app.route("/Logout", methods=['POST'])
+@app.route("/Logout", methods=['POST', 'GET'])
 def logout():
     if request.method == "POST":
         session['username'] = ""
         session['password'] = ""
         session['usertype'] = ""
         session['verified'] = ""
-        return "successful"
+    return redirect("/Home")
 
 @app.route("/SW", methods = ['GET'])
 def serviceWorker():
@@ -485,9 +485,9 @@ def moduleSearch():
         return render_template('staff/search.html')
     if request.method =='POST':
         try:
-
             data = ""
             data2 = ""
+
             event = request.form.get('eventsearch')
             tournament = request.form.get('tournamentsearch')
 
@@ -502,9 +502,8 @@ def moduleSearch():
                 cur.execute("SELECT * FROM tblTournament WHERE ageCategory=? ;", [tournament])
                 data2 = cur.fetchall()
 
-            print(data)
         except:
-            print('there was an error', data)
+            print("Failed to connect to DB")
             conn.close()
         finally:
             conn.close()
