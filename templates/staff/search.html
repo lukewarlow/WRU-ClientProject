@@ -9,7 +9,7 @@
 <h1>Event Data</h1>
 <form id='myForm' action='/staff/Search' method = 'post'>
   Event:<input type = "text" name = "eventsearch"><br>
-  <button type = "submit"> Find data </button>
+  <button type = "submit"> Find Event </button>
 </form>
    {% for row in data %}
 <table border = 1>
@@ -35,6 +35,36 @@
         <td>{{row[6]}}</td>
       </tr>
    {% endfor %}
+</table>
+<h1>Tournament Data</h1>
+<form id='myForm' action='/staff/Search' method = 'post'>
+  Event:<input type = "text" name = "tournamentsearch"><br>
+  <button type = "submit"> Find Tournament </button>
+</form>
+{% for row in data %}
+<table border = 1>
+<thead>
+   <td>ID</td>
+   <td>Total number of people</td>
+   <td>Age Category</td>
+   <td>Gender Ratio</td>
+   <td>Rugby Offers</td>
+   <td>Event ID</td>
+
+</thead>
+
+
+
+   <tr>
+     <td>{{row[0]}}</td>
+     <td>{{row[1]}}</td>
+     <td>{{row[2]}}</td>
+     <td>{{row[3]}}</td>
+     <td>{{row[4]}}</td>
+     <td>{{row[5]}}</td>
+
+   </tr>
+{% endfor %}
 </table>
 
 
