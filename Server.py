@@ -117,7 +117,9 @@ def returnLogin():
             elif (check.split(":")[3] == "True"):
                 session['username'] = check.split(":")[1]
                 session['usertype'] = check.split(":")[2]
+                session['verified'] = True
                 print(str(username) + " has logged in")
+                print(session)
                 return "successful"
             else:
                 return "unsuccessful please verify account through the link in email."
@@ -167,19 +169,28 @@ def returnEventForm():
         inclusivity = request.form.get('inclusivity', default="error")
         activityTypes = request.form.get('activityTypes', default="error")
         comments = request.form.get('comments', default="error")
+        username = ""
+        if 'username' in session:
+            username = escape(session['username'])
+            if username == "":
+                msg = "error not logged in?"
+            else:
+                staffName = username
+        else:
+            msg = "error not logged in?"
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
             cur.execute("INSERT INTO tblEvent ('eventName', 'eventDate', 'postcode', \
-            'eventRegion', 'inclusivity', 'activityTypes', 'comments')\
-                        VALUES (?,?,?,?,?,?,?)",(eventName, eventDate, postcode, eventRegion,\
-                         inclusivity, activityTypes, comments))
+            'eventRegion', 'inclusivity', 'activityTypes', 'comments', 'staffName')\
+                        VALUES (?,?,?,?,?,?,?,?)",(eventName, eventDate, postcode, eventRegion,\
+                         inclusivity, activityTypes, comments, staffName))
             conn.commit()
             msg = "Record successfully added"
         except sql.ProgrammingError as e:
-            print("Error in operation," + str(e))
-            conn.rollback()
+            print("Error in operation,{}".format(e))
             msg = "Error in insert operation"
+            conn.rollback()
         finally:
             conn.close()
             return msg;
@@ -223,15 +234,22 @@ def returnTourForm():
             print("Error in operation," + str(e))
         finally:
             conn.close()
-
         if eventExists == True:
+            if 'username' in session:
+                username = escape(session['username'])
+                if username == "":
+                    msg = "error not logged in?"
+                else:
+                    staffName = username
+            else:
+                msg = "error not logged in?"
             try:
                 conn = sql.connect(DATABASE)
                 cur = conn.cursor()
                 cur.execute("INSERT INTO tblTournament ('peopleNum',\
-                 'ageCategory', 'rugbyOffers', 'genderRatio', 'eventID')\
-                            VALUES (?,?,?,?,?)",(peopleNum, ageCategory,\
-                             genderRatio, rugbyOffers, eventID))
+                 'ageCategory', 'rugbyOffers', 'genderRatio', 'staffName', 'eventID')\
+                            VALUES (?,?,?,?,?,?)",(peopleNum, ageCategory,\
+                             genderRatio, rugbyOffers, staffName, eventID))
                 conn.commit()
                 msg = "Record successfully added"
             except:

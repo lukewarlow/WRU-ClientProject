@@ -140,10 +140,6 @@ function validateEventForm()
 
 function addEvent()
 {
-  var eventDate = document.forms["eventForm"]["eventDate"].value;
-  var postcode = document.forms["eventForm"]["postcode"].value;
-  var eventRegion = document.forms["eventForm"]["eventRegion"].value;
-  if (eventRegion == "Other") eventRegion = document.forms["eventForm"]["otherbox3"].value;
   try
   {
     var eventName = document.forms["eventForm"]["eventname"].values;
@@ -152,6 +148,11 @@ function addEvent()
   {
     var eventName = "";
   }
+  var eventDate = document.forms["eventForm"]["eventDate"].value;
+  var postcode = document.forms["eventForm"]["postcode"].value;
+  var eventRegion = document.forms["eventForm"]["eventRegion"].value;
+  if (eventRegion == "Other") eventRegion = document.forms["eventForm"]["otherbox3"].value;
+
   var inclusivity = document.forms["eventForm"]["inclusivity"].value;
   if (inclusivity == "Other") inclusivity = document.getElementById("otherbox2").value;
   var comments = document.forms["eventForm"]["comments"].value;
@@ -165,7 +166,7 @@ function addEvent()
     else activityTypes.push(checkboxes[i].value)
   }
 
-  params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&eventName='+eventName+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
+  params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
   ajaxData("POST", "/Staff/EventForm", params);
   return false;
 }
@@ -213,9 +214,17 @@ function validateTournamentForm()
 
 function addTournament()
 {
+  try
+  {
+    var eventName = document.forms["eventForm"]["eventname"].values;
+  }
+  catch (TypeError)
+  {
+    var eventName = "";
+  }
+
   var eventDate = document.forms["tournamentForm"]["eventDate"].value;
   var postcode = document.forms["tournamentForm"]["postcode"].value;
-  var eventName = document.forms["tournamentForm"]["eventName"].value;
   var peopleNum = document.forms["tournamentForm"]["peopleNum"].value;
   var ageRange = document.forms["tournamentForm"]["ageRange"].value;
   var genderRatio = document.forms["tournamentForm"]["genderRatio"].value;
@@ -229,16 +238,7 @@ function addTournament()
     else rugbyOffers.push(checkboxes[i].value)
   }
 
-  try
-  {
-    var eventName = document.forms["eventForm"]["eventname"].values;
-  }
-  catch (TypeError)
-  {
-    var eventName = "";
-  }
-
-  params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&eventName'+eventName+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&rugbyOffers='+rugbyOffers+'&genderRatio='+genderRatio;
+  params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&rugbyOffers='+rugbyOffers+'&genderRatio='+genderRatio;
   ajaxData("POST", "/Staff/TournamentForm", params);
   return false;
 }
