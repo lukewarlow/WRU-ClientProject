@@ -74,16 +74,15 @@
       </ul>
     </footer>
     {% endblock %}
-    <!--
-    <script>
-      if('serviceWorker' in navigator)
-      {
-        navigator.serviceWorker
-        .register('/SW')
-        .then(function() { console.log("Service Worker Registered"); });
-      }
-      else console.log('Service worker not supported.');
 
+    <script>
+      // if('serviceWorker' in navigator)
+      // {
+      //   navigator.serviceWorker
+      //   .register('/SW')
+      //   .then(function() { console.log("Service Worker Registered"); });
+      // }
+      // else console.log('Service worker not supported.');
       //Adapted from https://ponyfoo.com/articles/backgroundsync Accessed: 1/12/2017
       function updateConnectivityStatus ()
       {
@@ -104,6 +103,6 @@
       window.addEventListener('offline', updateConnectivityStatus);
       updateConnectivityStatus();
     </script>
-  -->
+
   </body>
 </html>
