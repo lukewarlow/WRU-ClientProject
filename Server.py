@@ -426,7 +426,7 @@ def logout():
 
 @app.route("/SW", methods = ['GET'])
 def serviceWorker():
-	return app.send_static_file('sw.js')
+    return app.send_static_file('sw.js')
 
 
 def checkIsLoggedIn():
@@ -481,22 +481,34 @@ def make_session_permanent():
 
 @app.route("/staff/Search", methods = ['GET','POST'])
 def moduleSearch():
-	if request.method =='GET':
-		return render_template('staff/search.html')
-	if request.method =='POST':
-		try:
-			name = request.form.get('eventsearch', default="Error")
-			conn = sql.connect(DATABASE)
-			cur = conn.cursor()
-			cur.execute("SELECT * FROM tblEvent WHERE eventName=? ;", [name])
-			data = cur.fetchall()
-			print(data)
-		except:
-			print('there was an error', data)
-			conn.close()
-		finally:
-			conn.close()
-			return render_template('staff/search.html', data=data)
+    if request.method =='GET':
+        return render_template('staff/search.html')
+    if request.method =='POST':
+        try:
+
+            data = ""
+            data2 = ""
+            event = request.form.get('eventsearch')
+            tournament = request.form.get('tournamentsearch')
+
+            conn = sql.connect(DATABASE)
+            cur = conn.cursor()
+
+            if (event != None):
+                cur.execute("SELECT * FROM tblEvent WHERE eventName=? ;", [event])
+                data = cur.fetchall()
+
+            if (tournament != None):
+                cur.execute("SELECT * FROM tblTournament WHERE ageCategory=? ;", [tournament])
+                data2 = cur.fetchall()
+
+            print(data)
+        except:
+            print('there was an error', data)
+            conn.close()
+        finally:
+            conn.close()
+            return render_template('staff/search.html', data=data, data2=data2)
 
 if __name__ == "__main__":
     app.run(debug=True)
