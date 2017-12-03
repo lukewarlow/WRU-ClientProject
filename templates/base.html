@@ -20,11 +20,6 @@
         {% block header %}
         <div class = "header-item text">Welcome</div>
         {% endblock %}
-        {% if isloggedin == True %}
-        <form class = "header-item logoutform" action="/Logout" method="post">
-          <button class = "logoutbutton" type="submit">Logout</button>
-        </form>
-        {% endif %}
       </div>
     </header>
     <nav class = "navbar-container">
@@ -45,7 +40,6 @@
           </div>
         </li>
         {% endif %}
-
         {% if admin == True %}
         <li class = "dropdown">
           <label class = "droptext"> Admin &#9660;</label>
@@ -54,6 +48,9 @@
             <a href="/Admin/DeleteStaff"> Delete staff </a>
           </div>
         </li>
+        {% endif %}
+        {% if isloggedin == True %}
+        <li><a onclick="logout()"> Logout </a></li>
         {% endif %}
       </ul>
     </nav>
