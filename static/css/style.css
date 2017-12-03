@@ -6,28 +6,6 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.greencircle
-{
-  display: flex;
-  align-content: center;
-  background: #0f0;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  margin-top: 5px;
-}
-
-.redcircle
-{
-  display: flex;
-  align-content: center;
-  background: #f00;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  margin-top: 5px;
-}
-
 #otherbox, #otherbox2, #otherbox3
 {
   display: none;
@@ -127,6 +105,8 @@ button
   border-bottom: 2px dotted red;
   width: 100%;
   z-index: 2;
+  position: sticky;
+  top: 0;
 }
 
 .navbar
@@ -135,9 +115,6 @@ button
   display: flex;
   font-size: 1.25rem;
   flex-wrap: wrap;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
 }
 
 .navbar > li
