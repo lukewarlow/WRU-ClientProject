@@ -25,39 +25,38 @@
           <button class = "logoutbutton" type="submit">Logout</button>
         </form>
         {% endif %}
-        <nav class = "navbar-container">
-          <ul class="navbar">
-            <li><span id='connectionStatus'></span></li>
-            <li><a href = "/Home"> Home </a></li>
-            {% if isloggedin == False %}
-            <li><a href="/Staff/Login"> Login </a></li>
-            {% endif %}
-            {% if isloggedin == True %}
-            <li class = "dropdown staff">
-              <label class = "droptext"> Staff Pages &#9660;</label>
-              <div class = "dropdown-content staff">
-              {% if isloggedin == True %}
-                <a href="/Staff/EventForm"> Event Form </a>
-                <a href="/Staff/TournamentForm"> Tournament Form </a>
-              {% endif %}
-              </div>
-            </li>
-            {% endif %}
-
-            {% if admin == True %}
-            <li class = "dropdown">
-              <label class = "droptext"> Admin &#9660;</label>
-              <div class = "dropdown-content">
-                <a href="/Admin/AddStaff"> Add staff </a>
-                <a href="/Admin/DeleteStaff"> Delete staff </a>
-              </div>
-            </li>
-            {% endif %}
-          </ul>
-        </nav>
       </div>
     </header>
+    <nav class = "navbar-container">
+      <ul class="navbar">
+        <li><span id='connectionStatus'></span></li>
+        <li><a href = "/Home"> Home </a></li>
+        {% if isloggedin == False %}
+        <li><a href="/Staff/Login"> Login </a></li>
+        {% endif %}
+        {% if isloggedin == True %}
+        <li class = "dropdown staff">
+          <label class = "droptext"> Staff Pages &#9660;</label>
+          <div class = "dropdown-content staff">
+          {% if isloggedin == True %}
+            <a href="/Staff/EventForm"> Event Form </a>
+            <a href="/Staff/TournamentForm"> Tournament Form </a>
+          {% endif %}
+          </div>
+        </li>
+        {% endif %}
 
+        {% if admin == True %}
+        <li class = "dropdown">
+          <label class = "droptext"> Admin &#9660;</label>
+          <div class = "dropdown-content">
+            <a href="/Admin/AddStaff"> Add staff </a>
+            <a href="/Admin/DeleteStaff"> Delete staff </a>
+          </div>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
     <main class = "main-container">
       {% block main %}
 
@@ -75,6 +74,7 @@
       </ul>
     </footer>
     {% endblock %}
+    <!--
     <script>
       if('serviceWorker' in navigator)
       {
@@ -104,5 +104,6 @@
       window.addEventListener('offline', updateConnectivityStatus);
       updateConnectivityStatus();
     </script>
+  -->
   </body>
 </html>
