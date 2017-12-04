@@ -16,7 +16,7 @@
     <input type="password" placeholder="Re-enter your password here" name="checknewpassword" id="checknewpassword" onkeyup="checkPassword()" required>
     <br>
     Email: <input type = "email" placeholder="Enter email here" name = "email" id="newemail" onkeyup="checkEmail()" required><br>
-    Re-enter Email: <input type="email" placeholder="Re-enter your email here" name="checknewemail" id="checknewemail" onkeyup="checkEmail()" required>
+    Re-enter Email: <input type="email" placeholder="Re-enter your email here" name="checkemail" id="checkemail" onkeyup="checkEmail()" required>
     <br>
     User type: <select value = "usertype" name="usertype">
       <option value="Staff">Staff</option>
@@ -54,6 +54,27 @@ var checkPassword = function() {
     document.getElementById("verifybtn").disabled = true;
   }
 
+}
+var checkEmail = function() {
+  var matching = false;
+
+  if (document.getElementById('newemail').value ==
+    document.getElementById('checkemail').value) {
+    document.getElementById('msg').style.color = 'green';
+    document.getElementById('msg').innerHTML = 'matching';
+    matching = true;
+  } else {
+    document.getElementById('msg').style.color = 'red';
+    document.getElementById('msg').innerHTML = 'not matching';
+    matching = false;
+  }
+
+  if (matching)
+  {
+    document.getElementById("verifybtn").disabled = false;
+  } else {
+    document.getElementById("verifybtn").disabled = true;
+  }
 }
 </script>
 {% endblock %}
