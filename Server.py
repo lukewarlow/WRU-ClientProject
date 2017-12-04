@@ -28,6 +28,7 @@ def home():
             return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), username=name)
         else:
             return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
+
 @app.route("/home", methods=['GET'])
 @app.route("/index", methods=['GET'])
 @app.route("/Index", methods=['GET'])
@@ -152,11 +153,93 @@ def checkLogin(username, password):
         return "True:{}:{}:{}".format(user, usertype, verified)
     else:
         return False;
+
 @app.route("/Staff/login", methods=['GET'])
 @app.route("/staff/Login", methods=['GET'])
 @app.route("/staff/login", methods=['GET'])
 def redirectLogin():
     return redirect("/Staff/Login")
+
+# staff page
+@app.route('/Staff/Account', methods=['POST', 'GET'])
+def staffAccount():
+    if request.method == 'POST':
+        username = getUsername()
+        password = request.form.get('password', default="Error")
+        newpassword = request.form.get('newpassword', default="Error")
+        newemail = request.form.get('newemail', default="Error")
+
+        if (checkLogin(username, password)):
+            data = getDetailsFromUsername(username)
+            if (newpassword is not "Error"):
+                try:
+                    conn = sql.connect(DATABASE)
+                    cur = conn.cursor()
+                    cur.execute("UPDATE tblStaff SET password=?;", [encrypt(newpassword)])
+                    conn.commit()
+                    msg = "successful"
+                    message = """\
+                    <p>
+                        Hi {} {},<br>
+                        You're password has been changed.<br>
+                        If this was done by you, you can safely ignore this email.<br>
+                        If this wasn't done by you please contact a system admin immediately!<br>
+                    </p>""".format(data[0], data[1])
+                    sendEmail(data[2], "Password Changed", message)
+                    print("{} password updated successfully".format(username))
+                    logout()
+                except Exception as e:
+                    conn.rollback()
+                    msg = "Error in update operation: " + str(e)
+                    print(msg)
+                finally:
+                    conn.close()
+                    return msg
+            elif (newemail is not "Error"):
+                if (verifyEmail(newemail)):
+                    try:
+                        conn = sql.connect(DATABASE)
+                        cur = conn.cursor()
+                        cur.execute("UPDATE tblStaff SET email=?;", [newemail])
+                        conn.commit()
+                        msg = "successful"
+                        message1 = """\
+                        <p>
+                            Hi {} {},<br>
+                            You're email address has been changed to: {}.<br>
+                            If this was done by you, you can safely ignore this email.<br>
+                            If this wasn't done by you please contact a system admin immediately.<br>
+                        </p>""".format(data[0], data[1], newemail)
+                        message2 = """\
+                        <p>
+                            Hi,<br>
+                            Your account is now registered to this email account.<br>
+                            If you do not recognise this service.<br>
+                            Please contact {} and let them know they entered the wrong email address.<br>
+                        </p>""".format(data[2])
+                        sendEmail(data[2], "Email Changed", message1)
+                        sendEmail(newemail, "Email Changed", message2)
+                        logout()
+                        print("{} email updated successfully".format(username))
+                    except Exception as e:
+                        conn.rollback()
+                        msg = "Error in update operation: " + str(e)
+                        print(msg)
+                    finally:
+                        conn.close()
+                        return msg
+                else:
+                    return "unsuccessful invalid email."
+            else:
+                return "Error"
+        else:
+            return "unsuccessful, incorrect password."
+    else:
+        if (checkIsLoggedIn()):
+            name = getUsername()
+            return render_template('staff/account.html', title="Account", admin=checkIsAdmin(), isloggedin=True, username=name)
+        else:
+            return redirect("/Home")
 
 @app.route("/Staff/EventForm", methods = ['POST', 'GET'])
 def eventForm():

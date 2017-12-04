@@ -50,6 +50,46 @@ function validatePassword(form, id)
   return false;
 }
 
+function validateAccountChanges()
+{
+  var password = document.forms["accountChange"]["password"].value;
+  params = "";
+  try
+  {
+    var newpassword = document.forms["accountChange"]["newpassword"].value;
+    params = "password="+password+"&newpassword="+newpassword;
+  }
+  catch (TypeError)
+  {
+    try
+    {
+      var newemail = document.forms["accountChange"]["newemail"].value;
+      params = "password="+password+"&newemail="+newemail;
+    }
+    catch (TypeError)
+    {
+      document.getElementById("msg").innerHTML = "Error";
+      return false;
+    }
+  }
+  console.log(params);
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", '/Staff/Account', true); // true is asynchronous
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.onload = function()
+  {
+    if (xhttp.readyState === 4 && xhttp.status === 200)
+    {
+      console.log("Account change " + xhttp.responseText);
+      document.getElementById("msg").innerHTML = "Account change " + xhttp.responseText;
+      if (xhttp.responseText == "successful") setTimeout(redirect, 700, "/Home")
+    }
+    else console.error(xhttp.statusText);
+  };
+  xhttp.send(params);
+  return false;
+}
+
 function deleteStaff()
 {
   var username = document.forms["deletestaff"]["username"].value;
@@ -211,6 +251,26 @@ function otherSelected(selectbox, idOfTextBox)
     else document.getElementById(idOfTextBox).style.display = "none";
 }
 
+function actionSelected(selectbox)
+{
+    if (selectbox.value == "changePassword")
+    {
+      document.getElementById("accountChangeForm").innerHTML = `
+      <b>New password</b>
+      <input type='password' placeholder='Enter your new password here' name='newpassword' required>
+      <b>Confirm new password:</b>
+      <input type='password' placeholder='Re-Enter your new password here' name='newpasswordConfirm' required>`;
+    }
+    else if (selectbox.value == "changeEmail")
+    {
+      document.getElementById("accountChangeForm").innerHTML = `
+      <b>New email</b>
+      <input type='email' placeholder='Enter your new email here' name='newemail' required>
+      <b>Confirm New email:</b>
+      <input type='email' placeholder='Re-Enter your new email here' name='newemailConfirm' required>`;
+    }
+}
+
 function checkboxChecked(checkbox, id)
 {
   if(checkbox.checked) document.getElementById(id).style.display = "block";
@@ -260,6 +320,7 @@ function addTournament()
   try
   {
     var postcode = document.forms["tournamentForm"]["postcode"].value;
+    //http://html5pattern.com/Postal_Codes (Retrieved 17/11/17)
     if (!postcode.match("^[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}$"))
     {
       document.getElementById("msg").innerHTML = "Must enter valid postcode.";
