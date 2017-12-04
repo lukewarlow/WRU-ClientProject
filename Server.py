@@ -422,6 +422,11 @@ def deleteStaff():
                 conn.close()
         return msg
 
+@app.route("/Admin/Download", methods=['GET'])
+def returnMenu():
+    if request.method == 'GET':
+        return render_template('admin/download.html')
+
 def getDetailsFromUsername(username):
     try:
         conn = sql.connect(DATABASE)
