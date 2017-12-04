@@ -103,6 +103,11 @@ button
   border-radius: 15px;
 }
 
+button:disabled
+{
+  background-color: grey;
+
+
 .navbar-container
 {
   color: white;
