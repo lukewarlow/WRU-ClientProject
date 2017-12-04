@@ -23,8 +23,11 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'ico'])
 @app.route("/Home", methods=['GET'])
 def home():
     if request.method == 'GET':
-        return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
-
+        name = getUsername()
+        if (not "error" in name):
+            return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), username=name)
+        else:
+            return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
 @app.route("/home", methods=['GET'])
 @app.route("/index", methods=['GET'])
 @app.route("/Index", methods=['GET'])
@@ -160,7 +163,11 @@ def redirectLogin():
 def eventForm():
     if request.method == 'GET':
         now = datetime.datetime.now()
-        return render_template('staff/event.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
+        name = getUsername()
+        if (not "error" in name):
+            return render_template('staff/event.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"), username=name)
+        else:
+            return render_template('staff/event.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
     elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
@@ -211,7 +218,12 @@ def tournamentForm():
     if request.method == 'GET':
         #https://www.saltycrane.com/blog/2008/06/how-to-get-current-date-and-time-in/ Date Accessed: 29/11/2017
         now = datetime.datetime.now()
-        return render_template('staff/tournament.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
+        name = getUsername()
+        if (not "error" in name):
+            return render_template('staff/tournament.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"), username=name)
+        else:
+            return render_template('staff/tournament.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
+
     elif request.method == 'POST':
         eventDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
@@ -278,7 +290,11 @@ def redirectTournament():
 def addStaff():
     if request.method == 'GET':
         if checkIsAdmin():
-            return render_template('admin/addstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+            name = getUsername()
+            if (not "error" in name):
+                return render_template('admin/addstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
+            else:
+                return render_template('admin/addstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
     elif request.method == 'POST':
@@ -338,6 +354,18 @@ def addStaff():
         else:
             return "Email address not found"
 
+def getUsername():
+    name = ""
+    if 'username' in session:
+        name = escape(session['username'])
+        if name == "":
+            msg = "error not logged in?"
+        else:
+            return name
+    else:
+        msg = "error not logged in?"
+    return msg
+
 @app.route("/Admin/Addstaff", methods=['POST', 'GET'])
 @app.route("/Admin/addStaff", methods=['POST', 'GET'])
 @app.route("/Admin/addstaff", methods=['POST', 'GET'])
@@ -391,7 +419,11 @@ def verifyEmail(email):
 def deleteStaff():
     if request.method == 'GET':
         if checkIsAdmin():
-            return render_template('admin/deletestaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+            name = getUsername()
+            if (not "error" in name):
+                return render_template('admin/deletestaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
+            else:
+                return render_template('admin/deletestaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
     elif request.method == 'POST':
@@ -423,11 +455,25 @@ def deleteStaff():
                 conn.close()
         return msg
 
+@app.route("/Admin/Deletestaff", methods=['POST', 'GET'])
+@app.route("/Admin/deleteStaff", methods=['POST', 'GET'])
+@app.route("/Admin/deletestaff", methods=['POST', 'GET'])
+@app.route("/admin/DeleteStaff", methods=['POST', 'GET'])
+@app.route("/admin/Deletestaff", methods=['POST', 'GET'])
+@app.route("/admin/deleteStaff", methods=['POST', 'GET'])
+@app.route("/admin/deletestaff", methods=['POST', 'GET'])
+def redirectDeleteStaff():
+    return redirect("/Admin/DeleteStaff")
+
 @app.route("/Admin/Download", methods=['GET'])
 def xlsxDatabase():
     if request.method == 'GET':
         if checkIsAdmin():
-            return render_template('admin/download.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+            name = getUsername()
+            if (not "error" in name):
+                return render_template('admin/download.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
+            else:
+                return render_template('admin/download.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
         if request.method =='POST':
@@ -501,21 +547,15 @@ def getDetailsFromUsername(username):
         conn.close()
     return data
 
-@app.route("/Admin/Deletestaff", methods=['POST', 'GET'])
-@app.route("/Admin/deleteStaff", methods=['POST', 'GET'])
-@app.route("/Admin/deletestaff", methods=['POST', 'GET'])
-@app.route("/admin/DeleteStaff", methods=['POST', 'GET'])
-@app.route("/admin/Deletestaff", methods=['POST', 'GET'])
-@app.route("/admin/deleteStaff", methods=['POST', 'GET'])
-@app.route("/admin/deletestaff", methods=['POST', 'GET'])
-def redirectDeleteStaff():
-    return redirect("/Admin/DeleteStaff")
-
 @app.route("/Admin/Search", methods = ['GET','POST'])
 def moduleSearch():
     if request.method =='GET':
         if checkIsAdmin():
-            return render_template('admin/search.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+            name = getUsername()
+            if (not "error" in name):
+                return render_template('admin/search.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
+            else:
+                return render_template('admin/search.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
     if request.method =='POST':

@@ -35,7 +35,6 @@
           <div class = "dropdown-content staff">
             <a href="/Staff/EventForm"> Event Form </a>
             <a href="/Staff/TournamentForm"> Tournament Form </a>
-
           </div>
         </li>
         {% endif %}
@@ -52,6 +51,9 @@
         {% endif %}
         {% if isloggedin == True %}
         <li><a id="logout" onclick="logout()"> Logout </a></li>
+        {% endif %}
+        {% if isloggedin == True %}
+        <li id="loginName"><p>Logged in as {{ username }} </p></li>
         {% endif %}
       </ul>
     </nav>

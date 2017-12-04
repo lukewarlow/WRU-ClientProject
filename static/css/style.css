@@ -138,6 +138,13 @@ button
   margin-left: 10px;
 }
 
+#loginName
+{
+  margin-left: auto;
+  justify-content: flex-end;
+  margin-right: 10px;
+}
+
 .dropdown
 {
   text-align: left;
