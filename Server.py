@@ -429,6 +429,23 @@ def returnMenu():
             return render_template('admin/download.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
+        if request.method =='POST':
+            try:
+                dataEvent = ""
+                dataTour = ""
+                conn = sql.connect(DATABASE)
+                cur = conn.cursor()
+                cur.execute("SELECT * FROM tblEvent;")
+                dataEvent = cur.fetchall()
+                cur.execute("SELECT * FROM tblTournament;")
+                dataTour = cur.fetchall()
+            except:
+                print("Failed to connect to DB")
+                conn.close()
+            finally:
+                conn.close()
+                return render_template('admin/search.html', dataEvent=dataEvent, dataTour=dataTour)
+
 
 def getDetailsFromUsername(username):
     try:
