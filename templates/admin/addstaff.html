@@ -15,7 +15,9 @@
     Re-enter Password:
     <input type="password" placeholder="Re-enter your password here" name="checknewpassword" id="checknewpassword" onkeyup="checkPassword()" required>
     <br>
-    Email: <input type = "email" placeholder="Enter email here" name = "email" required><br>
+    Email: <input type = "email" placeholder="Enter email here" name = "email" id="newemail" onkeyup="checkEmail()" required><br>
+    Re-enter Email: <input type="email" placeholder="Re-enter your email here" name="checknewemail" id="checknewemail" onkeyup="checkEmail()" required>
+    <br>
     User type: <select value = "usertype" name="usertype">
       <option value="Staff">Staff</option>
       <option value="Admin">Admin</option>
@@ -26,6 +28,7 @@
     </select><br>
     <button name='verify' id="verifybtn" type = "submit" disabled> Submit </button>
   </form>
+  <span id='msg'></span>
   <span id='msg'></span>
 </section>
 
