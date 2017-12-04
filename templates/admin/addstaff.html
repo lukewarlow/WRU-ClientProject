@@ -11,7 +11,10 @@
   <form id='addstaff' onsubmit="return validatePassword('addstaff', 'password')">
     First name: <input type = "text" placeholder="Enter first name here" name = "firstName" required><br>
     Surname: <input type = "text" placeholder="Enter surname here" name = "surname" required><br>
-    Password: <input type = "password" placeholder="Enter password here" name = "password" required><br>
+    Password: <input type = "password" placeholder="Enter password here" name = "password" id="newpassword" required onkeyup="checkPassword()" required><br>
+    Re-enter Password:
+    <input type="password" placeholder="Re-enter your password here" name="checknewpassword" id="checknewpassword" onkeyup="checkPassword()" required>
+    <br>
     Email: <input type = "email" placeholder="Enter email here" name = "email" required><br>
     User type: <select value = "usertype" name="usertype">
       <option value="Staff">Staff</option>
@@ -21,8 +24,10 @@
       <option value="wru">WRU</option>
       <option value="other">Other</option>
     </select><br>
-    <button type = "submit"> Submit </button>
+    <button name='verify' id="verifybtn" type = "submit" disabled> Submit </button>
   </form>
   <span id='msg'></span>
 </section>
+
+
 {% endblock %}
