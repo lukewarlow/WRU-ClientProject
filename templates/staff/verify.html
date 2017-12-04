@@ -17,14 +17,17 @@
     <b>Please set new password</b>
     <br>
     <b>Password:</b>
-    <input type="password" placeholder="Enter your password here" name="newpassword" required>
+    <input type="password" placeholder="Enter your password here" name="newpassword" id="newpassword" required onkeyup="checkPassword();">
     <br>
-    <!-- <b>Re-enter Password:</b>
-    <input type="password" placeholder="Re-enter your password here" name="checknewpassword" required>
-    <br> -->
-    <button name "verify" type = "submit">Verify</button>
+    <b>Re-enter Password:</b>
+    <input type="password" placeholder="Re-enter your password here" name="checknewpassword" id="checknewpassword" required onkeyup="checkPassword();">
+    <br>
+    <button name='verify' id="verifybtn" type = "submit" disabled>Verify</button>
   </form>
   <span id='msg'></span>
   <span id='txt' hidden>{{ payload }}</span>
 </section>
+
+
+
 {% endblock %}
