@@ -169,7 +169,8 @@ def eventForm():
         else:
             return render_template('staff/event.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
     elif request.method == 'POST':
-        eventDate = request.form.get('eventDate', default="error")
+        eventStartDate = request.form.get('eventStartDate', default="error")
+        eventEndDate = request.form.get('eventEndDate', default="error")
         postcode = request.form.get('postcode', default="error")
         postcode = postcode.upper()
         eventRegion = request.form.get('eventRegion', default="error")
@@ -189,9 +190,9 @@ def eventForm():
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
-            cur.execute("INSERT INTO tblEvent ('eventName', 'eventDate', 'postcode', \
+            cur.execute("INSERT INTO tblEvent ('eventName', 'eventStartDate', 'eventEndDate', 'postcode', \
             'eventRegion', 'inclusivity', 'activityTypes', 'comments', 'staffName')\
-                        VALUES (?,?,?,?,?,?,?,?)",(eventName, eventDate, postcode, eventRegion,\
+                        VALUES (?,?,?,?,?,?,?,?,?)",(eventName, eventStartDate, eventEndDate, postcode, eventRegion,\
                          inclusivity, activityTypes, comments, staffName))
             conn.commit()
             msg = "Record successfully added"
@@ -225,7 +226,7 @@ def tournamentForm():
             return render_template('staff/tournament.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
 
     elif request.method == 'POST':
-        eventDate = request.form.get('eventDate', default="error")
+        eventStartDate = request.form.get('eventDate', default="error")
         postcode = request.form.get('postcode', default="error")
         postcode = postcode.upper()
         eventName = request.form.get('eventName', default="error")

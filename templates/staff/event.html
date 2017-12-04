@@ -11,8 +11,15 @@
     <h3> Venue information: </h3>
     <div>Event name:</div>
     <input type="text" name="eventName" placeholder="Optional">
-    <div>Event date:</div>
-    <input type="date" name="eventDate" value="{{ date }}" required>
+    <div>
+      <p id="eventTxt">Event date:<p>
+      <input type="date" name="eventStartDate" value="{{ date }}" required>
+    </div>
+    <input name="multiDay" type="checkbox" value="multiDay" onchange="checkboxChecked(this, 'endDate')">Multi-Day?<br>
+    <div id="endDate">
+      Event end date:<br>
+      <input type="date" name="eventEndDate">
+    </div>
     <br>
     <div>Location postcode:</div>
     <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->

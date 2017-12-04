@@ -148,7 +148,18 @@ function addEvent()
   {
     var eventName = "";
   }
-  var eventDate = document.forms["eventForm"]["eventDate"].value;
+
+  var eventStartDate = document.forms["eventForm"]["eventStartDate"].value;
+
+  try
+  {
+    var eventEndDate = document.forms["eventForm"]["eventEndDate"].value;
+  }
+  catch
+  {
+    var eventEndDate = "";
+  }
+
   var postcode = document.forms["eventForm"]["postcode"].value;
   var eventRegion = document.forms["eventForm"]["eventRegion"].value;
   if (eventRegion == "Other") eventRegion = document.forms["eventForm"]["otherbox3"].value;
@@ -171,7 +182,7 @@ function addEvent()
     else if (checkboxes[i].value == "collaborativeDelivery") activityTypes.push(document.getElementById("collabBox").value);
     else activityTypes.push(checkboxes[i].value);
   }
-  params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
+  params = 'eventName='+eventName+'&eventStartDate='+eventDate+'&eventEndDate='+eventEndDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
   ajaxData("POST", "/Staff/EventForm", params);
   return false;
 }
@@ -204,6 +215,8 @@ function checkboxChecked(checkbox, id)
 {
   if(checkbox.checked) document.getElementById(id).style.display = "block";
   else document.getElementById(id).style.display = "none";
+  if(checkbox.value=="multiDay" && checkbox.checked) document.getElementById("eventTxt").innerHTML = "Event start date";
+  else if(checkbox.value=="multiDay" && !checkbox.checked) document.getElementById("eventTxt").innerHTML = "Event date";
 }
 
 function radioChecked(selector, id)
