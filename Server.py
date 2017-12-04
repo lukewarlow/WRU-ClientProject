@@ -187,10 +187,10 @@ def returnEventForm():
                          inclusivity, activityTypes, comments, staffName))
             conn.commit()
             msg = "Record successfully added"
-        except sql.ProgrammingError as e:
-            print("Error in operation,{}".format(e))
-            msg = "Error in insert operation"
+        except Exception as e:
             conn.rollback()
+            msg = "Error in insert operation: " + str(e)
+            print(msg)
         finally:
             conn.close()
             return msg;
@@ -252,9 +252,10 @@ def returnTourForm():
                              genderRatio, rugbyOffers, staffName, eventID))
                 conn.commit()
                 msg = "Record successfully added"
-            except:
+            except Exception as e:
                 conn.rollback()
-                msg = "Error in insert operation"
+                msg = "Error in insert operation: " + str(e)
+                print(msg)
             finally:
                 conn.close()
                 return msg
@@ -297,14 +298,23 @@ def returnAddStaff():
 
         print("Adding staff member: " + username)
         if (verifyEmail(email)):
+            name = ""
+            if 'username' in session:
+                name = escape(session['username'])
+                if name == "":
+                    msg = "error not logged in?"
+                else:
+                    adminName = name
+            else:
+                msg = "error not logged in?"
             try:
                 conn = sql.connect(DATABASE)
                 cur = conn.cursor()
 
                 cur.execute("INSERT INTO tblStaff ('username', 'password', 'email',\
-                 'usertype', 'firstname', 'surname', 'organisation', 'verified')\
-                            VALUES (?,?,?,?,?,?,?,?)", (username, password, email,\
-                             usertype, firstName, surname, organisation, "False"))
+                 'usertype', 'firstname', 'surname', 'organisation', 'verified', 'adminName')\
+                            VALUES (?,?,?,?,?,?,?,?,?)", (username, password, email,\
+                             usertype, firstName, surname, organisation, "False", adminName))
                 conn.commit()
                 msg = "User {} successfully added".format(username)
                 print("Added staff member: " + username)
@@ -319,6 +329,7 @@ def returnAddStaff():
             except Exception as e:
                 conn.rollback()
                 msg = "Error in insert operation: " + str(e)
+                print(msg)
                 print("Failed to add staff member: " + username)
             finally:
                 conn.close()
