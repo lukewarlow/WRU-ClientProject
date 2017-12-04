@@ -441,12 +441,12 @@ def downloadDatabase():
                 dataTour = cur.fetchall()
                 dataEventString = []
                 dataTourString = []
-                    for item in dataEvent:
-                        dataEventString.append(item)
-                        return dataEventString
-                    for item in dataTour:
-                        dataTourString.append(item)
-                        return dataTourString
+                for item in dataEvent:
+                    dataEventString.append(item)
+                    return dataEventString
+                for item in dataTour:
+                    dataTourString.append(item)
+                    return dataTourString
             except:
                 print("Failed to connect to DB")
                 conn.close()
