@@ -20,7 +20,7 @@ verificationSigner = URLSafeTimedSerializer(b'\xb7\xa8j\xfc\x1d\xb2S\\\xd9/\xa6y
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'ico'])
 
 @app.route("/Home", methods=['GET'])
-def returnHome():
+def home():
     if request.method == 'GET':
         return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
 
@@ -33,7 +33,7 @@ def redirectHome():
 #http://flask.pocoo.org/snippets/50/ Accessed: 29/11/2017
 #https://pythonhosted.org/itsdangerous/ Accessed: 29/11/2017
 @app.route('/Staff/Verify/<payload>', methods=['GET'])
-def returnStaffVerify(payload):
+def staffVerifyGet(payload):
     if request.method == "GET":
         if checkIsLoggedIn() == False and checkIsVerified() == False:
             return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=False, payload=payload)
@@ -43,7 +43,7 @@ def returnStaffVerify(payload):
 
 
 @app.route('/Staff/Verify', methods=['POST'])
-def returnStaffVerifyPost():
+def staffVerifyPost():
     if request.method == "POST":
         if checkIsLoggedIn() == False and checkIsVerified() == False:
             payload = request.form.get('payload', default="Error")
@@ -104,7 +104,7 @@ def redirectVerify():
 
 # staff page
 @app.route('/Staff/Login', methods=['POST', 'GET'])
-def returnLogin():
+def login():
     if request.method == 'POST':
         username = request.form.get('username', default="Error").lower()
         password = request.form.get('password', default="Error")
@@ -156,7 +156,7 @@ def redirectLogin():
     return redirect("/Staff/Login")
 
 @app.route("/Staff/EventForm", methods = ['POST', 'GET'])
-def returnEventForm():
+def eventForm():
     if request.method == 'GET':
         now = datetime.datetime.now()
         return render_template('staff/event.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
@@ -206,7 +206,7 @@ def redirectEvent():
     return redirect("/Staff/EventForm")
 
 @app.route("/Staff/TournamentForm", methods = ['POST', 'GET'])
-def returnTourForm():
+def tournamenForm():
     if request.method == 'GET':
         #https://www.saltycrane.com/blog/2008/06/how-to-get-current-date-and-time-in/ Date Accessed: 29/11/2017
         now = datetime.datetime.now()
@@ -274,7 +274,7 @@ def redirectTournament():
     return redirect("/Staff/TournamentForm")
 
 @app.route("/Admin/AddStaff", methods=['POST', 'GET'])
-def returnAddStaff():
+def addStaff():
     if request.method == 'GET':
         if checkIsAdmin():
             return render_template('admin/addstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
@@ -387,7 +387,7 @@ def verifyEmail(email):
         return False;
 
 @app.route("/Admin/DeleteStaff", methods=['POST', 'GET'])
-def returnDeleteStaff():
+def deleteStaff():
     if request.method == 'GET':
         if checkIsAdmin():
             return render_template('admin/deletestaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
@@ -445,6 +445,42 @@ def getDetailsFromUsername(username):
 def redirectDeleteStaff():
     return redirect("/Admin/DeleteStaff")
 
+@app.route("/Staff/Search", methods = ['GET','POST'])
+def moduleSearch():
+    if request.method =='GET':
+        return render_template('staff/search.html')
+    if request.method =='POST':
+        try:
+            data = ""
+            data2 = ""
+
+            event = request.form.get('eventsearch')
+            tournament = request.form.get('tournamentsearch')
+
+            conn = sql.connect(DATABASE)
+            cur = conn.cursor()
+
+            if (event != None):
+                cur.execute("SELECT * FROM tblEvent WHERE eventName=? ;", [event])
+                data = cur.fetchall()
+
+            if (tournament != None):
+                cur.execute("SELECT * FROM tblTournament WHERE ageCategory=? ;", [tournament])
+                data2 = cur.fetchall()
+
+        except:
+            print("Failed to connect to DB")
+            conn.close()
+        finally:
+            conn.close()
+            return render_template('staff/search.html', data=data, data2=data2)
+
+@app.route("/Staff/search", methods = ['GET'])
+@app.route("/staff/Search", methods = ['GET'])
+@app.route("/staff/search", methods = ['GET'])
+def redirectStaffSearch():
+    return redirect("/Staff/Search")
+
 @app.route("/Logout", methods=['POST'])
 def logout():
     if request.method == "POST":
@@ -457,7 +493,6 @@ def logout():
 @app.route("/SW", methods = ['GET'])
 def serviceWorker():
     return app.send_static_file('sw.js')
-
 
 def checkIsLoggedIn():
     usertype = ""
@@ -509,36 +544,6 @@ def encrypt(data, salt=gensalt()):
 def make_session_permanent():
     session.permanent = True
 
-@app.route("/staff/Search", methods = ['GET','POST'])
-def moduleSearch():
-    if request.method =='GET':
-        return render_template('staff/search.html')
-    if request.method =='POST':
-        try:
-            data = ""
-            data2 = ""
-
-            event = request.form.get('eventsearch')
-            tournament = request.form.get('tournamentsearch')
-
-            conn = sql.connect(DATABASE)
-            cur = conn.cursor()
-
-            if (event != None):
-                cur.execute("SELECT * FROM tblEvent WHERE eventName=? ;", [event])
-                data = cur.fetchall()
-
-            if (tournament != None):
-                cur.execute("SELECT * FROM tblTournament WHERE ageCategory=? ;", [tournament])
-                data2 = cur.fetchall()
-
-        except:
-            print("Failed to connect to DB")
-            conn.close()
-        finally:
-            conn.close()
-            return render_template('staff/search.html', data=data, data2=data2)
-
 if __name__ == "__main__":
     app.run(debug=True)
-    # app.run(ssl_context='adhoc',debug=True)
+    # app.run(debug=True, ssl_context=('Certificates/cert.pem', 'Certificates/key.pem'))
