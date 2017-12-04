@@ -425,7 +425,10 @@ def deleteStaff():
 @app.route("/Admin/Download", methods=['GET'])
 def returnMenu():
     if request.method == 'GET':
-        return render_template('admin/download.html')
+        if checkIsAdmin():
+            return render_template('admin/download.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+        else:
+            return redirect("/Home")
 
 def getDetailsFromUsername(username):
     try:
