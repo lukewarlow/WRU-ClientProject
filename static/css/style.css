@@ -106,7 +106,8 @@ button
 button:disabled
 {
   background-color: grey;
-
+  color: black;
+}
 
 .navbar-container
 {
