@@ -123,7 +123,6 @@ def login():
                 session['usertype'] = check.split(":")[2]
                 session['verified'] = True
                 print(str(username) + " has logged in")
-                print(session)
                 return "successful"
             else:
                 return "unsuccessful please verify account through the link in email."
