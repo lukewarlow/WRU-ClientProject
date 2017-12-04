@@ -231,7 +231,7 @@ def tournamentForm():
         eventName = request.form.get('eventName', default="error")
         peopleNum = request.form.get('peopleNum', default="error")
         ageCategory = request.form.get('ageRange', default="error")
-        rugbyOffers = request.form.get('rugbyOffers', default="error")
+        rugbyOffer = request.form.get('rugbyOffer', default="error")
         genderRatio = request.form.get('genderRatio', default="error")
         eventExists = False
         try:
@@ -260,9 +260,9 @@ def tournamentForm():
                 conn = sql.connect(DATABASE)
                 cur = conn.cursor()
                 cur.execute("INSERT INTO tblTournament ('peopleNum',\
-                 'ageCategory', 'rugbyOffers', 'genderRatio', 'staffName', 'eventID')\
+                 'ageCategory', 'rugbyOffer', 'genderRatio', 'staffName', 'eventID')\
                             VALUES (?,?,?,?,?,?)",(peopleNum, ageCategory,\
-                             genderRatio, rugbyOffers, staffName, eventID))
+                             genderRatio, rugbyOffer, staffName, eventID))
                 conn.commit()
                 msg = "Record successfully added"
             except Exception as e:

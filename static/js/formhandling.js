@@ -206,6 +206,18 @@ function checkboxChecked(checkbox, id)
   else document.getElementById(id).style.display = "none";
 }
 
+function radioChecked(selector, id)
+{
+  if (selector.value == "other")
+  {
+    document.getElementById(id).style.display = "block";
+  }
+  else
+  {
+    document.getElementById(id).style.display = "none";
+  }
+}
+
 function validateTournamentForm()
 {
   var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
@@ -234,16 +246,15 @@ function addTournament()
   var ageRange = document.forms["tournamentForm"]["ageRange"].value;
   var genderRatio = document.forms["tournamentForm"]["genderRatio"].value;
 
-  var rugbyOffers = []
   var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
 
   for (var i = 0; i < checkboxes.length; i++)
   {
-    if (checkboxes[i].value == "Other") rugbyOffers.push(document.getElementById("otherbox").value)
-    else rugbyOffers.push(checkboxes[i].value)
+    if (checkboxes[i].value == "Other") rugbyOffer = document.getElementById("otherbox").value;
+    else rugbyOffer = checkboxes[i].value;
   }
 
-  params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&rugbyOffers='+rugbyOffers+'&genderRatio='+genderRatio;
+  params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&rugbyOffer='+rugbyOffer+'&genderRatio='+genderRatio;
   ajaxData("POST", "/Staff/TournamentForm", params);
   return false;
 }

@@ -31,18 +31,17 @@
     </select>
     <br>
     <div>Rugby offer:</div>
-    <div class="italics">Check all that apply</div>
     <section name="rugbyOffers">
-      <input name = "rugbyOffer" type="checkbox" value="standard">15s/12s/10s<br>
-      <input name = "rugbyOffer" type="checkbox" value="sevens">Sevens<br>
-      <input name = "rugbyOffer" type="checkbox" value="touch">Touch<br>
-      <input name = "rugbyOffer" type="checkbox" value="tag">Tag<br>
-      <input name = "rugbyOffer" type="checkbox" value="beach">Beach<br>
-      <input name = "rugbyOffer" type="checkbox" value="streetRugby">Street rugby<br>
-      <input name = "rugbyOffer" type="checkbox" value="mixedAbility">Mixed ability<br>
-      <input name = "rugbyOffer" type="checkbox" value="multiSport">Multi-sport<br>
-      <input name = "rugbyOffer" type="checkbox" value="Disability">Disability<br>
-      <input name = "rugbyOffer" type="checkbox" value="other" onchange="checkboxChecked(this, 'otherbox')">Other
+      <input name = "rugbyOffer" type="radio" value="standard" onchange="radioChecked(this, 'otherbox')" checked>15s/12s/10s<br>
+      <input name = "rugbyOffer" type="radio" value="sevens" onchange="radioChecked(this, 'otherbox')">Sevens<br>
+      <input name = "rugbyOffer" type="radio" value="touch" onchange="radioChecked(this, 'otherbox')">Touch<br>
+      <input name = "rugbyOffer" type="radio" value="tag" onchange="radioChecked(this, 'otherbox')">Tag<br>
+      <input name = "rugbyOffer" type="radio" value="beach" onchange="radioChecked(this, 'otherbox')">Beach<br>
+      <input name = "rugbyOffer" type="radio" value="streetRugby" onchange="radioChecked(this, 'otherbox')">Street rugby<br>
+      <input name = "rugbyOffer" type="radio" value="mixedAbility" onchange="radioChecked(this, 'otherbox')">Mixed ability<br>
+      <input name = "rugbyOffer" type="radio" value="multiSport" onchange="radioChecked(this, 'otherbox')">Multi-sport<br>
+      <input name = "rugbyOffer" type="radio" value="disability" onchange="radioChecked(this, 'otherbox')">Disability<br>
+      <input name = "rugbyOffer" type="radio" value="other" onchange="radioChecked(this, 'otherbox')">Other<br>
       <input name = "rugbyOffer" type="text" id = "otherbox">
     </section>
     <br>
