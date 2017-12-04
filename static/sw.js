@@ -1,12 +1,11 @@
 importScripts('/static/js/cache-polyfill.js');
 
 self.addEventListener('install', function(e) {
-  e.waitUntil(caches.open('test').then(function(cache)
+  e.waitUntil(caches.open('WRU').then(function(cache)
   {
     return cache.addAll([
       '/Home',
       '/Staff/Login',
-      '/Logout',
       '/Staff/EventForm',
       '/Staff/TournamentForm',
       '/static/css/style.css',
