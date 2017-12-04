@@ -12,12 +12,13 @@
     <h3> Venue information: </h3>
     <div>Event name:<div>
     <input type = "text" name = "eventName" placeholder="optional">
-    <div>Event date:</div>
-    <input type="date" value="{{ date }}" id="datePicker" name="eventDate" required>
+    <div>Event (start) date:</div>
+    <input type="date" value="{{ date }}" id="datePicker" name="eventDate">
     <br>
-    <div>Location postcode:</div>
+    <div>Location postcode:
     <!--http://html5pattern.com/Postal_Codes(Retrieved 17/11/17)-->
-    <input type="text" name="postcode" pattern = "[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}" required>
+    <input type="text" name="postcode">
+    </div>
     <h3> Tournament information </h3>
     <div>Number of people in attendance:</div>
     <input type="number" min="0" value="0" name="peopleNum" required>
@@ -41,8 +42,8 @@
       <input name = "rugbyOffer" type="radio" value="mixedAbility" onchange="radioChecked(this, 'otherbox')">Mixed ability<br>
       <input name = "rugbyOffer" type="radio" value="multiSport" onchange="radioChecked(this, 'otherbox')">Multi-sport<br>
       <input name = "rugbyOffer" type="radio" value="disability" onchange="radioChecked(this, 'otherbox')">Disability<br>
-      <input name = "rugbyOffer" type="radio" value="other" onchange="radioChecked(this, 'otherbox')">Other<br>
-      <input name = "rugbyOffer" type="text" id = "otherbox">
+      <input name = "rugbyOffer" id="otherRadio" type="radio" value="other" onchange="radioChecked(this, 'otherbox')">Other<br>
+      <input name = "rugbyOffer" type="text" id="otherbox">
     </section>
     <br>
     <label for="genderRatio">Gender ratio</label>
@@ -87,6 +88,7 @@
     <!-- The form-data will be reset to default values if pressed -->
     <button type="reset">Reset form</button> <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_reset (Retrieved 17/11/17)-->
   </form>
+  <br>
   <span id='msg'></span>
   <script type="text/javascript" src="../static/js/nouislider.min.js"></script>
 </section>

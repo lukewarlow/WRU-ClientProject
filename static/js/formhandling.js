@@ -155,7 +155,7 @@ function addEvent()
   {
     var eventEndDate = document.forms["eventForm"]["eventEndDate"].value;
   }
-  catch
+  catch (TypeError)
   {
     var eventEndDate = "";
   }
@@ -233,13 +233,7 @@ function radioChecked(selector, id)
 
 function validateTournamentForm()
 {
-  var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
-  if (checkboxes.length == 0)
-  {
-    alert("You need to select at least one rugby offer!");
-    return false;
-  }
-  else return addTournament();
+  return addTournament();
 }
 
 function addTournament()
@@ -253,19 +247,48 @@ function addTournament()
     var eventName = "";
   }
 
-  var eventDate = document.forms["tournamentForm"]["eventDate"].value;
-  var postcode = document.forms["tournamentForm"]["postcode"].value;
+  try
+  {
+    var eventDate = document.forms["tournamentForm"]["eventDate"].value;
+    console.log(eventDate);
+  }
+  catch (TypeError)
+  {
+    var eventDate = "";
+  }
+
+  try
+  {
+    var postcode = document.forms["tournamentForm"]["postcode"].value;
+    if (!postcode.match("^[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}$"))
+    {
+      document.getElementById("msg").innerHTML = "Must enter valid postcode.";
+      return false;
+    }
+  }
+  catch (TypeError)
+  {
+    var postcode = "";
+  }
+
+  if ((eventName == "" && eventDate == "") || (eventName == "" && postcode == "") || (eventDate == "" && postcode == ""))
+  {
+    document.getElementById("msg").innerHTML = "At least 2 out 3 bits of event information must be provided!";
+    return false;
+  }
+
   var peopleNum = document.forms["tournamentForm"]["peopleNum"].value;
   var ageRange = document.forms["tournamentForm"]["ageRange"].value;
   var genderRatio = document.forms["tournamentForm"]["genderRatio"].value;
-
-  var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
 
   for (var i = 0; i < checkboxes.length; i++)
   {
     if (checkboxes[i].value == "Other") rugbyOffer = document.getElementById("otherbox").value;
     else rugbyOffer = checkboxes[i].value;
   }
+
+  if (document.getElementById("otherRadio").checked) rugbyOffer = document.getElementById("otherbox").value;
+  else rugbyOffer = document.querySelectorAll('input[type=radio]:checked').value;
 
   params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&rugbyOffer='+rugbyOffer+'&genderRatio='+genderRatio;
   ajaxData("POST", "/Staff/TournamentForm", params);
