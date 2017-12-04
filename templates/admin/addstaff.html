@@ -29,5 +29,28 @@
   <span id='msg'></span>
 </section>
 
+<script>
+var checkPassword = function() {
+  var matching = false;
 
+  if (document.getElementById('newpassword').value ==
+    document.getElementById('checknewpassword').value) {
+    document.getElementById('msg').style.color = 'green';
+    document.getElementById('msg').innerHTML = 'matching';
+    matching = true;
+  } else {
+    document.getElementById('msg').style.color = 'red';
+    document.getElementById('msg').innerHTML = 'not matching';
+    matching = false;
+  }
+
+  if (matching)
+  {
+    document.getElementById("verifybtn").disabled = false;
+  } else {
+    document.getElementById("verifybtn").disabled = true;
+  }
+
+}
+</script>
 {% endblock %}
