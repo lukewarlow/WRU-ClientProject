@@ -477,31 +477,31 @@ def moduleSearch():
             return render_template('admin/search.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
-        if request.method =='POST':
-            try:
-                data = ""
-                data2 = ""
+    if request.method =='POST':
+        try:
+            data = ""
+            data2 = ""
 
-                event = request.form.get('eventsearch')
-                tournament = request.form.get('tournamentsearch')
+            event = request.form.get('eventsearch')
+            tournament = request.form.get('tournamentsearch')
 
-                conn = sql.connect(DATABASE)
-                cur = conn.cursor()
+            conn = sql.connect(DATABASE)
+            cur = conn.cursor()
 
-                if (event != None):
-                    cur.execute("SELECT * FROM tblEvent WHERE eventName=? ;", [event])
-                    data = cur.fetchall()
+            if (event != None):
+                cur.execute("SELECT * FROM tblEvent WHERE eventName=? ;", [event])
+                data = cur.fetchall()
 
-                if (tournament != None):
-                    cur.execute("SELECT * FROM tblTournament WHERE ageCategory=? ;", [tournament])
-                    data2 = cur.fetchall()
+            if (tournament != None):
+                cur.execute("SELECT * FROM tblTournament WHERE ageCategory=? ;", [tournament])
+                data2 = cur.fetchall()
 
-            except:
-                print("Failed to connect to DB")
-                conn.close()
-            finally:
-                conn.close()
-                return render_template('admin/search.html', data=data, data2=data2)
+        except:
+            print("Failed to connect to DB")
+            conn.close()
+        finally:
+            conn.close()
+            return render_template('admin/search.html', data=data, data2=data2)
 
 @app.route("/Admin/search", methods = ['GET'])
 @app.route("/Admin/Search", methods = ['GET'])
