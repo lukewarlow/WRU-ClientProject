@@ -206,7 +206,7 @@ def redirectEvent():
     return redirect("/Staff/EventForm")
 
 @app.route("/Staff/TournamentForm", methods = ['POST', 'GET'])
-def tournamenForm():
+def tournamentForm():
     if request.method == 'GET':
         #https://www.saltycrane.com/blog/2008/06/how-to-get-current-date-and-time-in/ Date Accessed: 29/11/2017
         now = datetime.datetime.now()
@@ -423,7 +423,7 @@ def deleteStaff():
         return msg
 
 @app.route("/Admin/Download", methods=['GET'])
-def returnMenu():
+def downloadDatabase():
     if request.method == 'GET':
         if checkIsAdmin():
             return render_template('admin/download.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
@@ -439,13 +439,20 @@ def returnMenu():
                 dataEvent = cur.fetchall()
                 cur.execute("SELECT * FROM tblTournament;")
                 dataTour = cur.fetchall()
+                dataEventString = []
+                dataTourString = []
+                    for item in dataEvent:
+                        dataEventString.append(item)
+                        return dataEventString
+                    for item in dataTour:
+                        dataTourString.append(item)
+                        return dataTourString
             except:
                 print("Failed to connect to DB")
                 conn.close()
             finally:
                 conn.close()
-                return render_template('admin/search.html', dataEvent=dataEvent, dataTour=dataTour)
-
+                return render_template('admin/search.html', dataEventString=dataEventString, dataTourString=dataTourString)
 
 def getDetailsFromUsername(username):
     try:
