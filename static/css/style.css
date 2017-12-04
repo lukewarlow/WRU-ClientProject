@@ -28,7 +28,7 @@
   margin-top: 5px;
 }
 
-#otherbox, #otherbox2, #otherbox3, #collabBox, #hubBox
+#otherbox, #otherbox2, #otherbox3, #collabBox, #hubBox, #hubSelect
 {
   display: none;
 }

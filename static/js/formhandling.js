@@ -163,11 +163,14 @@ function addEvent()
   for (var i = 0; i < checkboxes.length; i++)
   {
     if (checkboxes[i].value == "Other") activityTypes.push(document.getElementById("otherbox").value);
-    else if (checkboxes[i].value == "hubActivity") activityTypes.push(document.getElementById("hubBox").value);
+    else if (checkboxes[i].value == "hubActivity")
+    {
+      if (document.getElementById("hubSelect").value == "other") activityTypes.push(document.getElementById("hubBox").value);
+      else activityTypes.push(document.getElementById("hubSelect").value);
+    }
     else if (checkboxes[i].value == "collaborativeDelivery") activityTypes.push(document.getElementById("collabBox").value);
     else activityTypes.push(checkboxes[i].value);
   }
-
   params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
   ajaxData("POST", "/Staff/EventForm", params);
   return false;
@@ -193,7 +196,7 @@ function logout()
 
 function otherSelected(selectbox, idOfTextBox)
 {
-    if (selectbox.value == "Other") document.getElementById(idOfTextBox).style.display = "block";
+    if (selectbox.value == "other") document.getElementById(idOfTextBox).style.display = "block";
     else document.getElementById(idOfTextBox).style.display = "none";
 }
 

@@ -39,15 +39,22 @@
       <option value="Disability">Disability</option>
       <option value="Deprivation">Deprivation</option>
       <option value="Female">Female</option>
-      <option value="Other">Other</option>
+      <option value="other">Other</option>
       <input type="text" id = "otherbox2"></input>
     </select>
     <br>
     <div>Activity type</div>
     <div class="italics">Select all that apply</div>
     <section value="activity" name="activityTypes">
-      <input name = "activityType" type="checkbox" value="hubActivity" onchange="checkboxChecked(this,'hubBox')">Hub activity (school/club/college/university/other...)<br>
-      <input type="text" id = "hubBox" value=""></input>
+      <input name = "activityType" type="checkbox" value="hubActivity" onchange="checkboxChecked(this,'hubSelect')">Hub activity (school/club/college/university/other...)<br>
+      <select id="hubSelect" value="hubType" onchange="otherSelected(this, 'hubBox')" name="hubType">
+        <option value="School">School</option>
+        <option value="Club">Club</option>
+        <option value="College">College</option>
+        <option value="University">University</option>
+        <option value="other">Other</option>
+        <input type="text" id="hubBox" value=""></input>
+      </select>
       <input name = "activityType" type="checkbox" value="communityFestival">Community festival<br>
       <input name = "activityType" type="checkbox" value="competition">Competition<br>
       <input name = "activityType" type="checkbox" value="communityProv">Community provision<br>
