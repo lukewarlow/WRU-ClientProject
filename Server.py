@@ -424,7 +424,7 @@ def deleteStaff():
         return msg
 
 @app.route("/Admin/Download", methods=['GET'])
-def downloadDatabase():
+def xlsxDatabase():
     if request.method == 'GET':
         if checkIsAdmin():
             return render_template('admin/download.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
@@ -451,6 +451,9 @@ def downloadDatabase():
                 #Aesthetic
                 bold = workbook.add_format({'bold': 1})
                 worksheet.set_column(1, 1, 15)
+
+                # Adjust the column width.
+                worksheet.set_column('B:B', 15)
 
                 #Event form
                 worksheet.write('A1', 'ID', bold)
