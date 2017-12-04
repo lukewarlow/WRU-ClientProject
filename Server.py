@@ -450,10 +450,10 @@ def getDetailsFromUsername(username):
 def redirectDeleteStaff():
     return redirect("/Admin/DeleteStaff")
 
-@app.route("/Staff/Search", methods = ['GET','POST'])
+@app.route("/Admin/Search", methods = ['GET','POST'])
 def moduleSearch():
     if request.method =='GET':
-        return render_template('staff/search.html')
+        return render_template('admin/search.html')
     if request.method =='POST':
         try:
             data = ""
@@ -478,13 +478,13 @@ def moduleSearch():
             conn.close()
         finally:
             conn.close()
-            return render_template('staff/search.html', data=data, data2=data2)
+            return render_template('admin/search.html', data=data, data2=data2)
 
-@app.route("/Staff/search", methods = ['GET'])
-@app.route("/staff/Search", methods = ['GET'])
-@app.route("/staff/search", methods = ['GET'])
+@app.route("/Admin/search", methods = ['GET'])
+@app.route("/Admin/Search", methods = ['GET'])
+@app.route("/Admin/search", methods = ['GET'])
 def redirectStaffSearch():
-    return redirect("/Staff/Search")
+    return redirect("/Admin/Search")
 
 @app.route("/Logout", methods=['POST'])
 def logout():
