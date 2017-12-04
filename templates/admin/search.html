@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class = "header-item text">Search form</div>
+{%endblock%}
+
+{% block main %}
+<section class = "main-item searchForm">
+<h1>Event Data</h1>
+<form id='myForm' action='/Staff/Search' method = 'post'>
+  Event:<input type = "text" name = "eventsearch"><br>
+  <button type = "submit"> Find Event </button>
+</form>
+
+<h1>Tournament Data</h1>
+<form id='myForm' action='/Staff/Search' method = 'post'>
+  Event:<input type = "text" name = "tournamentsearch"><br>
+  <button type = "submit"> Find Tournament </button>
+</form>
+
+{% for row in data %}
+<table border = 1>
+<thead>
+   <td>ID</td>
+   <td>Event Name</td>
+   <td>Event date</td>
+   <td>Postcode</td>
+   <td>Region</td>
+   <td>Inclusivity</td>
+   <td>Activity Type</td>
+</thead>
+
+
+
+   <tr>
+     <td>{{row[0]}}</td>
+     <td>{{row[1]}}</td>
+     <td>{{row[2]}}</td>
+     <td>{{row[3]}}</td>
+     <td>{{row[4]}}</td>
+     <td>{{row[5]}}</td>
+     <td>{{row[6]}}</td>
+   </tr>
+{% endfor %}
+</table>
+
+{% for row in data2 %}
+<table border = 1>
+<thead>
+   <td>ID</td>
+   <td>Total number of people</td>
+   <td>Age Category</td>
+   <td>Gender Ratio</td>
+   <td>Rugby Offers</td>
+   <td>Event ID</td>
+
+</thead>
+
+
+
+   <tr>
+     <td>{{row[0]}}</td>
+     <td>{{row[1]}}</td>
+     <td>{{row[2]}}</td>
+     <td>{{row[3]}}</td>
+     <td>{{row[4]}}</td>
+     <td>{{row[5]}}</td>
+
+   </tr>
+{% endfor %}
+</table>
+
+
+{%endblock%}
