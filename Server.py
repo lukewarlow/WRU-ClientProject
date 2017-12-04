@@ -596,12 +596,11 @@ def redirectStaffSearch():
 
 @app.route("/Logout", methods=['POST'])
 def logout():
-    if request.method == "POST":
-        session['username'] = ""
-        session['password'] = ""
-        session['usertype'] = ""
-        session['verified'] = ""
-        return "successful"
+    session['username'] = ""
+    session['password'] = ""
+    session['usertype'] = ""
+    session['verified'] = ""
+    return "successful"
 
 @app.route("/SW", methods = ['GET'])
 def serviceWorker():
