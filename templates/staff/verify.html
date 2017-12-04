@@ -28,6 +28,19 @@
   <span id='txt' hidden>{{ payload }}</span>
 </section>
 
+<script>
+var checkPassword = function() {
+  var matching = false;
+
+  if (document.getElementById('newpassword').value ==
+    document.getElementById('checknewpassword').value) {
+    document.getElementById('msg').style.color = 'green';
+    document.getElementById('msg').innerHTML = 'matching';
+    matching = true;
+  } else {
+    document.getElementById('msg').style.color = 'red';
+    document.getElementById('msg').innerHTML = 'not matching';
+    matching = false;
 
 
 {% endblock %}
