@@ -14,7 +14,7 @@
 
 <h1>Tournament Data</h1>
 <form id='myForm' action='/Admin/Search' method = 'post'>
-  Event:<input type = "text" name = "tournamentsearch"><br>
+  Tournament category:<input type = "text" name = "tournamentsearch"><br>
   <button type = "submit"> Find Tournament </button>
 </form>
 
@@ -29,8 +29,6 @@
    <td>Inclusivity</td>
    <td>Activity Type</td>
 </thead>
-
-
 
    <tr>
      <td>{{row[0]}}</td>
@@ -56,8 +54,6 @@
 
 </thead>
 
-
-
    <tr>
      <td>{{row[0]}}</td>
      <td>{{row[1]}}</td>
@@ -69,6 +65,5 @@
    </tr>
 {% endfor %}
 </table>
-
 
 {%endblock%}
