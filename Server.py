@@ -9,6 +9,7 @@ import sys
 import datetime
 import smtplib
 from itsdangerous import URLSafeTimedSerializer
+import xlsxwriter
 
 app = Flask(__name__)
 DATABASE = "database.db"
@@ -439,14 +440,44 @@ def downloadDatabase():
                 dataEvent = cur.fetchall()
                 cur.execute("SELECT * FROM tblTournament;")
                 dataTour = cur.fetchall()
-                dataEventString = []
-                dataTourString = []
-                for item in dataEvent:
-                    dataEventString.append(item)
-                    return dataEventString
-                for item in dataTour:
-                    dataTourString.append(item)
-                    return dataTourString
+
+                #Documentation - http://xlsxwriter.readthedocs.io/
+                workbook = xlsxwriter.Workbook('Events.xlsx')
+                worksheet = workbook.add_worksheet()
+
+                #Formatting
+                date_format = workbook.add_format({'num_format': 'mmmm d yyyy'})
+
+                #Aesthetic
+                bold = workbook.add_format({'bold': 1})
+                worksheet.set_column(1, 1, 15)
+
+                #Event form
+                worksheet.write('A1', 'ID', bold)
+                worksheet.write('B1', 'Event name', bold)
+                worksheet.write('C1', 'Event date', bold)
+                worksheet.write('D1', 'Postcode', bold)
+                worksheet.write('E1', 'Event region', bold)
+                worksheet.write('F1', 'Inclusivity', bold)
+                worksheet.write('G1', 'Activity type', bold)
+                worksheet.write('H1', 'Comments', bold)
+                worksheet.write('I1', 'Staff name', bold)
+
+                row = 1
+                col = 0
+
+                for item in (dataEvent):
+                    worksheet.write_string (row, col, item)
+                    worksheet.write_string (row, col + 1, item)
+                    worksheet.write_datetime (row, col + 2, date, date_format)
+                    worksheet.write_string (row, col + 3, item)
+                    worksheet.write_string (row, col + 4, item)
+                    worksheet.write_string (row, col + 5, item)
+                    worksheet.write_string (row, col + 6, item)
+                    worksheet.write_string (row, col + 7, item)
+                    worksheet.write_string (row, col + 8, item)
+
+                workbook.close()
             except:
                 print("Failed to connect to DB")
                 conn.close()
