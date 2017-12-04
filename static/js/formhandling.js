@@ -157,13 +157,15 @@ function addEvent()
   if (inclusivity == "Other") inclusivity = document.getElementById("otherbox2").value;
   var comments = document.forms["eventForm"]["comments"].value;
 
-  var activityTypes = []
-  var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+  var activityTypes = [];
+  var checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
 
   for (var i = 0; i < checkboxes.length; i++)
   {
-    if (checkboxes[i].value == "Other") activityTypes.push(document.getElementById("otherbox").value)
-    else activityTypes.push(checkboxes[i].value)
+    if (checkboxes[i].value == "Other") activityTypes.push(document.getElementById("otherbox").value);
+    else if (checkboxes[i].value == "hubActivity") activityTypes.push(document.getElementById("hubBox").value);
+    else if (checkboxes[i].value == "collaborativeDelivery") activityTypes.push(document.getElementById("collabBox").value);
+    else activityTypes.push(checkboxes[i].value);
   }
 
   params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
@@ -195,10 +197,10 @@ function otherSelected(selectbox, idOfTextBox)
     else document.getElementById(idOfTextBox).style.display = "none";
 }
 
-function otherChecked(checkbox)
+function checkboxChecked(checkbox, id)
 {
-  if(checkbox.checked) document.getElementById("otherbox").style.display = "block";
-  else document.getElementById("otherbox").style.display = "none";
+  if(checkbox.checked) document.getElementById(id).style.display = "block";
+  else document.getElementById(id).style.display = "none";
 }
 
 function validateTournamentForm()

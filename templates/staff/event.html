@@ -46,15 +46,17 @@
     <div>Activity type</div>
     <div class="italics">Select all that apply</div>
     <section value="activity" name="activityTypes">
-      <input name = "activityType" type="checkbox" value="hubActivity">Hub activity<br>
+      <input name = "activityType" type="checkbox" value="hubActivity" onchange="checkboxChecked(this,'hubBox')">Hub activity (school/club/college/university/other...)<br>
+      <input type="text" id = "hubBox" value=""></input>
       <input name = "activityType" type="checkbox" value="communityFestival">Community festival<br>
       <input name = "activityType" type="checkbox" value="competition">Competition<br>
       <input name = "activityType" type="checkbox" value="communityProv">Community provision<br>
       <input name = "activityType" type="checkbox" value="womenAndGirls">Women and girls cluster<br>
       <input name = "activityType" type="checkbox" value="regionalRugbyCamps">Regional rugby camps<br>
       <input name = "activityType" type="checkbox" value="exilesCamps">Exiles camps<br>
-      <input name = "activityType" type="checkbox" value="collaborativeDelivery">Collaborative delivery<br>
-      <input name = "activityType" type="checkbox" value="other" onchange="otherChecked(this)">Other
+      <input name = "activityType" type="checkbox" value="collaborativeDelivery" onchange="checkboxChecked(this,'collabBox')">Collaborative delivery (Please specify partner/s...)<br>
+      <input type="text" id = "collabBox" value=""></input>
+      <input name = "activityType" type="checkbox" value="other" onchange="checkboxChecked(this,'otherbox')">Other
       <input type="text" id = "otherbox" value=""></input>
     </section>
     <br>
