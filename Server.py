@@ -238,8 +238,12 @@ def tournamentForm():
         try:
             conn = sql.connect(DATABASE)
             cur = conn.cursor()
-            cur.execute("SELECT ID FROM tblEvent WHERE eventDate=? AND postcode=? ;", [eventDate, postcode])
-            # cur.execute("SELECT ID FROM tblEvent WHERE (eventDate=? AND postcode=?) OR (eventName=? AND eventDate=?);", [eventDate, postcode])
+            if eventName is "":
+                cur.execute("SELECT ID FROM tblEvent WHERE eventStartDate=? AND postcode=?;", [eventStartDate, postcode])
+            elif postcode is "":
+                cur.execute("SELECT ID FROM tblEvent WHERE eventName=? AND eventStartDate=?;", [eventName, eventStartDate])
+            else:
+                cur.execute("SELECT ID FROM tblEvent WHERE eventName=? AND eventStartDate=? AND postcode=?;", [eventName, eventStartDate, postcode])
             data = cur.fetchone()
             if data:
                 eventID = data[0]
