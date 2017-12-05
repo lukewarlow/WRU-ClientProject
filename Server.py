@@ -591,7 +591,12 @@ def xlsxDatabase():
 
                 # Set the columns widths.
                 worksheetEvent.set_column('B:J', 15)
-                worksheetTour.set_column('B:J', 15)
+                worksheetTour.set_column('B:H', 19)
+
+                # Aesthetic
+                worksheet1.set_tab_color('red')
+                worksheet2.set_tab_color('green')
+                bold = workbook.add_format({'bold': True})
 
                 #Headings
                 title = "Event form information"
@@ -611,7 +616,7 @@ def xlsxDatabase():
                                                            {'header': 'Comments'},
                                                            {'header': 'Staff name'},
                                                            ]})
-                #Event form table titles
+                #Tournament form table titles
                 worksheetTour.add_table('B2:H9', {'dataTour': dataTour,
                                                'columns': [{'header': 'ID'},
                                                            {'header': 'Number of people'},
@@ -621,7 +626,6 @@ def xlsxDatabase():
                                                            {'header': 'Staff name'},
                                                            {'header': 'Event ID'},
                                                            ]})
-
                 workbook.close()
             except:
                 print("Failed to connect to DB")
