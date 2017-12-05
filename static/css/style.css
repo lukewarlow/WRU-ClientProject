@@ -51,11 +51,16 @@ a:visited
   color: white;
   text-decoration: none;
   cursor: pointer;
+  font-size: 1.25rem;
 }
 
 a:hover
 {
   text-decoration: underline;
+}
+#logout
+{
+  margin-right: 5px;
 }
 
 .header-container
@@ -277,9 +282,11 @@ select
 {
   html
   {
-    font-size: 14px;
+    font-size: 10px;
   }
-
+  .navbar {
+    font-size: 1rem;
+}
   .main-item.loginform
   {
       width: 100%;
