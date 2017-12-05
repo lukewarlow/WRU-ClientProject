@@ -161,7 +161,7 @@ function login()
 
 function redirect(location)
 {
-  window.location.href = "/Home";
+  window.location.href = location;
 }
 
 function validateEventForm()
