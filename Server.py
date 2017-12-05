@@ -582,43 +582,45 @@ def xlsxDatabase():
                 dataTour = cur.fetchall()
 
                 #Documentation - http://xlsxwriter.readthedocs.io/
-                workbook = xlsxwriter.Workbook('Events.xlsx')
-                worksheet = workbook.add_worksheet()
+                workbook = xlsxwriter.Workbook('FormInformation.xlsx')
+                worksheetEvent = workbook.add_worksheet()
+                worksheetTour = workbook.add_worksheet()
 
                 #Formatting
                 date_format = workbook.add_format({'num_format': 'mmmm d yyyy'})
 
-                #Aesthetic
-                bold = workbook.add_format({'bold': 1})
-                worksheet.set_column(1, 1, 15)
+                # Set the columns widths.
+                worksheetEvent.set_column('B:J', 15)
+                worksheetTour.set_column('B:J', 15)
 
-                # Adjust the column width.
-                worksheet.set_column('B:B', 15)
+                #Headings
+                title = "Event form information"
+                worksheetEvent.write('B1', title, bold)
+                title2 = "Tournament form information"
+                worksheetTour.write('B1', title2, bold)
 
-                #Event form
-                worksheet.write('A1', 'ID', bold)
-                worksheet.write('B1', 'Event name', bold)
-                worksheet.write('C1', 'Event date', bold)
-                worksheet.write('D1', 'Postcode', bold)
-                worksheet.write('E1', 'Event region', bold)
-                worksheet.write('F1', 'Inclusivity', bold)
-                worksheet.write('G1', 'Activity type', bold)
-                worksheet.write('H1', 'Comments', bold)
-                worksheet.write('I1', 'Staff name', bold)
-
-                row = 1
-                col = 0
-
-                for item in (dataEvent):
-                    worksheet.write_string (row, col, item)
-                    worksheet.write_string (row, col + 1, item)
-                    worksheet.write_datetime (row, col + 2, date, date_format)
-                    worksheet.write_string (row, col + 3, item)
-                    worksheet.write_string (row, col + 4, item)
-                    worksheet.write_string (row, col + 5, item)
-                    worksheet.write_string (row, col + 6, item)
-                    worksheet.write_string (row, col + 7, item)
-                    worksheet.write_string (row, col + 8, item)
+                #Event form table titles
+                worksheetEvent.add_table('B2:J11', {'dataEvent': dataEvent,
+                                               'columns': [{'header': 'ID'},
+                                                           {'header': 'Event name'},
+                                                           {'header': 'Event date'},
+                                                           {'header': 'Postcode'},
+                                                           {'header': 'Event region'},
+                                                           {'header': 'Inclusivity'},
+                                                           {'header': 'Activity type'},
+                                                           {'header': 'Comments'},
+                                                           {'header': 'Staff name'},
+                                                           ]})
+                #Event form table titles
+                worksheetTour.add_table('B2:H9', {'dataTour': dataTour,
+                                               'columns': [{'header': 'ID'},
+                                                           {'header': 'Number of people'},
+                                                           {'header': 'Age category'},
+                                                           {'header': 'Gender ratio'},
+                                                           {'header': 'Rugby offer'},
+                                                           {'header': 'Staff name'},
+                                                           {'header': 'Event ID'},
+                                                           ]})
 
                 workbook.close()
             except:
