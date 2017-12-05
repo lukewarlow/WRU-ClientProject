@@ -241,6 +241,13 @@ def staffAccount():
         else:
             return redirect("/Home")
 
+@app.route("/Staff/LoginIssues", methods=['GET', 'POST'])
+def loginIssues():
+    if request.method == 'GET':
+        return render_template('staff/loginissues.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
+    if request.method == 'POST':
+        pass
+
 @app.route("/Staff/EventForm", methods = ['POST', 'GET'])
 def eventForm():
     if request.method == 'GET':

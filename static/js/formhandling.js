@@ -31,6 +31,11 @@ function verifyForm()
   return false;
 }
 
+function troubleLogIn()
+{
+  redirect("/Staff/LoginIssues");
+}
+
 function validatePassword(form, id)
 {
   var password = document.forms[form][id].value;
