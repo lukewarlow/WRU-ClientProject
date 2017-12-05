@@ -7,9 +7,9 @@
 {% block main %}
 <section class = "main-item">
   <h1> What login issue are you having? </h1>
-  <form id='accountChange' onsubmit="return validateLoginIssues()">
+  <form id='loginIssue' onsubmit="return validateLoginIssues()">
     <b>Select the issue:</b><br>
-    <select value="issue" onchange="issueSelected(this)" name="accountAction">
+    <select value="issue" onchange="issueSelected(this)" name="loginIssue">
       <option value="forgotUsername">Forgot Username</option>
       <option value="forgotPassword">Forgot Password</option>
     </select>
@@ -18,14 +18,6 @@
       <b>Enter email address for a username reminder</b>
       <input type='email' placeholder='Enter your email address here' name='email' required>
     </span>
-
-    <!-- <span id="infoRecovery">
-      <b>Enter username</b>
-      <input type='text' placeholder='Enter your username here' name='username' required>
-      <b>Enter registered email address</b>
-      <input type='email' placeholder='Enter your email address here' name='email' required>
-    </span> -->
-    <br>
     <br>
     <button type = "submit">Submit</button>
   </form>

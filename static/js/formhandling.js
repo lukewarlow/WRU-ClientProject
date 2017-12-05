@@ -94,6 +94,46 @@ function validateAccountChanges()
   return false;
 }
 
+function validateLoginIssues()
+{
+  params = "";
+  try
+  {
+    var email = document.forms["loginIssue"]["email"].value;
+    params = "email="+email;
+  }
+  catch (TypeError)
+  {
+    try
+    {
+      var username = document.forms["loginIssue"]["username"].value;
+      var email = document.forms["loginIssue"]["email"].value;
+      params = "username="+username+"&email="+email;
+    }
+    catch (TypeError)
+    {
+      document.getElementById("msg").innerHTML = "Error";
+      return false;
+    }
+  }
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", '/Staff/LoginIssues', true); // true is asynchronous
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.onload = function()
+  {
+    if (xhttp.readyState === 4 && xhttp.status === 200)
+    {
+      console.log("Issue fix " + xhttp.responseText);
+      document.getElementById("msg").innerHTML = "Issue fix " + xhttp.responseText;
+      if (xhttp.responseText == "successful") setTimeout(redirect, 700, "/Home")
+    }
+    else console.error(xhttp.statusText);
+  };
+  xhttp.send(params);
+  return false;
+}
+
+
 function deleteStaff()
 {
   var username = document.forms["deletestaff"]["username"].value;
@@ -274,6 +314,22 @@ function actionSelected(selectbox)
       <input type='email' id="newemailConfirm" placeholder='Re-Enter your new email here' name='newemailConfirm' onkeyup="checkEmail()" required>`;
     }
 }
+
+function issueSelected(selectbox)
+{
+    if (selectbox.value == "forgotUsername")
+    {
+      document.getElementById("infoRecovery").innerHTML = `
+      <b>Enter email address for a username reminder</b>
+      <input type='email' placeholder='Enter your email address here' name='email' required>`;
+    }
+    else if (selectbox.value == "forgotPassword")
+    {
+      document.getElementById("infoRecovery").innerHTML = `
+      <b>Enter username</b>
+      <input type='text' placeholder='Enter your username here' name='username' required>
+      <b>Enter registered email address</b>
+      <input type='email' placeholder='Enter your email address here' name='email' required>`;
     }
 }
 

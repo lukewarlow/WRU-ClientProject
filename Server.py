@@ -244,9 +244,72 @@ def staffAccount():
 @app.route("/Staff/LoginIssues", methods=['GET', 'POST'])
 def loginIssues():
     if request.method == 'GET':
-        return render_template('staff/loginissues.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
-    if request.method == 'POST':
-        pass
+        if checkIsLoggedIn():
+            return render_template('staff/loginissues.html', title="Log In issues", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
+        else:
+            return redirect("/Home")
+
+    elif request.method == 'POST':
+        email = request.form.get('email', default="Error")
+        username = request.form.get('username', default="Error")
+        if (username is "Error"):
+            try:
+                conn = sql.connect(DATABASE)
+                cur = conn.cursor()
+                cur.execute("UPDATE tblStaff SET password=?;", [encrypt(newpassword)])
+                conn.commit()
+                msg = "successful"
+                message = """\
+                <p>
+                    Hi,<br>
+                    Here's your username {}.<br>
+                </p>""".format()
+                sendEmail(email, "Username reminder", message))
+                logout()
+            except Exception as e:
+                conn.rollback()
+                msg = "Error in update operation: " + str(e)
+                print(msg)
+            finally:
+                conn.close()
+                return msg
+        elif (email is not "Error"):
+            if (verifyEmail(newemail)):
+                try:
+                    conn = sql.connect(DATABASE)
+                    cur = conn.cursor()
+                    cur.execute("UPDATE tblStaff SET email=?;", [newemail])
+                    conn.commit()
+                    msg = "successful"
+                    message1 = """\
+                    <p>
+                        Hi {} {},<br>
+                        You're email address has been changed to: {}.<br>
+                        If this was done by you, you can safely ignore this email.<br>
+                        If this wasn't done by you please contact a system admin immediately.<br>
+                    </p>""".format(data[0], data[1], newemail)
+                    message2 = """\
+                    <p>
+                        Hi,<br>
+                        Your account is now registered to this email account.<br>
+                        If you do not recognise this service.<br>
+                        Please contact {} and let them know they entered the wrong email address.<br>
+                    </p>""".format(data[2])
+                    sendEmail(data[2], "Email Changed", message1)
+                    sendEmail(newemail, "Email Changed", message2)
+                    logout()
+                    print("{} email updated successfully".format(username))
+                except Exception as e:
+                    conn.rollback()
+                    msg = "Error in update operation: " + str(e)
+                    print(msg)
+                finally:
+                    conn.close()
+                    return msg
+            else:
+                return "unsuccessful invalid email."
+        else:
+            return "Error"
 
 @app.route("/Staff/EventForm", methods = ['POST', 'GET'])
 def eventForm():
