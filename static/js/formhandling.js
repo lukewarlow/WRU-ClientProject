@@ -77,7 +77,6 @@ function validateAccountChanges()
       return false;
     }
   }
-  console.log(params);
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Staff/Account', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -262,17 +261,19 @@ function actionSelected(selectbox)
     {
       document.getElementById("accountChangeForm").innerHTML = `
       <b>New password</b>
-      <input type='password' placeholder='Enter your new password here' name='newpassword' required>
+      <input type='password' id="newpassword" placeholder='Enter your new password here' name='newpassword' onkeyup="checkPassword()" required>
       <b>Confirm new password:</b>
-      <input type='password' placeholder='Re-Enter your new password here' name='newpasswordConfirm' required>`;
+      <input type='password' id="newpasswordConfirm" placeholder='Re-Enter your new password here' name='newpasswordConfirm' onkeyup="checkPassword()" required>`;
     }
     else if (selectbox.value == "changeEmail")
     {
       document.getElementById("accountChangeForm").innerHTML = `
       <b>New email</b>
-      <input type='email' placeholder='Enter your new email here' name='newemail' required>
+      <input type='email' id="newemail" placeholder='Enter your new email here' name='newemail' onkeyup="checkEmail()" required>
       <b>Confirm New email:</b>
-      <input type='email' placeholder='Re-Enter your new email here' name='newemailConfirm' required>`;
+      <input type='email' id="newemailConfirm" placeholder='Re-Enter your new email here' name='newemailConfirm' onkeyup="checkEmail()" required>`;
+    }
+}
     }
 }
 
