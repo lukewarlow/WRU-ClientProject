@@ -560,7 +560,7 @@ def redirectDeleteStaff():
     return redirect("/Admin/DeleteStaff")
 
 @app.route("/Admin/Download", methods=['GET'])
-def xlsxDatabase():
+def getPage():
     if request.method == 'GET':
         if checkIsAdmin():
             name = getUsername()
@@ -570,10 +570,11 @@ def xlsxDatabase():
                 return render_template('admin/download.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
+
+@app.route("/Admin/Downloadfile", methods=['GET'])
+def xlsxDatabase():
         if request.method =='POST':
             try:
-                dataEvent = ""
-                dataTour = ""
                 conn = sql.connect(DATABASE)
                 cur = conn.cursor()
                 cur.execute("SELECT * FROM tblEvent;")
@@ -632,7 +633,7 @@ def xlsxDatabase():
                 conn.close()
             finally:
                 conn.close()
-                return render_template('admin/search.html', dataEventString=dataEventString, dataTourString=dataTourString)
+                return render_template('admin/.download.html')
 
 def getDetailsFromUsername(username):
     try:
