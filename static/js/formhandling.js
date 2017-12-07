@@ -128,8 +128,9 @@ function validateLoginIssues()
 function deleteStaff()
 {
   var username = document.forms["deletestaff"]["username"].value;
+  var password = document.forms["deletestaff"]["password"].value;
   document.forms["deletestaff"].reset();
-  params = 'username='+username;
+  params = 'username='+username+'&password='+password;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Admin/DeleteStaff', true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

@@ -264,7 +264,8 @@ def loginIssues():
 
 def checkIfEmailIsUsed(email):
     data = selectFromDatabaseTable("SELECT firstName, surname, username FROM tblStaff WHERE email=?;", [email])
-    if (len(data) > 0):
+
+    if (type(data) is not type(None)):
         return "True:{}:{}:{}".format(data[0], data[1], data[2])
     else:
         return False
@@ -404,7 +405,7 @@ def addStaff():
         enteredusername = surname + firstName[0]
         enteredusername = enteredusername.lower()
         response = checkIfUserExists(enteredusername)
-        if (response.split(":")[0] == "True"):
+        if (response != False):
             username = enteredusername + response.split(":")[1]
         else:
             username = enteredusername
@@ -473,23 +474,26 @@ def deleteStaff():
         else:
             return redirect("/Home")
     elif request.method == 'POST':
-        username = request.form.get('username', default="Error")
-        username = username.lower()
-        if (username == session['username']):
+        otherusername = request.form.get('username', default="Error")
+        otherusername = otherusername.lower()
+        password = request.form.get('password', default="Error")
+        if (otherusername == getUsernameFromSession()):
             msg = "Can't delete self"
-        else:
-            data = getDetailsFromUsername(username)
-            msg = deleteFromTable("DELETE FROM tblStaff WHERE username=?;", [username])
+        elif (checkLogin(getUsernameFromSession(), password)):
+            data = getDetailsFromUsername(otherusername)
+            msg = deleteFromTable("DELETE FROM tblStaff WHERE username=?;", [otherusername])
             if (not "error" in msg):
-                msg = "User {} successfully deleted".format(username)
-                print("Deleted staff member:" + username)
+                msg = "User {} successfully deleted".format(otherusername)
+                print("Deleted staff member:" + otherusername)
                 message = """\
                 <p>
                     Hi {} {},<br>
                     You've been removed from the WRU staff database.<br>
                     You will no longer have access to the tool.
                 </p>""".format(data[0], data[1])
-                sendEmail(data[2], "Deleted Account", message)
+                sendEmail(data[2], "Account Deleted", message)
+        else:
+            msg = "Incorrect password"
         return msg
 
 @app.route("/Admin/download", methods=['GET'])
