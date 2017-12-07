@@ -9,6 +9,9 @@
 .greencircle
 {
   display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
   align-content: center;
   background: #0f0;
   width: 20px;
@@ -20,6 +23,9 @@
 .redcircle
 {
   display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
   align-content: center;
   background: #f00;
   width: 20px;
@@ -65,17 +71,23 @@ a:hover
 
 .header-container
 {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
   color: white;
   background-color: #E31B20;
-  display: flex;
   z-index: 2;
   justify-content: space-between;
 }
 
 .header
 {
-  width: 100%;
   display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  width: 100%;
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
@@ -84,6 +96,9 @@ a:hover
 .header-item
 {
   display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
   padding-bottom: 5px;
 }
 
@@ -116,24 +131,33 @@ button:disabled
 
 .navbar-container
 {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
   color: white;
   background-color: #007e45;
   padding-top: 5px;
   padding-bottom: 5px;
-  display: flex;
   justify-content: flex-start;
   align-content: flex-start;
   border-bottom: 2px dotted red;
   width: 100%;
   z-index: 2;
   position: sticky;
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
   top: 0;
 }
 
 .navbar
 {
-  width: 100%;
   display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  width: 100%;
   font-size: 1.25rem;
   flex-wrap: wrap;
 }
@@ -191,6 +215,9 @@ button:disabled
 .dropdown:hover .dropdown-content
 {
   display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
   flex-direction: column;
   background: black;
   display: block;
@@ -199,6 +226,9 @@ button:disabled
 .main-container
 {
   display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
   justify-content: flex-start;
   background-color: lightgray;
 }
@@ -206,6 +236,9 @@ button:disabled
 .main-item
 {
   display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
   flex-direction: column;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -227,6 +260,9 @@ div.italics{
 .footer-container
 {
   display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
   justify-content: flex-start;
   background-color: black;
   padding: 5px;
@@ -234,11 +270,14 @@ div.italics{
 
 .footer-container
 {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
   color: white;
   background-color: black;
   padding-top: 10px;
   padding-bottom: 10px;
-  display: flex;
   justify-content: flex-start;
   align-content: flex-start;
   padding: 5px;
@@ -246,8 +285,11 @@ div.italics{
 
 .footer
 {
-  width: 100%;
   display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  width: 100%;
 }
 
 .footer > li
@@ -292,45 +334,10 @@ select
       width: 100%;
       border-radius: 5px;
       padding: 20px;
-      /*text-align: center;*/
   }
-
-  /*.main-item.eventForm
-  {
-      width: 100%;
-      border-radius: 5px;
-      padding: 20px;
-      text-align: center;
-  }*/
-
-  /*.main-item.tournamentForm
-  {
-      width: 100%;
-      border-radius: 5px;
-      padding: 20px;
-      text-align: center;
-  }*/
 }
-
 
 button:hover
 {
   text-decoration: underline;
 }
-
-/*
-.cancelbtn {
-    width: 10%;
-    padding: 10px 15px;
-    background-color: #FF0000;
-}
-.create {
-    width: 12%;
-    padding: 10px 15px;
-    background-color: #808080;
-}
-
-.container {
-    padding: 16px;
-    width: 100%;
-}*/
