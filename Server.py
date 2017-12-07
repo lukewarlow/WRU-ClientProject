@@ -634,10 +634,15 @@ def getPage():
         else:
             return redirect("/Home")
 
-@app.route("/Admin/Downloadfile", methods=['GET'])
+@app.route("/Admin/Downloadfile", methods=['POST'])
 def xlsxDatabase():
         if request.method =='POST':
             try:
+                headerEvent = ['ID', 'Event name', 'Event date', 'postcode', \
+                'Inclusivity', 'Activity type', 'Comments', 'Staff name']
+                headerTour = ['ID', 'Number of  people', 'Age category' \
+                'Gender ratio', 'Rugby offer', 'Staff name', 'Event ID']
+
                 conn = sql.connect(DATABASE)
                 cur = conn.cursor()
                 cur.execute("SELECT * FROM tblEvent;")
@@ -658,8 +663,8 @@ def xlsxDatabase():
                 worksheetTour.set_column('B:H', 19)
 
                 # Aesthetic
-                worksheet1.set_tab_color('red')
-                worksheet2.set_tab_color('green')
+                worksheetEvent.set_tab_color('red')
+                worksheetTour.set_tab_color('green')
                 bold = workbook.add_format({'bold': True})
 
                 #Headings
@@ -668,35 +673,32 @@ def xlsxDatabase():
                 title2 = "Tournament form information"
                 worksheetTour.write('B1', title2, bold)
 
-                #Event form table titles
-                worksheetEvent.add_table('B2:J11', {'dataEvent': dataEvent,
-                                               'columns': [{'header': 'ID'},
-                                                           {'header': 'Event name'},
-                                                           {'header': 'Event date'},
-                                                           {'header': 'Postcode'},
-                                                           {'header': 'Event region'},
-                                                           {'header': 'Inclusivity'},
-                                                           {'header': 'Activity type'},
-                                                           {'header': 'Comments'},
-                                                           {'header': 'Staff name'},
-                                                           ]})
-                #Tournament form table titles
-                worksheetTour.add_table('B2:H9', {'dataTour': dataTour,
-                                               'columns': [{'header': 'ID'},
-                                                           {'header': 'Number of people'},
-                                                           {'header': 'Age category'},
-                                                           {'header': 'Gender ratio'},
-                                                           {'header': 'Rugby offer'},
-                                                           {'header': 'Staff name'},
-                                                           {'header': 'Event ID'},
-                                                           ]})
+                row = 1
+                col = 1
+
+                for item in headerEvent:
+                    worksheetEvent.write(row, col, item, bold)
+                    col += 1
+                for item in headerTour:
+                    worksheetTour.write(row, col, item, bold)
+                    col += 1
+
+                row = 2
+                col = 1
+                for item in dataEvent:
+                    worksheetEvent.write_row(row, col, item)
+                    row += 1
+                for item in dataTour:
+                    worksheetTour.write_row(row, col, item)
+                    row += 1
+
                 workbook.close()
             except:
                 print("Failed to connect to DB")
                 conn.close()
             finally:
                 conn.close()
-                return render_template('admin/.download.html')
+                return render_template('admin/download.html')
 
 def getDetailsFromUsername(username):
     try:
