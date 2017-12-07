@@ -20,6 +20,13 @@ app.secret_key = b'\xac\x9b.\x8ew\xa2\x1b\x8d\xdf\xdbB\x00\xf6r95\xb5fy"\x85G\x1
 verificationSigner = URLSafeTimedSerializer(b'\xb7\xa8j\xfc\x1d\xb2S\\\xd9/\xa6y\xe0\xefC{\xb6k\xab\xa0\xcb\xdd\xdbV')
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'ico'])
 
+@app.route("/", methods=['GET'])
+@app.route("/home", methods=['GET'])
+@app.route("/index", methods=['GET'])
+@app.route("/Index", methods=['GET'])
+def redirectHome():
+    return redirect("/Home")
+
 @app.route("/Home", methods=['GET'])
 def home():
     if request.method == 'GET':
@@ -29,10 +36,8 @@ def home():
         else:
             return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
 
-@app.route("/home", methods=['GET'])
-@app.route("/index", methods=['GET'])
-@app.route("/Index", methods=['GET'])
-def redirectHome():
+@app.route("/Staff/Verify", methods=['GET'])
+def redirectFalseVerify():
     return redirect("/Home")
 
 #http://flask.pocoo.org/snippets/50/ Accessed: 29/11/2017
@@ -100,14 +105,12 @@ def staffVerifyPost():
             else:
                 return "unsuccessful entered username doesn't match, the one linked to your email."
 
-@app.route('/Staff/Verify', methods=['GET'])
-@app.route('/Staff/verify', methods=['GET'])
-@app.route('/staff/Verify', methods=['GET'])
-@app.route('/staff/verify', methods=['GET'])
-def redirectVerify():
-    return redirect("/Staff/Verify")
+@app.route("/Staff/login", methods=['GET'])
+@app.route("/staff/Login", methods=['GET'])
+@app.route("/staff/login", methods=['GET'])
+def redirectLogin():
+    return redirect("/Staff/Login")
 
-# staff page
 @app.route('/Staff/Login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
@@ -127,7 +130,6 @@ def login():
                 return "successful"
             else:
                 return "unsuccessful please verify account through the link in email."
-
         else:
             print("Failed to log in, incorrect username or use.")
             return "unsuccessful user not found"
@@ -159,11 +161,11 @@ def checkLogin(username, password):
     else:
         return False
 
-@app.route("/Staff/login", methods=['GET'])
-@app.route("/staff/Login", methods=['GET'])
-@app.route("/staff/login", methods=['GET'])
+@app.route("/Staff/account", methods=['GET'])
+@app.route("/staff/Account", methods=['GET'])
+@app.route("/staff/account", methods=['GET'])
 def redirectLogin():
-    return redirect("/Staff/Login")
+    return redirect("/Staff/Account")
 
 # staff page
 @app.route('/Staff/Account', methods=['POST', 'GET'])
@@ -246,6 +248,15 @@ def staffAccount():
         else:
             return redirect("/Home")
 
+@app.route("/Staff/Loginissues", methods=['GET'])
+@app.route("/Staff/loginIssues", methods=['GET'])
+@app.route("/Staff/loginissues", methods=['GET'])
+@app.route("/staff/LoginIssues", methods=['GET'])
+@app.route("/staff/loginIssues", methods=['GET'])
+@app.route("/staff/loginissues", methods=['GET'])
+def redirectLogin():
+    return redirect("/Staff/LoginIssues")
+
 @app.route("/Staff/LoginIssues", methods=['GET', 'POST'])
 def loginIssues():
     if request.method == 'GET':
@@ -253,7 +264,6 @@ def loginIssues():
             return render_template('staff/loginissues.html', title="Log In issues", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
-
     elif request.method == 'POST':
         email = request.form.get('email', default="Error")
         username = request.form.get('username', default="Error")
@@ -319,6 +329,16 @@ def checkIfEmailIsUsed(email):
         else:
             return "False"
 
+@app.route("/Staff/Eventform", methods=['GET'])
+@app.route("/Staff/eventForm", methods=['GET'])
+@app.route("/Staff/eventform", methods=['GET'])
+@app.route("/staff/EventForm", methods=['GET'])
+@app.route("/staff/Eventform", methods=['GET'])
+@app.route("/staff/eventForm", methods=['GET'])
+@app.route("/staff/eventform", methods=['GET'])
+def redirectEvent():
+    return redirect("/Staff/EventForm")
+
 @app.route("/Staff/EventForm", methods = ['POST', 'GET'])
 def eventForm():
     if request.method == 'GET':
@@ -364,15 +384,15 @@ def eventForm():
             conn.close()
             return msg;
 
-@app.route("/Staff/Eventform", methods=['GET'])
-@app.route("/Staff/eventForm", methods=['GET'])
-@app.route("/Staff/eventform", methods=['GET'])
-@app.route("/staff/EventForm", methods=['GET'])
-@app.route("/staff/Eventform", methods=['GET'])
-@app.route("/staff/eventForm", methods=['GET'])
-@app.route("/staff/eventform", methods=['GET'])
-def redirectEvent():
-    return redirect("/Staff/EventForm")
+@app.route("/Staff/Tournamentform", methods=['GET'])
+@app.route("/Staff/tournamentForm", methods=['GET'])
+@app.route("/Staff/tournamentform", methods=['GET'])
+@app.route("/staff/TournamentForm", methods=['GET'])
+@app.route("/staff/Tournamentform", methods=['GET'])
+@app.route("/staff/tournamentForm", methods=['GET'])
+@app.route("/staff/tournamentform", methods=['GET'])
+def redirectTournament():
+    return redirect("/Staff/TournamentForm")
 
 @app.route("/Staff/TournamentForm", methods = ['POST', 'GET'])
 def tournamentForm():
@@ -441,15 +461,15 @@ def tournamentForm():
             print("Error: event not found")
             return "Event data incorrect"
 
-@app.route("/Staff/Tournamentform", methods=['GET'])
-@app.route("/Staff/tournamentForm", methods=['GET'])
-@app.route("/Staff/tournamentform", methods=['GET'])
-@app.route("/staff/TournamentForm", methods=['GET'])
-@app.route("/staff/Tournamentform", methods=['GET'])
-@app.route("/staff/tournamentForm", methods=['GET'])
-@app.route("/staff/tournamentform", methods=['GET'])
-def redirectTournament():
-    return redirect("/Staff/TournamentForm")
+@app.route("/Admin/Addstaff", methods=['POST', 'GET'])
+@app.route("/Admin/addStaff", methods=['POST', 'GET'])
+@app.route("/Admin/addstaff", methods=['POST', 'GET'])
+@app.route("/admin/AddStaff", methods=['POST', 'GET'])
+@app.route("/admin/Addstaff", methods=['POST', 'GET'])
+@app.route("/admin/addStaff", methods=['POST', 'GET'])
+@app.route("/admin/addstaff", methods=['POST', 'GET'])
+def redirectAddStaff():
+    return redirect("/Admin/AddStaff")
 
 @app.route("/Admin/AddStaff", methods=['POST', 'GET'])
 def addStaff():
@@ -531,16 +551,6 @@ def getUsername():
         msg = "error not logged in?"
     return msg
 
-@app.route("/Admin/Addstaff", methods=['POST', 'GET'])
-@app.route("/Admin/addStaff", methods=['POST', 'GET'])
-@app.route("/Admin/addstaff", methods=['POST', 'GET'])
-@app.route("/admin/AddStaff", methods=['POST', 'GET'])
-@app.route("/admin/Addstaff", methods=['POST', 'GET'])
-@app.route("/admin/addStaff", methods=['POST', 'GET'])
-@app.route("/admin/addstaff", methods=['POST', 'GET'])
-def redirectAddStaff():
-    return redirect("/Admin/AddStaff")
-
 #https://en.wikibooks.org/wiki/Python_Programming/Email Accessed: 29/11/2017
 def sendEmail(recipientEmail, subject, messageHtml):
     server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -579,6 +589,16 @@ def verifyEmail(email):
         return True;
     except:
         return False;
+
+@app.route("/Admin/Deletestaff", methods=['GET'])
+@app.route("/Admin/deleteStaff", methods=['GET'])
+@app.route("/Admin/deletestaff", methods=['GET'])
+@app.route("/admin/DeleteStaff", methods=['GET'])
+@app.route("/admin/Deletestaff", methods=['GET'])
+@app.route("/admin/deleteStaff", methods=['GET'])
+@app.route("/admin/deletestaff", methods=['GET'])
+def redirectDeleteStaff():
+    return redirect("/Admin/DeleteStaff")
 
 @app.route("/Admin/DeleteStaff", methods=['POST', 'GET'])
 def deleteStaff():
@@ -620,15 +640,11 @@ def deleteStaff():
                 conn.close()
         return msg
 
-@app.route("/Admin/Deletestaff", methods=['POST', 'GET'])
-@app.route("/Admin/deleteStaff", methods=['POST', 'GET'])
-@app.route("/Admin/deletestaff", methods=['POST', 'GET'])
-@app.route("/admin/DeleteStaff", methods=['POST', 'GET'])
-@app.route("/admin/Deletestaff", methods=['POST', 'GET'])
-@app.route("/admin/deleteStaff", methods=['POST', 'GET'])
-@app.route("/admin/deletestaff", methods=['POST', 'GET'])
-def redirectDeleteStaff():
-    return redirect("/Admin/DeleteStaff")
+@app.route("/Admin/download", methods=['GET'])
+@app.route("/admin/Download", methods=['GET'])
+@app.route("/admin/download", methods=['GET'])
+def redirectAdminDownload():
+    return redirect("/Admin/Download")
 
 @app.route("/Admin/Download", methods=['GET'])
 def getPage():
@@ -721,6 +737,12 @@ def getDetailsFromUsername(username):
         conn.close()
     return data
 
+@app.route("/Admin/search", methods=['GET'])
+@app.route("/admin/Search", methods=['GET'])
+@app.route("/admin/search", methods=['GET'])
+def redirectAdminDownload():
+    return redirect("/Admin/Search")
+
 @app.route("/Admin/Search", methods = ['GET','POST'])
 def moduleSearch():
     if request.method =='GET':
@@ -750,19 +772,12 @@ def moduleSearch():
             if (tournament != None):
                 cur.execute("SELECT * FROM tblTournament WHERE ageCategory=? ;", [tournament])
                 data2 = cur.fetchall()
-
         except:
             print("Failed to connect to DB")
             conn.close()
         finally:
             conn.close()
             return render_template('admin/search.html', data=data, data2=data2)
-
-@app.route("/Admin/search", methods = ['GET'])
-@app.route("/Admin/Search", methods = ['GET'])
-@app.route("/Admin/search", methods = ['GET'])
-def redirectStaffSearch():
-    return redirect("/Admin/Search")
 
 @app.route("/Logout", methods=['POST'])
 def logout():
