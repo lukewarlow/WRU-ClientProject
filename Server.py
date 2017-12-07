@@ -164,7 +164,7 @@ def checkLogin(username, password):
 @app.route("/Staff/account", methods=['GET'])
 @app.route("/staff/Account", methods=['GET'])
 @app.route("/staff/account", methods=['GET'])
-def redirectLogin():
+def redirectAccount():
     return redirect("/Staff/Account")
 
 # staff page
@@ -254,7 +254,7 @@ def staffAccount():
 @app.route("/staff/LoginIssues", methods=['GET'])
 @app.route("/staff/loginIssues", methods=['GET'])
 @app.route("/staff/loginissues", methods=['GET'])
-def redirectLogin():
+def redirectLoginIssues():
     return redirect("/Staff/LoginIssues")
 
 @app.route("/Staff/LoginIssues", methods=['GET', 'POST'])
@@ -740,7 +740,7 @@ def getDetailsFromUsername(username):
 @app.route("/Admin/search", methods=['GET'])
 @app.route("/admin/Search", methods=['GET'])
 @app.route("/admin/search", methods=['GET'])
-def redirectAdminDownload():
+def redirectAdminSearch():
     return redirect("/Admin/Search")
 
 @app.route("/Admin/Search", methods = ['GET','POST'])
