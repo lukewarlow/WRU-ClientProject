@@ -409,6 +409,23 @@ function addTournament()
   return false;
 }
 
+var checkBoxesMatch = function(boxID, buttonID)
+{
+  var matching = false;
+
+  if (document.getElementById(boxID).value == document.getElementById('check' + boxID).value &&
+      document.getElementById(boxID).value != "")
+  {
+    document.getElementById('check' + boxID).style.border = "4px solid green";
+    document.getElementById(buttonID).disabled = false;
+  }
+  else
+  {
+    document.getElementById('check' + boxID).style.border = "4px solid red";
+    document.getElementById(buttonID).disabled = true;
+  }
+}
+
 function resendStoredData()
 {
   var msg = "null"

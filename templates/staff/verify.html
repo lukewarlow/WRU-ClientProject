@@ -17,10 +17,10 @@
     <b>Please set new password</b>
     <br>
     <b>Password:</b>
-    <input type="password" placeholder="Enter your password here" name="newpassword" id="newpassword" required onkeyup="checkPassword()">
+    <input type="password" placeholder="Enter your password here" name="newpassword" id="newpassword" required onkeyup="checkBoxesMatch('newpassword', 'verifybtn')">
     <br>
     <b>Re-enter Password:</b>
-    <input type="password" placeholder="Re-enter your password here" name="checknewpassword" id="checknewpassword" required onkeyup="checkPassword()">
+    <input type="password" placeholder="Re-enter your password here" name="checknewpassword" id="checknewpassword" required onkeyup="checkBoxesMatch('newpassword', 'verifybtn')">
     <br>
     <button name='verify' id="verifybtn" type = "submit" disabled>Verify</button>
   </form>

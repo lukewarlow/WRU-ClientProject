@@ -11,12 +11,12 @@
   <form id='addstaff' onsubmit="return validatePassword('addstaff', 'password')">
     First name: <input type = "text" placeholder="Enter first name here" name = "firstName" required><br>
     Surname: <input type = "text" placeholder="Enter surname here" name = "surname" required><br>
-    Password: <input type = "password" placeholder="Enter password here" name = "password" id="newpassword" onkeyup="checkPassword()" required><br>
+    Password: <input type = "password" placeholder="Enter password here" name = "password" id="newpassword" onkeyup="checkBoxesMatch('newpassword', 'submit')" required><br>
     Re-enter Password:
-    <input type="password" placeholder="Re-enter your password here" name="checknewpassword" id="checknewpassword" onkeyup="checkPassword()" required>
+    <input type="password" placeholder="Re-enter your password here" name="checknewpassword" id="checknewpassword" onkeyup="checkBoxesMatch('newpassword', 'submit')" required>
     <br>
-    Email: <input type = "email" placeholder="Enter email here" name = "email" id="newemail" onkeyup="checkEmail()" required><br>
-    Re-enter Email: <input type="email" placeholder="Re-enter your email here" name="checkemail" id="checkemail" onkeyup="checkEmail()" required>
+    Email: <input type = "email" placeholder="Enter email here" name = "email" id="newemail" onkeyup="checkBoxesMatch('newemail', 'submit')" required><br>
+    Re-enter Email: <input type="email" placeholder="Re-enter your email here" name="checkemail" id="checknewemail" onkeyup="checkBoxesMatch('newemail', 'submit')" required>
     <br>
     User type: <select value = "usertype" name="usertype">
       <option value="Staff">Staff</option>
@@ -26,55 +26,8 @@
       <option value="wru">WRU</option>
       <option value="other">Other</option>
     </select><br>
-    <button name='verify' id="verifybtn" type = "submit" disabled> Submit </button>
+    <button name='submit' id="submit" type = "submit" disabled> Submit </button>
   </form>
   <span id='msg'></span>
-  <span id='msg'></span>
 </section>
-
-<script>
-var checkPassword = function() {
-  var matching = false;
-
-  if (document.getElementById('newpassword').value ==
-    document.getElementById('checknewpassword').value) {
-    document.getElementById('msg').style.color = 'green';
-    document.getElementById('msg').innerHTML = 'matching';
-    matching = true;
-  } else {
-    document.getElementById('msg').style.color = 'red';
-    document.getElementById('msg').innerHTML = 'not matching';
-    matching = false;
-  }
-
-  if (matching)
-  {
-    document.getElementById("verifybtn").disabled = false;
-  } else {
-    document.getElementById("verifybtn").disabled = true;
-  }
-
-}
-var checkEmail = function() {
-  var matching = false;
-
-  if (document.getElementById('newemail').value ==
-    document.getElementById('checkemail').value) {
-    document.getElementById('msg').style.color = 'green';
-    document.getElementById('msg').innerHTML = 'matching';
-    matching = true;
-  } else {
-    document.getElementById('msg').style.color = 'red';
-    document.getElementById('msg').innerHTML = 'not matching';
-    matching = false;
-  }
-
-  if (matching)
-  {
-    document.getElementById("verifybtn").disabled = false;
-  } else {
-    document.getElementById("verifybtn").disabled = true;
-  }
-}
-</script>
 {% endblock %}
