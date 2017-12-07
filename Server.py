@@ -94,7 +94,7 @@ def staffVerifyPost():
                             You will now have access to the WRU event tool.
                         </p>""".format(data[0], data[1])
                         sendEmail(data[2], "Account verified", message)
-                        return "successful."
+                        return "successful"
                 else:
                     return "unsuccessful user doesn't exist, contact system admin."
             else:
@@ -149,10 +149,15 @@ def checkLogin(username, password):
         print("Error in operation," + str(e))
         conn.close()
         return False;
-    if (encrypt(password, pw) == pw):
+    if (len(pw) is not 8):
+        if (encrypt(password, pw) == pw):
+            return "True:{}:{}:{}".format(user, usertype, verified)
+        else:
+            return False;
+    elif (password == pw):
         return "True:{}:{}:{}".format(user, usertype, verified)
     else:
-        return False;
+        return False
 
 @app.route("/Staff/login", methods=['GET'])
 @app.route("/staff/Login", methods=['GET'])
@@ -244,7 +249,7 @@ def staffAccount():
 @app.route("/Staff/LoginIssues", methods=['GET', 'POST'])
 def loginIssues():
     if request.method == 'GET':
-        if checkIsLoggedIn():
+        if (not checkIsLoggedIn()):
             return render_template('staff/loginissues.html', title="Log In issues", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
@@ -253,63 +258,66 @@ def loginIssues():
         email = request.form.get('email', default="Error")
         username = request.form.get('username', default="Error")
         if (username is "Error"):
-            try:
-                conn = sql.connect(DATABASE)
-                cur = conn.cursor()
-                cur.execute("UPDATE tblStaff SET password=?;", [encrypt(newpassword)])
-                conn.commit()
-                msg = "successful"
+            check = checkIfEmailIsUsed(email).split(":")
+            if (not check[0] == False):
                 message = """\
                 <p>
-                    Hi,<br>
+                    Hi {},<br>
                     Here's your username {}.<br>
-                </p>""".format()
-                sendEmail(email, "Username reminder", message))
-                logout()
-            except Exception as e:
-                conn.rollback()
-                msg = "Error in update operation: " + str(e)
-                print(msg)
-            finally:
-                conn.close()
-                return msg
+                    Many Thanks
+                </p>""".format(check[1], check[3])
+                sendEmail(email, "Username Reminder", message)
+                return "successful"
+            else:
+                return "email not associated with an account."
         elif (email is not "Error"):
-            if (verifyEmail(newemail)):
+            check = checkIfEmailIsUsed(email).split(":")
+            if (not check[0] == False):
+                #https://docs.python.org/3.5/library/random.html Accessed: 7/12/2017
+                randVerificationKey = random.randrange(10000000, 99999999)
                 try:
                     conn = sql.connect(DATABASE)
                     cur = conn.cursor()
-                    cur.execute("UPDATE tblStaff SET email=?;", [newemail])
+                    cur.execute("UPDATE tblStaff SET verified='False', password=? WHERE username=?", [randVerificationKey, username])
                     conn.commit()
-                    msg = "successful"
-                    message1 = """\
-                    <p>
-                        Hi {} {},<br>
-                        You're email address has been changed to: {}.<br>
-                        If this was done by you, you can safely ignore this email.<br>
-                        If this wasn't done by you please contact a system admin immediately.<br>
-                    </p>""".format(data[0], data[1], newemail)
-                    message2 = """\
-                    <p>
-                        Hi,<br>
-                        Your account is now registered to this email account.<br>
-                        If you do not recognise this service.<br>
-                        Please contact {} and let them know they entered the wrong email address.<br>
-                    </p>""".format(data[2])
-                    sendEmail(data[2], "Email Changed", message1)
-                    sendEmail(newemail, "Email Changed", message2)
-                    logout()
-                    print("{} email updated successfully".format(username))
                 except Exception as e:
                     conn.rollback()
-                    msg = "Error in update operation: " + str(e)
-                    print(msg)
-                finally:
                     conn.close()
-                    return msg
+                    print(str(e))
+                    return "unsuccessful error in update operation."
+                conn.close()
+                message = """\
+                <p>
+                    Hi {},<br>
+                    You (or someone pretending to be you) has requested a password reset.<br>
+                    If you did NOT make this request then ignore this email; no changes will be made.<br>
+                    If you did make this request, click <a href="http://localhost:5000/Staff/Verify/{}">here</a> to reset your password.<br>
+                    Your new temporary password is {}.<br>
+                    Many Thanks
+                </p>""".format(check[1], verificationSigner.dumps(username), randVerificationKey)
+                sendEmail(email, "Password Reset Request", message)
+                return "successful check emails."
             else:
-                return "unsuccessful invalid email."
+                return "email not associated with an account."
         else:
             return "Error"
+
+def checkIfEmailIsUsed(email):
+    try:
+        conn = sql.connect(DATABASE)
+        cur = conn.cursor()
+        cur.execute("SELECT firstName, surname, username FROM tblStaff WHERE email=?;", [email])
+        data = cur.fetchone()
+    except:
+        print('there was an error', data)
+        data = ""
+    finally:
+        conn.close()
+
+        if (len(data) > 0):
+            return "True:{}:{}:{}".format(data[0], data[1], data[2])
+        else:
+            return "False"
 
 @app.route("/Staff/EventForm", methods = ['POST', 'GET'])
 def eventForm():

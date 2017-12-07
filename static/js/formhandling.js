@@ -1,39 +1,30 @@
 function verifyForm()
 {
-  if (validatePassword("verify", "password"))
+  if (validatePassword("verify", "newpassword"))
   {
-    if (validatePassword("verify", "newpassword"))
+    var username = document.forms["verify"]["username"].value;
+    var password = document.forms["verify"]["password"].value;
+    var newpassword = document.forms["verify"]["newpassword"].value;
+    var payload = document.getElementById("txt").innerHTML;
+    params = 'username='+username+'&password='+password+'&newpassword='+newpassword+'&payload='+payload;
+    document.getElementById("msg").innerHTML = "Verifying";
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", '/Staff/Verify', true); // true is asynchronous
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.onload = function()
     {
-      var username = document.forms["verify"]["username"].value;
-      var password = document.forms["verify"]["password"].value;
-      var newpassword = document.forms["verify"]["newpassword"].value;
-      var payload = document.getElementById("txt").innerHTML;
-      params = 'username='+username+'&password='+password+'&newpassword='+newpassword+'&payload='+payload;
-      document.getElementById("msg").innerHTML = "Verifying";
-      var xhttp = new XMLHttpRequest();
-      xhttp.open("POST", '/Staff/Verify', true); // true is asynchronous
-      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhttp.onload = function()
+      if (xhttp.readyState === 4 && xhttp.status === 200)
       {
-        if (xhttp.readyState === 4 && xhttp.status === 200)
-        {
-          console.log("Verification was: " + xhttp.responseText);
-          document.getElementById("msg").innerHTML = "Verification was: " + xhttp.responseText;
-          if (xhttp.responseText == "successful") setTimeout(redirect, 700, "/Home")
-        }
-        else console.error(xhttp.statusText);
-      };
-      xhttp.send(params);
-      return false;
-    }
+        console.log("Verification was: " + xhttp.responseText);
+        document.getElementById("msg").innerHTML = "Verification was: " + xhttp.responseText;
+        if (xhttp.responseText == "successful") setTimeout(redirect, 700, "/Home")
+      }
+      else console.error(xhttp.statusText);
+    };
+    xhttp.send(params);
     return false;
   }
   return false;
-}
-
-function troubleLogIn()
-{
-  redirect("/Staff/LoginIssues");
 }
 
 function validatePassword(form, id)
@@ -99,16 +90,16 @@ function validateLoginIssues()
   params = "";
   try
   {
+    var username = document.forms["loginIssue"]["username"].value;
     var email = document.forms["loginIssue"]["email"].value;
-    params = "email="+email;
+    params = "username="+username+"&email="+email;
   }
   catch (TypeError)
   {
     try
     {
-      var username = document.forms["loginIssue"]["username"].value;
       var email = document.forms["loginIssue"]["email"].value;
-      params = "username="+username+"&email="+email;
+      params = "email="+email;
     }
     catch (TypeError)
     {
@@ -125,7 +116,7 @@ function validateLoginIssues()
     {
       console.log("Issue fix " + xhttp.responseText);
       document.getElementById("msg").innerHTML = "Issue fix " + xhttp.responseText;
-      if (xhttp.responseText == "successful") setTimeout(redirect, 700, "/Home")
+      if (xhttp.responseText == "successful") setTimeout(redirect, 700, "/Staff/Login")
     }
     else console.error(xhttp.statusText);
   };
