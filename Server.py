@@ -71,10 +71,10 @@ def staffVerifyPost():
                     check = checkLogin(username, password)
                     if (check == False):
                         print("Failed to log in, incorrect password.")
-                        return "unsuccessful wrong password provided."
+                        return "Error: incorrect password provided."
                     else:
                         msg = updateTable("UPDATE tblStaff SET password=?, verified='True' WHERE username=?", [newpassword, username])
-                        if ("updated" in msg):
+                        if ("Error" not in msg):
                             session['username'] = check.split(":")[1]
                             session['usertype'] = check.split(":")[2]
                             session['verified'] = "True"
@@ -88,9 +88,7 @@ def staffVerifyPost():
                                 You will now have access to the WRU event tool.
                             </p>""".format(data[0], data[1])
                             sendEmail(data[2], "Account verified", message)
-                            return "successful"
-                        else:
-                            return msg
+                        return msg
                 else:
                     return "unsuccessful user doesn't exist, contact system admin."
             else:
@@ -112,18 +110,18 @@ def login():
             check = checkLogin(username, password)
             if (check == False):
                 print("Failed to log in, incorrect password.")
-                return "unsuccessful incorrect password."
+                return "Error: incorrect password."
             elif (check.split(":")[3] == "True"):
                 session['username'] = check.split(":")[1]
                 session['usertype'] = check.split(":")[2]
                 session['verified'] = True
                 print(str(username) + " has logged in")
-                return "successful"
+                return "Log in successful."
             else:
-                return "unsuccessful please verify account through the link in email."
+                return "Error: please verify account through the link in email."
         else:
             print("Failed to log in, incorrect username or use.")
-            return "unsuccessful user not found"
+            return "Error: user not found"
     else:
         return render_template('staff/login.html', title="Log In", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
 
@@ -145,12 +143,8 @@ def staffAccount():
         if (checkLogin(username, password)):
             data = getDetailsFromUsername(username)
             if (newpassword is not "Error"):
-                try:
-                    conn = sql.connect(DATABASE)
-                    cur = conn.cursor()
-                    cur.execute("UPDATE tblStaff SET password=?;", [encrypt(newpassword)])
-                    conn.commit()
-                    msg = "successful"
+                msg = updateTable("UPDATE tblStaff SET password=?;", [encrypt(newpassword)])
+                if ("Error" not in msg):
                     message = """\
                     <p>
                         Hi {} {},<br>
@@ -161,18 +155,12 @@ def staffAccount():
                     sendEmail(data[2], "Password Changed", message)
                     print("{} password updated successfully".format(username))
                     logout()
-                except Exception as e:
-                    conn.rollback()
-                    msg = "Error in update operation: " + str(e)
-                    print(msg)
-                finally:
-                    conn.close()
-                    return msg
+                return msg
             elif (newemail is not "Error"):
                 if (verifyEmail(newemail)):
                     if (not checkIfEmailIsUsed(newemail)):
                         msg = updateTable("UPDATE tblStaff SET email=?;", [newemail])
-                        if ("updated" in msg):
+                        if ("Error" not in msg):
                             message1 = """\
                             <p>
                                 Hi {} {},<br>
@@ -192,14 +180,14 @@ def staffAccount():
                             logout()
                             print("{}'s email updated successfully".format(username))
                         else:
-                            msg = "email already used"
+                            msg = "Error: email already used"
                     return msg
                 else:
-                    return "unsuccessful invalid email."
+                    return "Error: invalid email."
             else:
                 return "Error"
         else:
-            return "unsuccessful, incorrect password."
+            return "Error: incorrect password."
     else:
         if (checkIsLoggedIn()):
             name = getUsernameFromSession()
@@ -245,7 +233,7 @@ def loginIssues():
                 #https://docs.python.org/3.5/library/random.html Accessed: 7/12/2017
                 randVerificationKey = random.randrange(10000000, 99999999)
                 msg = updateTable("UPDATE tblStaff SET verified='False', password=? WHERE username=?", [randVerificationKey, username])
-                if ("updated" in msg):
+                if ("Error" not in msg):
                     pass
                     message = """\
                     <p>
@@ -257,11 +245,11 @@ def loginIssues():
                         Many Thanks
                     </p>""".format(check[1], verificationSigner.dumps(username), randVerificationKey)
                     sendEmail(email, "Password Reset Request", message)
-                    return "successful check emails."
+                    return "Password reset successful check emails."
                 else:
                     return msg
             else:
-                return "email not associated with an account."
+                return "Error: email not associated with an account."
         else:
             return "Error"
 
@@ -311,14 +299,13 @@ def eventForm():
                 staffName = username
         else:
             msg = "error not logged in?"
-
-        msg = insertIntoDatabaseTable("INSERT INTO tblEvent ('eventName',\
-        'eventStartDate', 'eventEndDate', 'postcode', 'eventRegion',\
-        'inclusivity', 'activityTypes', 'comments', 'staffName')\
-        VALUES (?,?,?,?,?,?,?,?,?)", (eventName, eventStartDate,\
-         eventEndDate, postcode, eventRegion, inclusivity, activityTypes,\
-         comments, staffName))
-
+        if "error" not in msg:
+            msg = insertIntoDatabaseTable("INSERT INTO tblEvent ('eventName',\
+            'eventStartDate', 'eventEndDate', 'postcode', 'eventRegion',\
+            'inclusivity', 'activityTypes', 'comments', 'staffName')\
+            VALUES (?,?,?,?,?,?,?,?,?)", (eventName, eventStartDate,\
+             eventEndDate, postcode, eventRegion, inclusivity, activityTypes,\
+             comments, staffName))
         return msg
 
 @app.route("/Staff/Tournamentform", methods=['GET'])
@@ -450,10 +437,10 @@ def addStaff():
                         </p>""".format(firstName, surname, username, verificationSigner.dumps(username))
                         sendEmail(email, "New Account", message)
             else:
-                msg = "unsuccessful email already used."
+                msg = "Error: email already used."
             return msg
         else:
-            return "Email address not found"
+            return "Error: Email address not found"
 
 @app.route("/Admin/Deletestaff", methods=['GET'])
 @app.route("/Admin/deleteStaff", methods=['GET'])
@@ -485,7 +472,7 @@ def deleteStaff():
         elif (checkLogin(getUsernameFromSession(), password)):
             data = getDetailsFromUsername(otherusername)
             msg = deleteFromTable("DELETE FROM tblStaff WHERE username=?;", [otherusername])
-            if (not "error" in msg):
+            if (not "Error" in msg):
                 msg = "User {} successfully deleted".format(otherusername)
                 print("Deleted staff member:" + otherusername)
                 message = """\
@@ -496,7 +483,7 @@ def deleteStaff():
                 </p>""".format(data[0], data[1])
                 sendEmail(data[2], "Account Deleted", message)
         else:
-            msg = "Incorrect password"
+            msg = "Error: Incorrect password"
         return msg
 
 @app.route("/Admin/download", methods=['GET'])
@@ -675,7 +662,7 @@ def selectFromDatabaseTable(sqlStatement, arrayOfTerms=None):
         cur.execute(sqlStatement, arrayOfTerms)
         data = cur.fetchone()
     except sql.ProgrammingError as e:
-        print("Error in operation," + str(e))
+        print("Error in select operation," + str(e))
         data = "Error"
     finally:
         conn.close()
@@ -687,7 +674,7 @@ def insertIntoDatabaseTable(sqlStatement, tupleOfTerms):
         cur = conn.cursor()
         cur.execute(sqlStatement, tupleOfTerms)
         conn.commit()
-        msg = "Record successfully added"
+        msg = "Record successfully added."
     except sql.ProgrammingError as e:
         conn.rollback()
         msg = "Error in insert operation: " + str(e)
@@ -702,11 +689,11 @@ def updateTable(sqlStatement, arrayOfTerms):
         cur = conn.cursor()
         cur.execute(sqlStatement, arrayOfTerms)
         conn.commit()
-        msg = "Record(s) updated"
-    except Exception as e:
+        msg = "Record successfully updated."
+    except sql.ProgrammingError as e:
         conn.rollback()
-        print("Error in update operation" + str(e))
         msg = "Error in update operation" + str(e)
+        print(msg)
     finally:
         conn.close()
         return msg
@@ -717,10 +704,11 @@ def deleteFromTable(sqlStatement, arrayOfTerms):
         cur = conn.cursor()
         cur.execute(sqlStatement, arrayOfTerms);
         conn.commit()
-        msg = "Record successfully deleted"
-    except:
+        msg = "Record successfully deleted."
+    except sql.ProgrammingError as e:
         conn.rollback()
-        msg = "Error in delete operation"
+        msg = "Error in delete operation" + str(e)
+        print(msg)
     finally:
         conn.close()
         return msg
