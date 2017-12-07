@@ -154,7 +154,6 @@ function addStaff()
   var email = document.forms["addstaff"]["email"].value;
   var usertype = document.forms["addstaff"]["usertype"].value;
   var organisation = document.forms["addstaff"]["organisation"].value;
-  document.forms["addstaff"].reset();
   params = 'firstName='+firstName+'&surname='+surname+'&password='+password+'&email='+email+'&usertype='+usertype+'&organisation='+organisation;
   var xhttp = new XMLHttpRequest();
   xhttp.open("POST", '/Admin/AddStaff', true); // true is asynchronous
@@ -257,7 +256,7 @@ function addEvent()
     else if (checkboxes[i].value == "collaborativeDelivery") activityTypes.push(document.getElementById("collabBox").value);
     else activityTypes.push(checkboxes[i].value);
   }
-  params = 'eventName='+eventName+'&eventStartDate='+eventDate+'&eventEndDate='+eventEndDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
+  params = 'eventName='+eventName+'&eventStartDate='+eventStartDate+'&eventEndDate='+eventEndDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
   ajaxData("POST", "/Staff/EventForm", params);
   return false;
 }
@@ -513,6 +512,8 @@ function toggleOnlineOnlyStuff(status)
   if (logoutbutton != null) logoutbutton.style.display = display;
   var admindropdown = document.getElementById("adminsection");
   if (admindropdown != null) admindropdown.style.display = display;
+  var accountChange = document.getElementById("accountChanges");
+  if (accountChange != null) accountChange.style.display = display;
   var submit = document.getElementById("submit");
   if (status && submit != null) submit.textContent = "Submit";
   else if (submit != null) submit.textContent = "Submit when online";

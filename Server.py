@@ -67,7 +67,7 @@ def staffVerifyPost():
             newpassword = encrypt(request.form.get('newpassword', default="Error"))
             if (user == username):
                 userexists = checkIfUserExists(username)
-                if (userexists != "False"):
+                if (userexists is not False):
                     check = checkLogin(username, password)
                     if (check == False):
                         print("Failed to log in, incorrect password.")
@@ -267,7 +267,7 @@ def checkIfEmailIsUsed(email):
     if (len(data) > 0):
         return "True:{}:{}:{}".format(data[0], data[1], data[2])
     else:
-        return "False"
+        return False
 
 @app.route("/Staff/Eventform", methods=['GET'])
 @app.route("/Staff/eventForm", methods=['GET'])
@@ -416,33 +416,37 @@ def addStaff():
 
         print("Adding staff member: " + username)
         if (verifyEmail(email)):
-            name = ""
-            msg = ""
-            if 'username' in session:
-                name = escape(session['username'])
-                if name == "":
-                    msg = "error not logged in?"
+            if (not checkIfEmailIsUsed(email)):
+                name = ""
+                msg = ""
+                if 'username' in session:
+                    name = escape(session['username'])
+                    if name == "":
+                        msg = "error not logged in?"
+                    else:
+                        adminName = name
                 else:
-                    adminName = name
+                    msg = "error not logged in?"
+                if msg == "":
+                    msg = insertIntoDatabaseTable("INSERT INTO tblStaff ('username',\
+                    'password', 'email', 'usertype', 'firstname', 'surname',\
+                    'organisation', 'verified', 'adminName') VALUES (?,?,?,?,?,?,?,?,?)",\
+                    (username, password, email, usertype, firstName, surname,\
+                    organisation, "False", adminName))
+
+                    if "successful" in msg:
+                        msg = "User {} successfully added".format(username)
+                        print("Added staff member: " + username)
+                        message = """\
+                        <p>
+                            Hi {} {},<br>
+                            You've been added to the WRU staff database for there event data collection tool.<br>
+                            Username: {}<br>
+                            <a href="http://localhost:5000/Staff/Verify/{}">Click to login.</a>
+                        </p>""".format(firstName, surname, username, verificationSigner.dumps(username))
+                        sendEmail(email, "New Account", message)
             else:
-                msg = "error not logged in?"
-            if msg == "":
-                msg = insertIntoDatabaseTable("INSERT INTO tblStaff ('username',\
-                'password', 'email', 'usertype', 'firstname', 'surname',\
-                'organisation', 'verified', 'adminName') VALUES (?,?,?,?,?,?,?,?,?)",\
-                (username, password, email, usertype, firstName, surname,\
-                organisation, "False", adminName))
-                if "succesful" in msg:
-                    msg = "User {} successfully added".format(username)
-                    print("Added staff member: " + username)
-                    message = """\
-                    <p>
-                        Hi {} {},<br>
-                        You've been added to the WRU staff database for there event data collection tool.<br>
-                        Username: {}<br>
-                        <a href="http://localhost:5000/Staff/Verify/{}">Click to login.</a>
-                    </p>""".format(firstName, surname, username, verificationSigner.dumps(username))
-                    sendEmail(email, "New Account", message)
+                msg = "unsuccessful email already used."
             return msg
         else:
             return "Email address not found"
@@ -616,10 +620,7 @@ def moduleSearch():
 
 @app.route("/Logout", methods=['POST'])
 def logout():
-    session['username'] = ""
-    session['password'] = ""
-    session['usertype'] = ""
-    session['verified'] = ""
+    session.clear()
     return "successful"
 
 @app.route("/SW", methods = ['GET'])
@@ -658,7 +659,7 @@ def checkIfUserExists(username):
     if (data > 0):
         return "True:{}".format(data + 1)
     else:
-        return "False"
+        return False
 
 def selectFromDatabaseTable(sqlStatement, arrayOfTerms=None):
     try:
@@ -698,7 +699,7 @@ def updateTable(sqlStatement, arrayOfTerms):
     except Exception as e:
         conn.rollback()
         print("Error in update operation" + str(e))
-        msg + "Error in update operation" + str(e)
+        msg = "Error in update operation" + str(e)
     finally:
         conn.close()
         return msg
@@ -780,7 +781,6 @@ def checkLogin(username, password):
         pw = data[1]
         usertype = data[2]
         verified = data[3]
-        print(data)
         if (len(pw) is not 8):
             if (encrypt(password, pw) == pw):
                 return "True:{}:{}:{}".format(user, usertype, verified)
@@ -798,5 +798,5 @@ def make_session_permanent():
     session.permanent = True
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=80)
     # app.run(debug=True, ssl_context=('Certificates/cert.pem', 'Certificates/key.pem'))

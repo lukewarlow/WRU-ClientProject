@@ -15,7 +15,7 @@
     <header class = "header-container">
       <div class = "header">
         <div class = "header-item logo">
-          <img src="http://localhost:5000/static/resources/images/logo.png" alt="WRU Logo">
+          <img src="/static/resources/images/logo.png" alt="WRU Logo">
         </div>
         {% block header %}
         <div class = "header-item text">Welcome</div>
@@ -35,7 +35,7 @@
           <div class = "dropdown-content staff">
             <a href="/Staff/EventForm"> Event Form </a>
             <a href="/Staff/TournamentForm"> Tournament Form </a>
-            <a href="/Staff/Account"> Account </a>
+            <a id="accountChanges" href="/Staff/Account"> Account </a>
           </div>
         </li>
         {% endif %}
