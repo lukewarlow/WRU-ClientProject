@@ -170,26 +170,29 @@ def staffAccount():
                     return msg
             elif (newemail is not "Error"):
                 if (verifyEmail(newemail)):
-                    msg = updateTable("UPDATE tblStaff SET email=?;", [newemail])
-                    if ("updated" in msg):
-                        message1 = """\
-                        <p>
-                            Hi {} {},<br>
-                            You're email address has been changed to: {}.<br>
-                            If this was done by you, you can safely ignore this email.<br>
-                            If this wasn't done by you please contact a system admin immediately.<br>
-                        </p>""".format(data[0], data[1], newemail)
-                        message2 = """\
-                        <p>
-                            Hi,<br>
-                            Your account is now registered to this email account.<br>
-                            If you do not recognise this service.<br>
-                            Please contact {} and let them know they entered the wrong email address.<br>
-                        </p>""".format(data[2])
-                        sendEmail(data[2], "Email Changed", message1)
-                        sendEmail(newemail, "Email Changed", message2)
-                        logout()
-                        print("{}'s email updated successfully".format(username))
+                    if (not checkIfEmailIsUsed(newemail)):
+                        msg = updateTable("UPDATE tblStaff SET email=?;", [newemail])
+                        if ("updated" in msg):
+                            message1 = """\
+                            <p>
+                                Hi {} {},<br>
+                                You're email address has been changed to: {}.<br>
+                                If this was done by you, you can safely ignore this email.<br>
+                                If this wasn't done by you please contact a system admin immediately.<br>
+                            </p>""".format(data[0], data[1], newemail)
+                            message2 = """\
+                            <p>
+                                Hi,<br>
+                                Your account is now registered to this email account.<br>
+                                If you do not recognise this service.<br>
+                                Please contact {} and let them know they entered the wrong email address.<br>
+                            </p>""".format(data[2])
+                            sendEmail(data[2], "Email Changed", message1)
+                            sendEmail(newemail, "Email Changed", message2)
+                            logout()
+                            print("{}'s email updated successfully".format(username))
+                        else:
+                            msg = "email already used"
                     return msg
                 else:
                     return "unsuccessful invalid email."
