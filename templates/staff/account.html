@@ -16,60 +16,18 @@
     <br>
     <span id="accountChangeForm">
       <b>New password</b>
-      <input type='password' id="newpassword" placeholder='Enter your new password here' name='newpassword' onkeyup="checkPassword()" required>
+      <input type='password' id="newpassword" placeholder='Enter your new password here' name='newpassword' onkeyup="checkBoxesMatch('newpassword', 'submitAccountChanges')" required>
       <b>Confirm new password:</b>
-      <input type='password' id="newpasswordConfirm" placeholder='Re-Enter your new password here' name='newpasswordConfirm' onkeyup="checkPassword()" required>
+      <input type='password' id="checknewpassword" placeholder='Re-Enter your new password here' name='checknewpassword' onkeyup="checkBoxesMatch('newpassword', 'submitAccountChanges')" required>
     </span>
     <br>
     <br>
     <b>Confirm your current password:</b>
     <input type="password" placeholder="Enter your password here" name="password" required>
     <br>
-    <button id="submitAccountChanges" type = "submit">Submit</button>
+    <button id="submitAccountChanges" type = "submit" disabled>Submit</button>
   </form>
   <span id='msg'></span>
 </section>
 <script>
-var checkPassword = function()
-{
-  var matching = false;
-
-  if (document.getElementById('newpassword').value == document.getElementById('newpasswordConfirm').value)
-  {
-    document.getElementById('msg').style.color = 'green';
-    document.getElementById('msg').innerHTML = 'Matching';
-    matching = true;
-  }
-  else
-  {
-    document.getElementById('msg').style.color = 'red';
-    document.getElementById('msg').innerHTML = 'Not matching';
-    matching = false;
-  }
-
-  if (matching) document.getElementById("submitAccountChanges").disabled = false;
-  else document.getElementById("submitAccountChanges").disabled = true;
-}
-
-var checkEmail = function()
-{
-  var matching = false;
-
-  if (document.getElementById('newemail').value == document.getElementById('newemailConfirm').value)
-  {
-    document.getElementById('msg').style.color = 'green';
-    document.getElementById('msg').innerHTML = 'Matching';
-    matching = true;
-  }
-  else
-  {
-    document.getElementById('msg').style.color = 'red';
-    document.getElementById('msg').innerHTML = 'Not matching';
-    matching = false;
-  }
-
-  if (matching) document.getElementById("submitAccountChanges").disabled = false;
-  else document.getElementById("submitAccountChanges").disabled = true;
-}
-</script>
 {% endblock %}

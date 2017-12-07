@@ -292,17 +292,17 @@ function actionSelected(selectbox)
     {
       document.getElementById("accountChangeForm").innerHTML = `
       <b>New password</b>
-      <input type='password' id="newpassword" placeholder='Enter your new password here' name='newpassword' onkeyup="checkPassword()" required>
+      <input type='password' id="newpassword" placeholder='Enter your new password here' name='newpassword' onkeyup="checkBoxesMatch('newpassword', 'submitAccountChanges')" required>
       <b>Confirm new password:</b>
-      <input type='password' id="newpasswordConfirm" placeholder='Re-Enter your new password here' name='newpasswordConfirm' onkeyup="checkPassword()" required>`;
+      <input type='password' id="checknewpassword" placeholder='Re-Enter your new password here' name='checknewpassword' onkeyup="checkBoxesMatch('newpassword', 'submitAccountChanges')" required>`;
     }
     else if (selectbox.value == "changeEmail")
     {
       document.getElementById("accountChangeForm").innerHTML = `
       <b>New email</b>
-      <input type='email' id="newemail" placeholder='Enter your new email here' name='newemail' onkeyup="checkEmail()" required>
+      <input type='email' id="newemail" placeholder='Enter your new email here' name='newemail' onkeyup="checkBoxesMatch('newemail', 'submitAccountChanges')" required>
       <b>Confirm New email:</b>
-      <input type='email' id="newemailConfirm" placeholder='Re-Enter your new email here' name='newemailConfirm' onkeyup="checkEmail()" required>`;
+      <input type='email' id="checknewemail" placeholder='Re-Enter your new email here' name='checknewemail' onkeyup="checkBoxesMatch('newemail', 'submitAccountChanges')" required>`;
     }
 }
 
