@@ -351,30 +351,32 @@ function validateTournamentForm()
   return addTournament();
 }
 
+//https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects Accessed: 08/12/2017
 function addTournament()
 {
+  var form = document.forms.namedItem("tournamentForm");
+  formData = new FormData(form);
   try
   {
-    var eventName = document.forms["eventForm"]["eventname"].values;
+    var eventName = formData.get("eventName");
   }
   catch (TypeError)
   {
-    var eventName = "";
+    // formData.delete("eventName");
   }
 
   try
   {
-    var eventDate = document.forms["tournamentForm"]["eventDate"].value;
-    console.log(eventDate);
+    var eventDate = formData.get("eventDate");
   }
   catch (TypeError)
   {
-    var eventDate = "";
+    // formDate.delete("eventDate");
   }
 
   try
   {
-    var postcode = document.forms["tournamentForm"]["postcode"].value;
+    var postcode = formData.get("postcode");
     //http://html5pattern.com/Postal_Codes (Retrieved 17/11/17)
     if (!postcode.match("^[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}$"))
     {
@@ -384,31 +386,48 @@ function addTournament()
   }
   catch (TypeError)
   {
-    var postcode = "";
+    // formData.delete("postcode");
   }
 
-  if ((eventName == "" && eventDate == "") || (eventName == "" && postcode == "") || (eventDate == "" && postcode == ""))
+  console.log(formData.has("eventName"));
+  console.log(formData.has("eventDate"));
+  console.log(formData.has("postcode"));
+
+  if (!((formData.has("eventName") && formData.has("eventDate")) || (formData.has("eventName") && formData.has("postcode")) || (formData.has("eventDate") && formData.has("postcode"))))
   {
     document.getElementById("msg").innerHTML = "At least 2 out 3 bits of event information must be provided!";
     return false;
   }
 
-  var peopleNum = document.forms["tournamentForm"]["peopleNum"].value;
-  var ageRange = document.forms["tournamentForm"]["ageRange"].value;
-  var genderRatio = document.forms["tournamentForm"]["genderRatio"].value;
-
-  for (var i = 0; i < checkboxes.length; i++)
+  if (document.getElementById("otherRadio").checked) formData.set("rugbyOffer", document.getElementById("otherbox").value);
+  else formData.set("rugbyOffer", document.querySelector('input[type=radio]:checked').value);
+  // ajaxData("POST", "/Staff/TournamentForm", params);
+  var xhttp = new XMLHttpRequest();
+  var msg = "";
+  xhttp.open("POST", "/Staff/TournamentForm", true); // true is asynchronous
+  xhttp.onreadystatechange = function()
   {
-    if (checkboxes[i].value == "Other") rugbyOffer = document.getElementById("otherbox").value;
-    else rugbyOffer = checkboxes[i].value;
-  }
-
-  if (document.getElementById("otherRadio").checked) rugbyOffer = document.getElementById("otherbox").value;
-  else rugbyOffer = document.querySelectorAll('input[type=radio]:checked').value;
-
-  params = 'eventName='+eventName+'&eventDate='+eventDate+'&postcode='+postcode+'&peopleNum='+peopleNum+'&ageRange='+ageRange+'&rugbyOffer='+rugbyOffer+'&genderRatio='+genderRatio;
-  response = ajaxData("POST", "/Staff/TournamentForm", params);
-  if (!response.includes("Error")) document.forms["tournamentForm"].reset();
+    if (xhttp.readyState === 4)
+    {
+      if (xhttp.status === 200)
+      {
+        msg = xhttp.responseText;
+      }
+      else if (xhttp.status === 503 || xhttp.status === 0)
+      {
+        storeOffline(method, action, params);
+        msg = "Browser offline data stored for submission when online";
+      }
+      else
+      {
+        console.error(xhttp.statusText);
+        msg = "Error: other wierd response " + xhttp.status;
+      }
+      document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
+      console.log(msg);
+    }
+  };
+  xhttp.send(formData);
   return false;
 }
 
@@ -441,7 +460,7 @@ function resendStoredData()
   }
   myStorage.clear()
   if (messages.length > 0) console.log(messages);
-  for (i=0;i< messages.length;i++)
+  for (i=0; i < messages.length;i++)
   {
     if (messages[i] != null)
     {
@@ -454,16 +473,15 @@ function resendStoredData()
 function ajaxData(method, action, params)
 {
   var xhttp = new XMLHttpRequest();
+  var msg = "";
   xhttp.open(method, action, true); // true is asynchronous
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.onreadystatechange = function()
   {
-    var msg = null;
     if (xhttp.readyState === 4)
     {
       if (xhttp.status === 200)
       {
-        console.log(xhttp.responseText);
         msg = xhttp.responseText;
       }
       else if (xhttp.status === 503 || xhttp.status === 0)
@@ -477,7 +495,7 @@ function ajaxData(method, action, params)
         msg = "Error: other wierd response " + xhttp.status;
       }
       document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
-      return msg
+      console.log(msg);
     }
   };
   xhttp.send(params);

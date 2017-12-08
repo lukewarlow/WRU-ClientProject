@@ -6,8 +6,7 @@
 
 {% block main%}
 <section class = "main-item tournamentForm">
-  <!-- <form id="tournamentForm" action="#" onsubmit="filloutForm()" method="post"> -->
-  <form id="tournamentForm" onsubmit="return validateTournamentForm()">
+  <form id="tournamentForm" name = "tournamentForm" enctype="multipart/form-data" onsubmit="return addTournament()">
     <h2> What's happening at your tournament? </h2>
     <h3> Venue information: </h3>
     <div>Event name:<div>
@@ -42,7 +41,7 @@
       <input name = "rugbyOffer" type="radio" value="mixedAbility" onchange="radioChecked(this, 'otherbox')">Mixed ability<br>
       <input name = "rugbyOffer" type="radio" value="multiSport" onchange="radioChecked(this, 'otherbox')">Multi-sport<br>
       <input name = "rugbyOffer" type="radio" value="disability" onchange="radioChecked(this, 'otherbox')">Disability<br>
-      <input name = "rugbyOffer" id="otherRadio" type="radio" value="other" onchange="radioChecked(this, 'otherbox')">Other<br>
+      <input name = "rugbyOffer " id="otherRadio" type="radio" value="other" onchange="radioChecked(this, 'otherbox')">Other<br>
       <input name = "rugbyOffer" type="text" id="otherbox">
     </section>
     <br>
@@ -67,21 +66,11 @@
     </datalist>
     <div id = "maleRatio">Male: 50%</div>
     <div id = "femaleRatio">Female: 50%</div>
-
-      <!-- broken -->
-      <!-- <script>
-        var slider = document.getElementById('slider');
-
-        noUiSlider.create(slider,{
-          start:[50],
-          range: {
-            'min': 0,
-            'max': 100
-          }
-        });
-      </script> -->
-
-    <div id='slider'></div>
+    <br>
+    <div>
+      <label for="photo">Choose photo to upload</label><br>
+      <input type="file" id="photo" name="photo">
+    </div>
     <br>
     <button id="submit" type="submit" value="submit">Submit form</button>
     <br>
