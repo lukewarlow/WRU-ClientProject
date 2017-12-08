@@ -303,6 +303,7 @@ def eventForm():
                 msg = "error not logged in?"
             else:
                 staffName = username
+                msg = ""
         else:
             msg = "error not logged in?"
         if "error" not in msg:

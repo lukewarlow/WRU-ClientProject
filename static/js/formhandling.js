@@ -8,20 +8,10 @@ function verifyForm()
     var payload = document.getElementById("txt").innerHTML;
     params = 'username='+username+'&password='+password+'&newpassword='+newpassword+'&payload='+payload;
     document.getElementById("msg").innerHTML = "Verifying";
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", '/Staff/Verify', true); // true is asynchronous
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.onload = function()
-    {
-      if (xhttp.readyState === 4 && xhttp.status === 200)
-      {
-        console.log(xhttp.responseText);
-        document.getElementById("msg").innerHTML = xhttp.responseText;
-        if (!xhttp.responseText.includes("Error")) setTimeout(redirect, 700, "/Home")
-      }
-      else console.error(xhttp.statusText);
-    };
-    xhttp.send(params);
+    ajaxData("POST", "/Staff/Verify", params);
+    setTimeout(5000);
+    msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+    if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
     return false;
   }
   return false;
@@ -68,20 +58,10 @@ function validateAccountChanges()
       return false;
     }
   }
-  var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", '/Staff/Account', true); // true is asynchronous
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.onload = function()
-  {
-    if (xhttp.readyState === 4 && xhttp.status === 200)
-    {
-      console.log(xhttp.responseText);
-      document.getElementById("msg").innerHTML = xhttp.responseText;
-      if (!xhttp.responseText.includes("Error")) setTimeout(redirect, 700, "/Home")
-    }
-    else console.error(xhttp.statusText);
-  };
-  xhttp.send(params);
+  ajaxData("POST", "/Staff/Account", params);
+  setTimeout(5000);
+  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+  if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
   return false;
 }
 
@@ -107,43 +87,22 @@ function validateLoginIssues()
       return false;
     }
   }
-  var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", '/Staff/LoginIssues', true); // true is asynchronous
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.onload = function()
-  {
-    if (xhttp.readyState === 4 && xhttp.status === 200)
-    {
-      console.log(xhttp.responseText);
-      document.getElementById("msg").innerHTML = xhttp.responseText;
-      if (!xhttp.responseText.includes("Error")) setTimeout(redirect, 700, "/Staff/Login")
-    }
-    else console.error(xhttp.statusText);
-  };
-  xhttp.send(params);
+  ajaxData("POST", "/Staff/LoginIssues", params);
+  setTimeout(5000);
+  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+  if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
   return false;
 }
-
 
 function deleteStaff()
 {
   var username = document.forms["deletestaff"]["username"].value;
   var password = document.forms["deletestaff"]["password"].value;
   params = 'username='+username+'&password='+password;
-  var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", '/Admin/DeleteStaff', true); // true is asynchronous
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.onload = function()
-  {
-    if (xhttp.readyState === 4 && xhttp.status === 200)
-    {
-      console.log(xhttp.responseText);
-      document.getElementById("msg").innerHTML = xhttp.responseText;
-      if (!xhttp.responseText.includes("Error")) document.forms["deletestaff"].reset();
-    }
-    else console.error(xhttp.statusText);
-  };
-  xhttp.send(params);
+  ajaxData("POST", "/Admin/DeleteStaff", params);
+  setTimeout(5000);
+  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+  if (!msg.includes("Error")) document.forms["deletestaff"].reset();
   return false;
 }
 
@@ -156,20 +115,10 @@ function addStaff()
   var usertype = document.forms["addstaff"]["usertype"].value;
   var organisation = document.forms["addstaff"]["organisation"].value;
   params = 'firstName='+firstName+'&surname='+surname+'&password='+password+'&email='+email+'&usertype='+usertype+'&organisation='+organisation;
-  var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", '/Admin/AddStaff', true); // true is asynchronous
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.onload = function()
-  {
-    if (xhttp.readyState === 4 && xhttp.status === 200)
-    {
-      console.log(xhttp.responseText);
-      document.getElementById("msg").innerHTML = xhttp.responseText;
-      if (!xhttp.responseText.includes("Error")) document.forms["addstaff"].reset();
-    }
-    else console.error(xhttp.statusText);
-  };
-  xhttp.send(params);
+  ajaxData("POST", "/Admin/AddStaff", params);
+  setTimeout(5000);
+  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+  if (!msg.includes("Error")) document.forms["addstaff"].reset();
   return false;
 }
 
@@ -178,20 +127,10 @@ function login()
   var username = document.forms["login"]["username"].value;
   var password = document.forms["login"]["password"].value;
   params = 'username='+username+'&password='+password;
-  var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", '/Staff/Login', true); // true is asynchronous
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.onload = function()
-  {
-    if (xhttp.readyState === 4 && xhttp.status === 200)
-    {
-      console.log(xhttp.responseText);
-      document.getElementById("msg").innerHTML = xhttp.responseText;
-      if (!xhttp.responseText.includes("Error")) setTimeout(redirect, 700, "/Home")
-    }
-    else console.error(xhttp.statusText);
-  };
-  xhttp.send(params);
+  ajaxData("POST", "/Staff/Login", params);
+  setTimeout(5000);
+  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+  if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
   return false;
 }
 
@@ -218,7 +157,7 @@ function addEvent()
 {
   try
   {
-    var eventName = document.forms["eventForm"]["eventname"].values;
+    var eventName = document.forms["eventForm"]["eventName"].values;
   }
   catch (TypeError)
   {
@@ -259,26 +198,19 @@ function addEvent()
     else activityTypes.push(checkboxes[i].value);
   }
   params = 'eventName='+eventName+'&eventStartDate='+eventStartDate+'&eventEndDate='+eventEndDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
-  response = ajaxData("POST", "/Staff/EventForm", params);
-  if (!response.includes("Error")) document.forms["eventForm"].reset();
+  ajaxData("POST", "/Staff/EventForm", params);
+  setTimeout(5000);
+  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+  if (!msg.includes("Error")) document.forms["eventForm"].reset();
   return false;
 }
 
 function logout()
 {
-  var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", '/Logout', true); // true is asynchronous
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.onload = function()
-  {
-    if (xhttp.readyState === 4 && xhttp.status === 200)
-    {
-      console.log(xhttp.responseText);
-      if (!xhttp.responseText.includes("Error")) setTimeout(redirect, 700, "/Home")
-    }
-    else console.error(xhttp.statusText);
-  };
-  xhttp.send();
+  ajaxData("POST", "/Logout", params);
+  setTimeout(5000);
+  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+  if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
   return false;
 }
 
@@ -362,7 +294,7 @@ function addTournament()
   }
   catch (TypeError)
   {
-    // formData.delete("eventName");
+    formData.delete("eventName");
   }
 
   try
@@ -371,7 +303,7 @@ function addTournament()
   }
   catch (TypeError)
   {
-    // formDate.delete("eventDate");
+    formDate.delete("eventDate");
   }
 
   try
@@ -386,12 +318,8 @@ function addTournament()
   }
   catch (TypeError)
   {
-    // formData.delete("postcode");
+    formData.delete("postcode");
   }
-
-  console.log(formData.has("eventName"));
-  console.log(formData.has("eventDate"));
-  console.log(formData.has("postcode"));
 
   if (!((formData.has("eventName") && formData.has("eventDate")) || (formData.has("eventName") && formData.has("postcode")) || (formData.has("eventDate") && formData.has("postcode"))))
   {
@@ -401,33 +329,10 @@ function addTournament()
 
   if (document.getElementById("otherRadio").checked) formData.set("rugbyOffer", document.getElementById("otherbox").value);
   else formData.set("rugbyOffer", document.querySelector('input[type=radio]:checked').value);
-  // ajaxData("POST", "/Staff/TournamentForm", params);
-  var xhttp = new XMLHttpRequest();
-  var msg = "";
-  xhttp.open("POST", "/Staff/TournamentForm", true); // true is asynchronous
-  xhttp.onreadystatechange = function()
-  {
-    if (xhttp.readyState === 4)
-    {
-      if (xhttp.status === 200)
-      {
-        msg = xhttp.responseText;
-      }
-      else if (xhttp.status === 503 || xhttp.status === 0)
-      {
-        storeOffline(method, action, params);
-        msg = "Browser offline data stored for submission when online";
-      }
-      else
-      {
-        console.error(xhttp.statusText);
-        msg = "Error: other wierd response " + xhttp.status;
-      }
-      document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
-      console.log(msg);
-    }
-  };
-  xhttp.send(formData);
+  ajaxData("POST", "/Staff/TournamentForm", formData, true);
+  setTimeout(5000);
+  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+  if (!msg.includes("Error")) document.forms["tournamentForm"].reset();
   return false;
 }
 
@@ -465,17 +370,17 @@ function resendStoredData()
     if (messages[i] != null)
     {
       console.log(messages[i]);
-      ajaxData(messages[i]["method"], messages[i]["action"], messages[i]["params"]);
+      ajaxData(messages[i]["method"], messages[i]["action"], messages[i]["params"], messages[i]["storeOffline"]);
     }
   }
 }
 
-function ajaxData(method, action, params)
+function ajaxData(method, action, params, handleFileData=false)
 {
   var xhttp = new XMLHttpRequest();
   var msg = "";
   xhttp.open(method, action, true); // true is asynchronous
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  if (!handleFileData) xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.onreadystatechange = function()
   {
     if (xhttp.readyState === 4)
@@ -486,7 +391,7 @@ function ajaxData(method, action, params)
       }
       else if (xhttp.status === 503 || xhttp.status === 0)
       {
-        storeOffline(method, action, params);
+        storeOffline(method, action, params, handleFileData);
         msg = "Browser offline data stored for submission when online";
       }
       else
@@ -501,10 +406,10 @@ function ajaxData(method, action, params)
   xhttp.send(params);
 }
 
-function storeOffline(method, action, params)
+function storeOffline(method, action, params, handleFileData)
 {
   myStorage = window.localStorage;
-  storageItem = JSON.stringify({"action":action, "method":method, "params":params});
+  storageItem = JSON.stringify({"action":action, "method":method, "params":params, "handleFileData":handleFileData});
   myStorage.setItem('dataStorage', storageItem);
 }
 
