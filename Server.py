@@ -624,9 +624,11 @@ def moduleSearch():
             conn.close()
             return render_template('admin/search.html', data=data, data2=data2)
 
-@app.route("/Logout", methods=['POST'])
+@app.route("/Logout", methods=['GET'])
 def logout():
+    print(session)
     session.clear()
+    print(session)
     return "successful"
 
 @app.route("/SW", methods = ['GET'])

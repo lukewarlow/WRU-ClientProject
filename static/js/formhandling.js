@@ -207,10 +207,19 @@ function addEvent()
 
 function logout()
 {
-  ajaxData("POST", "/Logout", params);
-  setTimeout(5000);
-  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", '/Logout', true); // true is asynchronous
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.onload = function()
+  {
+    if (xhttp.readyState === 4 && xhttp.status === 200)
+    {
+      console.log("Log out " + xhttp.responseText);
+      if (xhttp.responseText == "successful") setTimeout(redirect, 300, "/Home")
+    }
+    else console.error(xhttp.statusText);
+  };
+  xhttp.send();
   return false;
 }
 
@@ -381,7 +390,7 @@ function ajaxData(method, action, params, handleFileData=false)
   var msg = "";
   xhttp.open(method, action, true); // true is asynchronous
   if (!handleFileData) xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.onreadystatechange = function()
+  xhttp.onload = function()
   {
     if (xhttp.readyState === 4)
     {
@@ -399,7 +408,10 @@ function ajaxData(method, action, params, handleFileData=false)
         console.error(xhttp.statusText);
         msg = "Error: other wierd response " + xhttp.status;
       }
-      document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
+      try
+      {
+        document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
+      } catch (e) { }
       console.log(msg);
     }
   };
