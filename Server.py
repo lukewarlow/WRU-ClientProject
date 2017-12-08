@@ -1,24 +1,30 @@
-import os
-from flask import Flask, redirect, request, render_template, jsonify, make_response, escape, session
+from flask import Flask, redirect, request, render_template, escape, session, send_from_directory
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from werkzeug.utils import secure_filename
+from bcrypt import hashpw, gensalt
+from itsdangerous import URLSafeTimedSerializer
+import os
 import random
 import sqlite3 as sql
-from bcrypt import hashpw, gensalt
 import sys
 import datetime
 import smtplib
-from itsdangerous import URLSafeTimedSerializer
 import xlsxwriter
 
-app = Flask(__name__)
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static/uploads')
 DATABASE = "database.db"
+
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
 
 #Generated using os.urandom(24), got from flask documentation.
 #http://flask.pocoo.org/docs/0.12/quickstart/ Accessed: 28/11/2017
 app.secret_key = b'\xac\x9b.\x8ew\xa2\x1b\x8d\xdf\xdbB\x00\xf6r95\xb5fy"\x85G\x11"'
 verificationSigner = URLSafeTimedSerializer(b'\xb7\xa8j\xfc\x1d\xb2S\\\xd9/\xa6y\xe0\xefC{\xb6k\xab\xa0\xcb\xdd\xdbV')
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'ico'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 @app.route("/", methods=['GET'])
 @app.route("/home", methods=['GET'])
@@ -350,6 +356,11 @@ def tournamentForm():
             eventID = data[0]
             eventExists = True
         if eventExists == True:
+            path = "\{}\{}".format(str(eventID), str(rugbyOffer))
+            filePath = upload_photos(path)
+            if ("Error" in filePath):
+                filePath = "N/A"
+            msg = ""
             if 'username' in session:
                 username = escape(session['username'])
                 if username == "":
@@ -361,8 +372,8 @@ def tournamentForm():
             if ("error" not in msg):
                 msg = insertIntoDatabaseTable("INSERT INTO tblTournament\
                 ('peopleNum', 'ageCategory', 'rugbyOffer', 'genderRatio',\
-                'staffName', 'eventID') VALUES (?,?,?,?,?,?)",(peopleNum,\
-                 ageCategory, genderRatio, rugbyOffer, staffName, eventID))
+                'staffName', 'filePathToPhoto', 'eventID') VALUES (?,?,?,?,?,?,?)",(peopleNum,\
+                 ageCategory, rugbyOffer, genderRatio, staffName, filePath, eventID))
             return msg
         else:
             print("Error: event not found")
@@ -669,6 +680,7 @@ def selectFromDatabaseTable(sqlStatement, arrayOfTerms=None):
         return data
 
 def insertIntoDatabaseTable(sqlStatement, tupleOfTerms):
+    msg = ""
     try:
         conn = sql.connect(DATABASE)
         cur = conn.cursor()
@@ -787,6 +799,36 @@ def checkLogin(username, password):
             return False
     else:
         return False
+
+#http://flask.pocoo.org/docs/0.12/patterns/fileuploads/ Accessed: 07/12/2017
+def allowed_file(filename):
+    ext = filename.rsplit('.', 1)[1].lower()
+    return '.' in filename and ext in ALLOWED_EXTENSIONS
+
+@app.route("/test")
+def test():
+    return app.send_static_file("uploadPhoto.html")
+
+# @app.route("/UploadFile", methods=["POST"])
+def upload_photos(subdirectory=""):
+    if 'photo' not in request.files:
+        msg = "Error no file given."
+    else:
+        photo = request.files["photo"]
+        if photo.filename == "":
+            msg = "Error no filename"
+        elif photo and allowed_file(photo.filename):
+            path = app.config['UPLOAD_FOLDER'] + subdirectory
+            if (not os.path.isdir(path)):
+                os.makedirs(path)
+            filename = secure_filename(photo.filename)
+            filepath = os.path.join(path, filename)
+            photo.save(filepath)
+            msg = filepath
+        else:
+            msg = "Error not allowed that type of file."
+    print(msg)
+    return msg
 
 @app.before_request
 def make_session_permanent():
