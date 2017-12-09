@@ -627,6 +627,47 @@ def moduleSearch():
             conn.close()
             return render_template('admin/search.html', data=data, data2=data2)
 
+@app.route("/Admin/Chart", methods = ['GET','POST'])
+def chart():
+    if request.method =='GET':
+        if checkIsAdmin():
+            name = getUsernameFromSession()
+            if (not "error" in name):
+                return render_template('admin/chart.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
+            else:
+                return render_template('admin/chart.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+        else:
+            return redirect("/Home")
+    if request.method =='POST':
+        try:
+            data = ""
+
+            tournament = request.form.get('tournamentchart')
+
+            conn = sql.connect(DATABASE)
+            cur = conn.cursor()
+
+            if (tournament != None):
+                cur.execute("SELECT peopleNum, genderRatio FROM tblTournament WHERE ageCategory=? ;", [tournament])
+                data = cur.fetchall()
+
+        except:
+            print("Failed to connect to DB")
+            conn.close()
+        finally:
+            conn.close()
+            print(data)
+            population = int(data[0][0])
+            malesPercentage = int(data[0][1])
+            femalesPercentage = 100 - malesPercentage
+
+            males = (population / 100) * malesPercentage
+            females = (population / 100) * femalesPercentage
+            labels = ["Male (" + str(malesPercentage)+ "%)", "Female (" + str(femalesPercentage)+"%)"]
+            values = [males, females]
+            colors = [ "#F7464A", "#46BFBD"]
+            return render_template('admin/chart.html', data=data, set=zip(values, labels, colors))
+
 @app.route("/Logout", methods=['GET'])
 def logout():
     print(session)
@@ -847,6 +888,8 @@ def testApi():
     if (weapon > 0.4 or drug > 0.4):
         print("innapropriate image")
         # os.remove(filepath)
+
+
 
 @app.before_request
 def make_session_permanent():
