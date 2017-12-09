@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block header %}
 <div class = "header-item text">Tournament form</div>
 {%endblock%}
@@ -46,25 +45,10 @@
     <br>
     <label for="genderRatio">Gender ratio</label>
     <br>
-    <br>
     <input name="genderRatio" type="range" min="0" max="100" value="50" id="genderRatio"
-    step="10" list="tickmarks" oninput="outputUpdate(value)">
-    <datalist id="tickmarks">
-      <option value="0">
-      <option value="10">
-      <option value="10">
-      <option value="20">
-      <option value="30">
-      <option value="40">
-      <option value="50">
-      <option value="60">
-      <option value="70">
-      <option value="80">
-      <option value="90">
-      <option value="100">
-    </datalist>
-    <div id = "maleRatio">Male: 50%</div>
-    <div id = "femaleRatio">Female: 50%</div>
+    step="10" oninput="outputUpdate(value)" class="genderRatioSlider">
+    <div id = "maleRatio" class = "labelMale">Male: 50%</div>
+    <div id = "femaleRatio" class = "labelFemale">Female: 50%</div>
     <br>
     <div>
       <label for="photo">Choose photo to upload</label><br>
