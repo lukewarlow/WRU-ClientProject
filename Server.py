@@ -1,9 +1,10 @@
-from flask import Flask, redirect, request, render_template, escape, session, send_from_directory
+from flask import Flask, redirect, request, render_template, escape, session, send_from_directory, jsonify
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from werkzeug.utils import secure_filename
 from bcrypt import hashpw, gensalt
 from itsdangerous import URLSafeTimedSerializer
+from sightengine.client import SightengineClient
 import os
 import random
 import sqlite3 as sql
@@ -19,6 +20,7 @@ DATABASE = "database.db"
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
+client = SightengineClient('1100809274', 'dgbHoNFrKnY3hzgUi9fB')
 
 #Generated using os.urandom(24), got from flask documentation.
 #http://flask.pocoo.org/docs/0.12/quickstart/ Accessed: 28/11/2017
@@ -36,6 +38,7 @@ def redirectHome():
 @app.route("/Home", methods=['GET'])
 def home():
     if request.method == 'GET':
+        # testApi()
         name = getUsernameFromSession()
         if (not "error" in name):
             return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), username=name)
@@ -832,6 +835,18 @@ def upload_photos(subdirectory=""):
             msg = "Error not allowed that type of file."
     print(msg)
     return msg
+
+#https://sightengine.com/ Accessed: 09/12/2017
+def testApi():
+    # filepath = os.path.join(app.config['UPLOAD_FOLDER'], "weaponTestForSightEngineApi.jpg")
+    # output = client.check("wad").set_file(filepath)
+    output = client.check("wad").set_url("http://www.mynewsmag.co.uk/wp-content/uploads/2014/05/592149_34629622-knife-crime-stock.jpg")
+    print(output)
+    weapon = output.get("weapon")
+    drug = output.get("drugs")
+    if (weapon > 0.4 or drug > 0.4):
+        print("innapropriate image")
+        # os.remove(filepath)
 
 @app.before_request
 def make_session_permanent():

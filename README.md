@@ -19,3 +19,7 @@ This installs the database communication library.
 ```
 pip install sqlite3
 ```
+This installs the image moderation library
+```
+pip install sightengine
+```
