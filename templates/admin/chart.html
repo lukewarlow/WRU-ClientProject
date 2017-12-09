@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class = "header-item text">Admin</div>
+{%endblock%}
+
+{% block main %}
+<h1>Tournament Data</h1>
+<form id='myForm' action='/Admin/Chart' method = 'post'>
+  Tournament:<input type = "text" name = "tournamentchart"><br>
+  <button type = "submit"> Show chart </button>
+</form>
+
+
+
+
+ <script src='../static/js/Chart.min.js'></script>
+<h1>Flask Chart.js</h1><!-- bar chart canvas element --><canvas id="chart" width="600" height="400"></canvas>
+
+
+<script>
+   var pieData = [
+            {% for item,label,colors in set %}
+                {
+                    value: {{item}},
+                    label: "{{label}}",
+                    color : "{{colors}}"
+                },
+                {% endfor %}
+
+
+         ];
+
+   // get bar chart canvas
+   var mychart = document.getElementById("chart").getContext("2d");
+
+   steps = 10
+   max = 10
+   // draw pie chart
+   new Chart(document.getElementById("chart").getContext("2d")).Pie(pieData);
+
+</script>
+
+{%endblock%}
