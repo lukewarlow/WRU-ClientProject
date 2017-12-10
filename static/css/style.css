@@ -318,6 +318,12 @@ input[type=text], input[type=password], input[type=email], select
     font-size: 1.3rem;
 }
 
+input[type=checkbox]
+{
+    min-height:20px;
+    min-width:20px;
+}
+
 select
 {
   width: 55%

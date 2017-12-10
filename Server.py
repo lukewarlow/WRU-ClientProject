@@ -38,7 +38,6 @@ def redirectHome():
 @app.route("/Home", methods=['GET'])
 def home():
     if request.method == 'GET':
-        # testApi()
         name = getUsernameFromSession()
         if (not "error" in name):
             return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), username=name)
@@ -114,8 +113,8 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username', default="Error").lower()
         password = request.form.get('password', default="Error")
-        userexists = checkIfUserExists(username).split(":")
-        if (len(userexists) == 2):
+        userexists = checkIfUserExists(username)
+        if (type(userexists) is not type(bool)):
             check = checkLogin(username, password)
             if (check == False):
                 print("Failed to log in, incorrect password.")
@@ -129,7 +128,7 @@ def login():
             else:
                 return "Error: please verify account through the link in email."
         else:
-            print("Failed to log in, incorrect username or use.")
+            print("Failed to log in, incorrect username.")
             return "Error: user not found"
     else:
         return render_template('staff/login.html', title="Log In", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
@@ -152,7 +151,7 @@ def staffAccount():
         if (checkLogin(username, password)):
             data = getDetailsFromUsername(username)
             if (newpassword is not "Error"):
-                msg = updateTable("UPDATE tblStaff SET password=?;", [encrypt(newpassword)])
+                msg = updateTable("UPDATE tblStaff SET password=? WHERE username=?;", [encrypt(newpassword), username])
                 if ("Error" not in msg):
                     message = """\
                     <p>
@@ -464,25 +463,25 @@ def addStaff():
         else:
             return "Error: Email address not found"
 
-@app.route("/Admin/Ammendstaff", methods=['GET'])
-@app.route("/Admin/ammendStaff", methods=['GET'])
-@app.route("/Admin/ammendstaff", methods=['GET'])
-@app.route("/admin/AmmendStaff", methods=['GET'])
-@app.route("/admin/Ammendstaff", methods=['GET'])
-@app.route("/admin/ammendStaff", methods=['GET'])
-@app.route("/admin/ammendstaff", methods=['GET'])
-def redirectAmmendStaff():
-    return redirect("/Admin/AmmendStaff")
+@app.route("/Admin/Amendstaff", methods=['GET'])
+@app.route("/Admin/amendStaff", methods=['GET'])
+@app.route("/Admin/amendstaff", methods=['GET'])
+@app.route("/admin/AmendStaff", methods=['GET'])
+@app.route("/admin/Amendstaff", methods=['GET'])
+@app.route("/admin/amendStaff", methods=['GET'])
+@app.route("/admin/amendstaff", methods=['GET'])
+def redirectAmendStaff():
+    return redirect("/Admin/AmendStaff")
 
-@app.route("/Admin/AmmendStaff", methods=['POST', 'GET'])
-def ammendStaff():
+@app.route("/Admin/AmendStaff", methods=['POST', 'GET'])
+def amendStaff():
     if request.method == 'GET':
         if checkIsAdmin():
             name = getUsernameFromSession()
             if (not "error" in name):
-                return render_template('admin/ammendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
+                return render_template('admin/amendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
             else:
-                return render_template('admin/ammendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+                return render_template('admin/amendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
     else:
@@ -662,7 +661,6 @@ def moduleSearch():
             query4 = "SELECT * FROM tblEvent WHERE postcode=? ;"
             query5 = "SELECT * FROM tblEvent WHERE eventRegion=? ;"
             query6 = "SELECT * FROM tblEvent WHERE inclusivity=? ;"
-            query7 = "SELECT * FROM tblEvent WHERE eventName=? ;"
             query8 = "SELECT * FROM tblEvent WHERE activityTypes=? ;"
             query9 = "SELECT * FROM tblTournament WHERE ID=? ;"
             query10 = "SELECT * FROM tblTournament WHERE peopleNum=?;"
@@ -748,11 +746,49 @@ def chart():
             name = getUsernameFromSession()
             return render_template('admin/chart.html', title="Visualise search", admin=True, username=name, data=data, set=zip(values, labels, colors))
 
+@app.route("/Admin/Searchdl", methods = ['GET','POST'])
+def searchdl():
+    if request.method =='GET':
+        if checkIsAdmin():
+            name = getUsernameFromSession()
+            if (not "error" in name):
+                return render_template('admin/searchdl.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
+            else:
+                return render_template('admin/searchdl.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+        else:
+            return redirect("/Home")
+    if request.method =='POST':
+        try:
+
+            data = ""
+            data2 = ""
+
+            eventdate1 = request.form.get('eventStartDate')
+            eventdate2 = request.form.get('eventEndDate')
+            eventname = request.form.get('eventsearch')
+
+            tourndate1 = request.form.get('tournStartDate')
+            tourndate2 = request.form.get('tournEndDate')
+            tournname = request.form.get('tournamentsearch')
+
+            eventquery = "SELECT * FROM tblEvent WHERE eventStartDate BETWEEN ? and ? and eventName=?;"
+            tournquery = "SELECT * FROM tblTournament WHERE tblEvent.eventStartDate BETWEEN ? and ? and ageCategory=? and eventID=tblEvent.ID;"
+
+            data = selectFromDatabaseTable(eventquery, [eventdate1, eventdate2, eventname], True)
+            data2 = selectFromDatabaseTable(tournquery, [tourndate1, tourndate2, tournname], True)
+
+        except:
+            print("Failed to connect to DB")
+
+        finally:
+            name = getUsernameFromSession()
+            print(data)
+            print(data2)
+            return render_template('admin/searchdl.html', title="Search", admin=True, isloggedin=checkIsLoggedIn(), username=name, data=data, data2=data2)
+
 @app.route("/Logout", methods=['GET'])
 def logout():
-    print(session)
     session.clear()
-    print(session)
     return "successful"
 
 @app.route("/SW", methods = ['GET'])
