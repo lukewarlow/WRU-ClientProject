@@ -748,43 +748,46 @@ def chart():
 
 @app.route("/Admin/Searchdl", methods = ['GET','POST'])
 def searchdl():
+    now = datetime.datetime.now()
+    quarter = now - datetime.timedelta(days=91)
     if request.method =='GET':
         if checkIsAdmin():
             name = getUsernameFromSession()
             if (not "error" in name):
-                return render_template('admin/searchdl.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
+                return render_template('admin/searchdl.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name, today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
             else:
-                return render_template('admin/searchdl.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+                return render_template('admin/searchdl.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
         else:
             return redirect("/Home")
-    if request.method =='POST':
-        try:
+    elif request.method =='POST':
+        allEvents = []
+        tournaments = []
+        searchStartDate = request.form.get('searchStartDate')
+        searchEndDate = request.form.get('searchEndDate')
 
-            data = ""
-            data2 = ""
+        eventquery = "SELECT ID, eventName, eventStartDate, postcode, eventRegion, inclusivity, activityTypes FROM tblEvent WHERE eventStartDate BETWEEN ? and ?;"
+        tournquery = "SELECT peopleNum, ageCategory, genderRatio, rugbyOffer, eventID FROM tblTournament WHERE eventID=?;"
+        events = selectFromDatabaseTable(eventquery, [searchStartDate, searchEndDate], True)
+        for event in events:
+            print(event[0])
+            msg = selectFromDatabaseTable(tournquery, [event[0]], True)
+            print(msg)
+            if ("Error" not in msg):
+                for item in msg:
+                    tournaments.append(item)
 
-            eventdate1 = request.form.get('eventStartDate')
-            eventdate2 = request.form.get('eventEndDate')
-            eventname = request.form.get('eventsearch')
+        data = []
+        for event in events:
+            print(event)
+            data.append(["Event Name", "Event date", "Postcode", "Region", "Inclusivity", "Activity Types"])
+            data.append(event[1:])
+            data.append(["No. of people", "Age Category", "Gender Ratio", "Rugby offer"])
+            for tournament in tournaments:
+                if (tournament[-1] == event[0]):
+                    data.append(tournament[:-1])
 
-            tourndate1 = request.form.get('tournStartDate')
-            tourndate2 = request.form.get('tournEndDate')
-            tournname = request.form.get('tournamentsearch')
-
-            eventquery = "SELECT * FROM tblEvent WHERE eventStartDate BETWEEN ? and ? and eventName=?;"
-            tournquery = "SELECT * FROM tblTournament WHERE tblEvent.eventStartDate BETWEEN ? and ? and ageCategory=? and eventID=tblEvent.ID;"
-
-            data = selectFromDatabaseTable(eventquery, [eventdate1, eventdate2, eventname], True)
-            data2 = selectFromDatabaseTable(tournquery, [tourndate1, tourndate2, tournname], True)
-
-        except:
-            print("Failed to connect to DB")
-
-        finally:
-            name = getUsernameFromSession()
-            print(data)
-            print(data2)
-            return render_template('admin/searchdl.html', title="Search", admin=True, isloggedin=checkIsLoggedIn(), username=name, data=data, data2=data2)
+        name = getUsernameFromSession()
+        return render_template('admin/searchdl.html', title="Search", admin=True, isloggedin=checkIsLoggedIn(), username=name, data=data, today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
 
 @app.route("/Logout", methods=['GET'])
 def logout():
@@ -830,6 +833,7 @@ def checkIfUserExists(username):
         return False
 
 def selectFromDatabaseTable(sqlStatement, arrayOfTerms=None, all=False):
+    data = "Error"
     try:
         conn = sql.connect(DATABASE)
         cur = conn.cursor()
@@ -840,7 +844,6 @@ def selectFromDatabaseTable(sqlStatement, arrayOfTerms=None, all=False):
             data = cur.fetchone()
     except sql.ProgrammingError as e:
         print("Error in select operation," + str(e))
-        data = "Error"
     finally:
         conn.close()
         return data

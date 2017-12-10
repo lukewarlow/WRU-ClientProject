@@ -6,69 +6,22 @@
 
 {% block main %}
 <section class = "main-item searchForm">
-<h1>Event Data</h1>
-<form id='myForm' action='/Admin/Searchdl' method = 'post'>
-  Event:<input type = "text" name = "eventsearch"><br>
-  <input type="date" name="eventStartDate" value="{{ date }}" required>
-  <input type="date" name="eventEndDate" value="{{ date }}" required>
-  <button type = "submit"> Find Event information </button>
+  <h1>Event Data</h1>
+  <form id='myForm' action='/Admin/Searchdl' method = 'post'>
+    <!-- Event Name:<input type = "text" name = "eventName"><br> -->
+    Start date for search: <input type="date" name="searchStartDate" value="{{ quarter }}" required><br>
+    End date for search: <input type="date" name="searchEndDate" value="{{ today }}" required><br>
+    <button type = "submit"> Find Event information </button>
+  </form>
 
-</form>
-
-<h1>Tournament Data</h1>
-<form id='myForm' action='/Admin/Searchdl' method = 'post'>
-  Tournament ID:<input type = "text" name = "tournamentsearch"><br>
-  <input type="date" name="tournStartDate" value="{{ date }}" required>
-  <input type="date" name="tournEndDate" value="{{ date }}" required>
-  <button type = "submit"> Find Tournament information </button>
-</form>
-
-{% for row in data %}
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Event Name</td>
-   <td>Event date</td>
-   <td>Postcode</td>
-   <td>Region</td>
-   <td>Inclusivity</td>
-   <td>Activity Type</td>
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[4]}}</td>
-     <td>{{row[5]}}</td>
-     <td>{{row[6]}}</td>
-     <td>{{row[7]}}</td>
-   </tr>
-{% endfor %}
-</table>
-
-{% for row in data2 %}
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Event Name</td>
-   <td>Event date</td>
-   <td>Postcode</td>
-   <td>Region</td>
-   <td>Inclusivity</td>
-   <td>Activity Type</td>
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[4]}}</td>
-     <td>{{row[5]}}</td>
-     <td>{{row[6]}}</td>
-     <td>{{row[7]}}</td>
-   </tr>
-{% endfor %}
-</table>
-
+  <table style="border: 1px solid black;border-collapse: collapse;">
+  {% for row in data %}
+    <tr>
+      {% for item in row %}
+        <td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">{{item}}</td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+  </table>
+</section>
 {%endblock%}

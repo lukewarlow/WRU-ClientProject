@@ -177,7 +177,7 @@ function addEvent()
   try
   {
     var eventEndDate = document.forms["eventForm"]["eventEndDate"].value;
-    if (eventEndDate <= eventStartDate)
+    if (eventEndDate <= eventStartDate && eventEndDate != "")
     {
       msg = "Error: Event end date can't be before or the same as the start date.";
       document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
