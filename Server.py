@@ -464,6 +464,28 @@ def addStaff():
         else:
             return "Error: Email address not found"
 
+@app.route("/Admin/Ammendstaff", methods=['GET'])
+@app.route("/Admin/ammendStaff", methods=['GET'])
+@app.route("/Admin/ammendstaff", methods=['GET'])
+@app.route("/admin/AmmendStaff", methods=['GET'])
+@app.route("/admin/Ammendstaff", methods=['GET'])
+@app.route("/admin/ammendStaff", methods=['GET'])
+@app.route("/admin/ammendstaff", methods=['GET'])
+def redirectAmmendStaff():
+    return redirect("/Admin/AmmendStaff")
+
+@app.route("/Admin/AmmendStaff", methods=['POST', 'GET'])
+def ammendStaff():
+    if request.method == 'GET':
+        if checkIsAdmin():
+            name = getUsernameFromSession()
+            if (not "error" in name):
+                return render_template('admin/ammendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
+            else:
+                return render_template('admin/ammendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+        else:
+            return redirect("/Home")
+
 @app.route("/Admin/Deletestaff", methods=['GET'])
 @app.route("/Admin/deleteStaff", methods=['GET'])
 @app.route("/Admin/deletestaff", methods=['GET'])

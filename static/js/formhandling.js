@@ -249,6 +249,26 @@ function actionSelected(selectbox)
     }
 }
 
+function staffActionSelected(selectbox)
+{
+    if (selectbox.value == "changeEmail")
+    {
+      document.getElementById("submitStaffChange").disabled = true;
+      document.getElementById("staffChangeForm").innerHTML = `
+      <b>New email</b>
+      <input type='email' id="newemail" placeholder='Enter your new email here' name='newemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>
+      <b>Confirm New email:</b>
+      <input type='email' id="checknewemail" placeholder='Re-Enter your new email here' name='checknewemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>`;
+    }
+    else if (selectbox.value == "deleteStaff")
+    {
+      document.getElementById("submitStaffChange").disabled = false;
+      document.getElementById("staffChangeForm").innerHTML = `
+      <b>Their</b> Username:
+      <input type = "text" placeholder="Enter their username here" name = "username" required>`;
+    }
+}
+
 function issueSelected(selectbox)
 {
     if (selectbox.value == "forgotUsername")

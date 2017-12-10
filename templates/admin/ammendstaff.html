@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class = "header-item text">Admin</div>
+{%endblock%}
+
+{% block main %}
+<section class = "main-item">
+  <h1> What change do you want to make to a staff member? </h1>
+  <form id='staffChange' onsubmit="return validateStaffChange()">
+    <b>Select the action:</b><br>
+    <select value="action" onchange="staffActionSelected(this)" name="staffAction">
+      <option value="changeEmail">Change Email</option>
+      <option value="deleteStaff">Delete</option>
+    </select>
+    <br>
+    <span id="staffChangeForm">
+      <b>New email</b>
+      <input type='email' id="newemail" placeholder='Enter your new email here' name='newemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>
+      <b>Confirm New email:</b>
+      <input type='email' id="checknewemail" placeholder='Re-Enter your new email here' name='checknewemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>
+    </span>
+    <br>
+    <br>
+    <b>Confirm your password:</b>
+    <input type="password" placeholder="Enter your password here" name="password" required>
+    <br>
+    <button id="submitStaffChange" type = "submit" disabled>Submit</button>
+  </form>
+  <span id='msg'></span>
+</section>
+{% endblock %}
