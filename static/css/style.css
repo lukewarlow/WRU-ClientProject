@@ -222,8 +222,9 @@ button:disabled
   background: black;
   display: block;
 }
-.labelMale{
-  float:right;
+.labelFemale
+{
+  float: right;
 }
 
 .main-container
