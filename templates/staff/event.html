@@ -33,7 +33,7 @@
       <option value="RGC">RGC</option>
       <option value="AllWales">All Wales</option>
       <option value="Other">Other</option>
-      <input type="text" id = "otherbox3">
+      <input type="text" id = "otherbox3"onkeyup="toggleSubmitButton(this, 'submit')">
     </select>
     <br>
     <br>
@@ -46,8 +46,8 @@
       <option value="Deprivation">Deprivation</option>
       <option value="Female">Female</option>
       <option value="other">Other</option>
-      <input type="text" id = "otherbox2"></input>
     </select>
+    <input type="text" id="otherbox2" onkeyup="toggleSubmitButton(this, 'submit')">
     <br>
     <div class="activitycss">
     <div>Activity type</div>
@@ -60,7 +60,7 @@
         <option value="College">College</option>
         <option value="University">University</option>
         <option value="other">Other</option>
-        <input type="text" id="hubBox" value=""></input>
+        <input type="text" id="hubBox" value="" onkeyup="toggleSubmitButton(this, 'submit')"></input>
       </select>
       <input name = "activityType" type="checkbox"  value="communityFestival" style="min-height:20px;min-width:20px;">Community festival<br><br>
       <input name = "activityType" type="checkbox" value="competition" style="min-height:20px;min-width:20px;">Competition<br><br>
@@ -69,9 +69,9 @@
       <input name = "activityType" type="checkbox" value="regionalRugbyCamps" style="min-height:20px;min-width:20px;">Regional rugby camps<br><br>
       <input name = "activityType" type="checkbox" value="exilesCamps" style="min-height:20px;min-width:20px;">Exiles camps<br><br>
       <input name = "activityType" type="checkbox" value="collaborativeDelivery" onchange="checkboxChecked(this,'collabBox')" style="min-height:20px;min-width:20px;">Collaborative delivery (Please specify partner/s...)<br><br>
-      <input type="text" id = "collabBox" value=""></input>
+      <input type="text" id = "collabBox" value="" onkeyup="toggleSubmitButton(this, 'submit')"></input>
       <input name = "activityType" type="checkbox" value="other" onchange="checkboxChecked(this,'otherbox')"  style="min-height:20px;min-width:20px;">Other
-      <input type="text" id = "otherbox" value=""></input>
+      <input type="text" id = "otherbox" onkeyup="toggleSubmitButton(this, 'submit')"></input>
     </section>
   </div>
     <br>
