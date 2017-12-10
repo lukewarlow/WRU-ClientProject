@@ -115,18 +115,6 @@ function validateLoginIssues()
   return false;
 }
 
-function deleteStaff()
-{
-  var username = document.forms["deletestaff"]["username"].value;
-  var password = document.forms["deletestaff"]["password"].value;
-  params = 'username='+username+'&password='+password;
-  ajaxData("POST", "/Admin/DeleteStaff", params);
-  setTimeout(5000);
-  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error")) document.forms["deletestaff"].reset();
-  return false;
-}
-
 function addStaff()
 {
   var firstName = document.forms["addstaff"]["firstName"].value;
@@ -165,7 +153,8 @@ function validateEventForm()
   var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
   if (checkboxes.length == 0)
   {
-    alert("You need to select at least one activity type!");
+    msg = "Error: Must select at least one activity type!";
+    document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
     return false;
   }
   else
@@ -178,7 +167,7 @@ function addEvent()
 {
   try
   {
-    var eventName = document.forms["eventForm"]["eventName"].values;
+    var eventName = document.forms["eventForm"]["eventName"].value;
   }
   catch (TypeError)
   {
@@ -209,7 +198,20 @@ function addEvent()
 
   for (var i = 0; i < checkboxes.length; i++)
   {
-    if (checkboxes[i].value == "Other") activityTypes.push(document.getElementById("otherbox").value);
+    if (checkboxes[i].value == "Other")
+    {
+      try
+      {
+        otherValue = document.getElementById("otherbox").value;
+      }
+      catch (TypeError)
+      {
+        msg = "Error: If other activity type is selected please fill in the box";
+        document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
+        return false;
+      }
+      activityTypes.push("other:" + otherValue);
+    }
     else if (checkboxes[i].value == "hubActivity")
     {
       if (document.getElementById("hubSelect").value == "other") activityTypes.push(document.getElementById("hubBox").value);
@@ -242,12 +244,6 @@ function logout()
   };
   xhttp.send();
   return false;
-}
-
-function otherSelected(selectbox, idOfTextBox)
-{
-    if (selectbox.value == "other") document.getElementById(idOfTextBox).style.display = "block";
-    else document.getElementById(idOfTextBox).style.display = "none";
 }
 
 function actionSelected(selectbox)
@@ -310,8 +306,16 @@ function issueSelected(selectbox)
 
 function checkboxChecked(checkbox, id)
 {
-  if(checkbox.checked) document.getElementById(id).style.display = "block";
-  else document.getElementById(id).style.display = "none";
+  if(checkbox.checked)
+  {
+    document.getElementById(id).style.display = "block";
+    if (checkbox.value != "hubActivity") document.getElementById("submit").disabled = true;
+  }
+  else
+  {
+    document.getElementById(id).style.display = "none";
+    if (checkbox.value != "hubActivity") document.getElementById("submit").disabled = false;
+  }
   if(checkbox.value=="multiDay" && checkbox.checked) document.getElementById("eventTxt").innerHTML = "Event start date";
   else if(checkbox.value=="multiDay" && !checkbox.checked) document.getElementById("eventTxt").innerHTML = "Event date";
 }
@@ -325,6 +329,34 @@ function radioChecked(selector, id)
   else
   {
     document.getElementById(id).style.display = "none";
+  }
+}
+
+function otherSelected(selectbox, idOfTextBox)
+{
+    if (selectbox.value == "other")
+    {
+       document.getElementById(idOfTextBox).style.display = "block";
+       document.getElementById("submit").disabled = true;
+    }
+    else
+    {
+      document.getElementById(idOfTextBox).style.display = "none";
+      document.getElementById("submit").disabled = false
+    }
+}
+
+function toggleSubmitButton(textbox, idofsubmit)
+{
+  text = textbox.value;
+  //https://stackoverflow.com/questions/1172206/how-to-check-if-a-text-is-all-white-space-characters-in-client-side Accessed: 10/12/2017
+  if (text != "" && text.replace(/^\s+|\s+$/gm,'').length != 0)
+  {
+    document.getElementById(idofsubmit).disabled = false;
+  }
+  else
+  {
+    document.getElementById(idofsubmit).disabled = true;
   }
 }
 
