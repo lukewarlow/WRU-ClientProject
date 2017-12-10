@@ -34,10 +34,19 @@
         {% if isloggedin == True %}
         <li class = "dropdown">
           <label class = "droptext"> Staff Pages &#9660;</label>
-          <div class = "dropdown-content staff">
+          <div class = "dropdown-content">
             <a href="/Staff/EventForm"> Event Form </a>
             <a href="/Staff/TournamentForm"> Tournament Form </a>
             <a id="accountChanges" href="/Staff/Account"> Account </a>
+          </div>
+        </li>
+        {% endif %}
+        {% if isloggedin == False %}
+        <li class = "dropdown" id="offlineStaffPages">
+          <label class = "droptext offline-drop" id="offlineStaffPages"> Offline Staff Pages &#9660;</label>
+          <div class = "dropdown-content">
+            <a href="/Staff/EventForm"> Event Form </a>
+            <a href="/Staff/TournamentForm"> Tournament Form </a>
           </div>
         </li>
         {% endif %}

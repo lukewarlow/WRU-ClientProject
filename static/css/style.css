@@ -34,11 +34,6 @@
   margin-top: 5px;
 }
 
-#otherbox, #otherbox2, #otherbox3, #collabBox, #hubBox, #hubSelect, #endDate
-{
-  display: none;
-}
-
 html
 {
   font-size: 16px;
@@ -183,7 +178,7 @@ button:disabled
 .dropdown
 {
   text-align: left;
-  overflow: none;
+  overflow: hidden;
 }
 
 .dropdown .droptext
@@ -324,9 +319,19 @@ input[type=checkbox]
     min-width:20px;
 }
 
+#otherbox, #otherbox2, #otherbox3, #collabBox, #hubBox, #hubSelect, #endDate, #offlineStaffPages
+{
+  display: none;
+}
+
 select
 {
   width: 55%
+}
+
+button:hover
+{
+  text-decoration: underline;
 }
 
  /*Small screen adaptation for small screens (phones) */
@@ -336,18 +341,15 @@ select
   {
     font-size: 10px;
   }
-  .navbar {
+  .navbar
+  {
     font-size: 1rem;
-}
+  }
+
   .main-item.loginform
   {
       width: 100%;
       border-radius: 5px;
       padding: 20px;
   }
-}
-
-button:hover
-{
-  text-decoration: underline;
 }

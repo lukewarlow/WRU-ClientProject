@@ -551,6 +551,12 @@ function toggleOnlineOnlyStuff(status)
   var submit = document.getElementById("submit");
   if (status && submit != null) submit.textContent = "Submit";
   else if (submit != null) submit.textContent = "Submit when online";
+  var offlineStaffPages = document.getElementById("offlineStaffPages");
+  if (offlineStaffPages != null)
+  {
+    console.log("Test");
+    offlineStaffPages.style.display = display;
+  }
 }
 
 //Slider work in progress
