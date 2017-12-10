@@ -115,18 +115,6 @@ function validateLoginIssues()
   return false;
 }
 
-function deleteStaff()
-{
-  var username = document.forms["deletestaff"]["username"].value;
-  var password = document.forms["deletestaff"]["password"].value;
-  params = 'username='+username+'&password='+password;
-  ajaxData("POST", "/Admin/DeleteStaff", params);
-  setTimeout(5000);
-  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error")) document.forms["deletestaff"].reset();
-  return false;
-}
-
 function addStaff()
 {
   var firstName = document.forms["addstaff"]["firstName"].value;
@@ -178,12 +166,13 @@ function addEvent()
 {
   try
   {
-    var eventName = document.forms["eventForm"]["eventName"].values;
+    var eventName = document.forms["eventForm"]["eventName"].value;
   }
   catch (TypeError)
   {
     var eventName = "";
   }
+  console.log(eventName);
 
   var eventStartDate = document.forms["eventForm"]["eventStartDate"].value;
 
