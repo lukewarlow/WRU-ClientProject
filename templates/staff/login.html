@@ -6,7 +6,7 @@
 
 {% block main %}
 <section class = "main-item loginform">
-  <form id='login' onsubmit="return validatePassword('login', 'password')">
+  <form id='login' onsubmit="return login()">
     <b>Username:</b>
     <input type="text" placeholder="Enter your username here" name="username" required>
     <br>

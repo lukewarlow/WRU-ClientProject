@@ -1,48 +1,44 @@
 function verifyForm()
 {
-  if (validatePassword("verify", "newpassword"))
-  {
-    var username = document.forms["verify"]["username"].value;
-    var password = document.forms["verify"]["password"].value;
-    var newpassword = document.forms["verify"]["newpassword"].value;
-    var payload = document.getElementById("txt").innerHTML;
-    params = 'username='+username+'&password='+password+'&newpassword='+newpassword+'&payload='+payload;
-    document.getElementById("msg").innerHTML = "Verifying";
-    ajaxData("POST", "/Staff/Verify", params);
-    setTimeout(5000);
-    msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-    if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
-    return false;
-  }
+  var username = document.forms["verify"]["username"].value;
+  var password = document.forms["verify"]["password"].value;
+  if (!validatePassword(password)) return false;
+  var newpassword = document.forms["verify"]["newpassword"].value;
+  var payload = document.getElementById("txt").innerHTML;
+  params = 'username='+username+'&password='+password+'&newpassword='+newpassword+'&payload='+payload;
+  document.getElementById("msg").innerHTML = "Verifying";
+  ajaxData("POST", "/Staff/Verify", params);
+  setTimeout(5000);
+  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+  if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
   return false;
 }
 
-function validatePassword(form, id)
+function validatePassword(password)
 {
-  var password = document.forms[form][id].value;
-
-  if(password.length > 8)
+  if(password.length >= 8)
   {
     //https://gist.github.com/Michael-Brooks/fbbba105cd816ef5c016 Accessed 21/11/2017
     if(password.match(/^(?=.*[a-z|A-Z])(?=.*[A-Z])(?=.*\d).+$/) != null)
     {
-      if (form == "login") login();
-      else if (form == "addstaff") addStaff();
-      else return true;
+      return true;
     }
     else alert("Passwords contain at least 1 lower and upper case letter. And 1 number.");
+    return false;
   }
-  else alert("Passwords are at least 9 Characters long.");
+  else alert("Passwords are at least 8 Characters long.");
   return false;
 }
 
 function validateAccountChanges()
 {
   var password = document.forms["accountChange"]["password"].value;
+  if (!validatePassword(password)) return false;
   params = "";
   try
   {
     var newpassword = document.forms["accountChange"]["newpassword"].value;
+    if (!validatePassword(newpassword)) return false;
     params = "password="+password+"&newpassword="+newpassword;
   }
   catch (TypeError)
@@ -68,6 +64,7 @@ function validateAccountChanges()
 function validateStaffChange()
 {
   var password = document.forms["staffChange"]["password"].value;
+  if (!validatePassword(password)) return false;
   var username = document.forms["staffChange"]["username"].value;
   params = "";
   try
@@ -120,6 +117,7 @@ function addStaff()
   var firstName = document.forms["addstaff"]["firstName"].value;
   var surname = document.forms["addstaff"]["surname"].value;
   var password = document.forms["addstaff"]["password"].value;
+  if (!validatePassword(password)) return false;
   var email = document.forms["addstaff"]["email"].value;
   var usertype = document.forms["addstaff"]["usertype"].value;
   var organisation = document.forms["addstaff"]["organisation"].value;
