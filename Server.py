@@ -747,6 +747,62 @@ def chart():
             name = getUsernameFromSession()
             return render_template('admin/chart.html', title="Visualise search", admin=True, username=name, data=data, set=zip(values, labels, colors))
 
+@app.route("/Admin/Searchdl", methods = ['GET','POST'])
+def searchdl():
+    if request.method =='GET':
+        if checkIsAdmin():
+            name = getUsernameFromSession()
+            if (not "error" in name):
+                return render_template('admin/searchdl.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
+            else:
+                return render_template('admin/searchdl.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+        else:
+            return redirect("/Home")
+    if request.method =='POST':
+        try:
+
+            data = ""
+            data2 = ""
+
+            eventdate1 = request.form.get('eventStartDate')
+            eventdate2 = request.form.get('eventEndDate')
+            eventname = request.form.get('eventsearch')
+
+            tourndate1 = request.form.get('tournStartDate')
+            tourndate2 = request.form.get('tournEndDate')
+            tournname = request.form.get('tournamentsearch')
+
+            eventquery = "SELECT * FROM tblEvent WHERE eventStartDate BETWEEN ? and ? and eventName=?;"
+            tournquery = "SELECT * FROM tblTournament WHERE tblEvent.eventStartDate BETWEEN ? and ? and ageCategory=? and eventID=tblEvent.ID;"
+
+            data = selectFromDatabaseTable(eventquery, [eventdate1, eventdate2, eventname], True)
+            data2 = selectFromDatabaseTable(tournquery, [tourndate1, tourndate2, tournname], True)
+
+        except:
+            print("Failed to connect to DB")
+
+        finally:
+            name = getUsernameFromSession()
+            print(data)
+            print(data2)
+            return render_template('admin/searchdl.html', title="Search", admin=True, isloggedin=checkIsLoggedIn(), username=name, data=data, data2=data2)
+
+def selectAllFromDatabaseTable(sqlStatement, arrayOfTerms=None, arrayOfTerms2=None, arrayOfTerms3=None, all=False):
+    try:
+        conn = sql.connect(DATABASE)
+        cur = conn.cursor()
+        cur.execute(sqlStatement, arrayOfTerms)
+        if (all):
+            data = cur.fetchall()
+        else:
+            data = cur.fetchone()
+    except sql.ProgrammingError as e:
+        print("Error in select operation," + str(e))
+        data = "Error"
+    finally:
+        conn.close()
+        return data
+
 @app.route("/Logout", methods=['GET'])
 def logout():
     session.clear()
