@@ -10,6 +10,7 @@ self.addEventListener('install', function(e)
       '/Staff/EventForm',
       '/Staff/TournamentForm',
       '/static/css/style.css',
+      '/static/css/slider.css',
       '/static/js/formhandling.js',
       '/static/resources/images/favicon.ico',
       '/static/resources/images/logo.png'
