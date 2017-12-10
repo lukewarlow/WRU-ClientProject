@@ -604,28 +604,62 @@ def moduleSearch():
             return redirect("/Home")
     if request.method =='POST':
         try:
-            data = ""
+            data1 = ""
             data2 = ""
+            data3 = ""
+            data4 = ""
+            data5 = ""
+            data6 = ""
+            data7 = ""
+            data8 = ""
+            data9 = ""
+            data10 = ""
+            data11 = ""
+            data12 = ""
+            data13 = ""
+
+            query1 = "SELECT * FROM tblEvent WHERE ID=? ;"
+            query2 = "SELECT * FROM tblEvent WHERE eventName=? ;"
+            query3 = "SELECT * FROM tblEvent WHERE eventStartDate=? ;"
+            query4 = "SELECT * FROM tblEvent WHERE postcode=? ;"
+            query5 = "SELECT * FROM tblEvent WHERE eventRegion=? ;"
+            query6 = "SELECT * FROM tblEvent WHERE inclusivity=? ;"
+            query7 = "SELECT * FROM tblEvent WHERE eventName=? ;"
+            query8 = "SELECT * FROM tblEvent WHERE activityTypes=? ;"
+            query9 = "SELECT * FROM tblTournament WHERE ID=? ;"
+            query10 = "SELECT * FROM tblTournament WHERE peopleNum=?;"
+            query11 = "SELECT * FROM tblTournament WHERE ageCategory=? ;"
+            query12 = "SELECT * FROM tblTournament WHERE genderRatio=? ;"
+            query13 = "SELECT * FROM tblTournament WHERE rugbyOffer=? ;"
 
             event = request.form.get('eventsearch')
             tournament = request.form.get('tournamentsearch')
 
-            conn = sql.connect(DATABASE)
-            cur = conn.cursor()
-
+            # conn = sql.connect(DATABASE)
+            # cur = conn.cursor()
+            #
             if (event != None):
-                cur.execute("SELECT * FROM tblEvent WHERE eventName=? ;", [event])
-                data = cur.fetchall()
+                data1 = selectAllFromDatabaseTable(query1, [event])
+                data2 = selectAllFromDatabaseTable(query2, [event])
+                data3 = selectAllFromDatabaseTable(query3, [event])
+                data4 = selectAllFromDatabaseTable(query4, [event])
+                data5 = selectAllFromDatabaseTable(query5, [event])
+                data6 = selectAllFromDatabaseTable(query6, [event])
+                data7 = selectAllFromDatabaseTable(query7, [event])
+                data8 = selectAllFromDatabaseTable(query8, [event])
+            #     cur.execute("SELECT * FROM tblEvent WHERE eventName=? ;", [event])
+            #     data = cur.fetchall()
 
-            if (tournament != None):
-                cur.execute("SELECT * FROM tblTournament WHERE ageCategory=? ;", [tournament])
-                data2 = cur.fetchall()
+
+            #     cur.execute("SELECT * FROM tblTournament WHERE ageCategory=? ;", [tournament])
+            #     data2 = cur.fetchall()
+
         except:
             print("Failed to connect to DB")
-            conn.close()
+
         finally:
-            conn.close()
-            return render_template('admin/search.html', data=data, data2=data2)
+            return render_template('admin/search.html', data1=data1, data2=data2, data3=data3, data4=data4, data5=data5,
+         data6=data6, data7=data7, data8=data8, data9=data9, data10=data10, data11=data11, data12=data12, data13=data13)
 
 @app.route("/Admin/Chart", methods = ['GET','POST'])
 def chart():
@@ -648,7 +682,7 @@ def chart():
             cur = conn.cursor()
 
             if (tournament != None):
-                cur.execute("SELECT peopleNum, genderRatio FROM tblTournament WHERE ageCategory=? ;", [tournament])
+                cur.execute("SELECT peopleNum, genderRatio FROM tblTournament WHERE ID=? ;", [tournament])
                 data = cur.fetchall()
 
         except:
@@ -719,6 +753,19 @@ def selectFromDatabaseTable(sqlStatement, arrayOfTerms=None):
         cur = conn.cursor()
         cur.execute(sqlStatement, arrayOfTerms)
         data = cur.fetchone()
+    except sql.ProgrammingError as e:
+        print("Error in select operation," + str(e))
+        data = "Error"
+    finally:
+        conn.close()
+        return data
+
+def selectAllFromDatabaseTable(sqlStatement, arrayOfTerms=None):
+    try:
+        conn = sql.connect(DATABASE)
+        cur = conn.cursor()
+        cur.execute(sqlStatement, arrayOfTerms)
+        data = cur.fetchall()
     except sql.ProgrammingError as e:
         print("Error in select operation," + str(e))
         data = "Error"
