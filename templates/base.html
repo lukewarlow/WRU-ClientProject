@@ -49,7 +49,6 @@
             <a href="/Admin/Search"> Data Search </a>
             <a href="/Admin/Chart"> Data Representation </a>
             <a href="/Admin/Download"> Download </a>
-
           </div>
         </li>
         {% endif %}
@@ -77,13 +76,13 @@
     {% endblock %}
 
     <script>
-      // if('serviceWorker' in navigator)
-      // {
-      //   navigator.serviceWorker
-      //   .register('/SW')
-      //   .then(function(registration) { console.log("Service Worker Registered"); });
-      // }
-      // else console.log('Service worker not supported.');
+      if('serviceWorker' in navigator)
+      {
+        navigator.serviceWorker
+        .register('/SW')
+        .then(function(registration) { console.log("Service Worker Registered"); });
+      }
+      else console.log('Service worker not supported.');
     </script>
 
   </body>
