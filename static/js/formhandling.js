@@ -76,7 +76,7 @@ function validateStaffChange()
   {
     params = "password="+password+"&username="+username;
   }
-  ajaxData("POST", "/Admin/AmmendStaff", params);
+  ajaxData("POST", "/Admin/AmendStaff", params);
   setTimeout(5000);
   msg = document.getElementById("msg").innerHTML;
   if (!msg.includes("Error")) document.forms["staffChange"].reset();

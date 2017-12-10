@@ -463,25 +463,25 @@ def addStaff():
         else:
             return "Error: Email address not found"
 
-@app.route("/Admin/Ammendstaff", methods=['GET'])
-@app.route("/Admin/ammendStaff", methods=['GET'])
-@app.route("/Admin/ammendstaff", methods=['GET'])
-@app.route("/admin/AmmendStaff", methods=['GET'])
-@app.route("/admin/Ammendstaff", methods=['GET'])
-@app.route("/admin/ammendStaff", methods=['GET'])
-@app.route("/admin/ammendstaff", methods=['GET'])
-def redirectAmmendStaff():
-    return redirect("/Admin/AmmendStaff")
+@app.route("/Admin/Amendstaff", methods=['GET'])
+@app.route("/Admin/amendStaff", methods=['GET'])
+@app.route("/Admin/amendstaff", methods=['GET'])
+@app.route("/admin/AmendStaff", methods=['GET'])
+@app.route("/admin/Amendstaff", methods=['GET'])
+@app.route("/admin/amendStaff", methods=['GET'])
+@app.route("/admin/amendstaff", methods=['GET'])
+def redirectAmendStaff():
+    return redirect("/Admin/AmendStaff")
 
-@app.route("/Admin/AmmendStaff", methods=['POST', 'GET'])
-def ammendStaff():
+@app.route("/Admin/AmendStaff", methods=['POST', 'GET'])
+def amendStaff():
     if request.method == 'GET':
         if checkIsAdmin():
             name = getUsernameFromSession()
             if (not "error" in name):
-                return render_template('admin/ammendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
+                return render_template('admin/amendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
             else:
-                return render_template('admin/ammendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+                return render_template('admin/amendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
     else:
