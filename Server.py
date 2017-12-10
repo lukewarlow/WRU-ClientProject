@@ -594,9 +594,9 @@ def xlsxDatabase():
                 title2 = "Tournament form information"
                 worksheetTour.write('B1', title2, bold)
 
-                row = 1
+                #Creating worksheet column headings
+                row = 2
                 col = 1
-
                 for item in headerEvent:
                     worksheetEvent.write(row, col, item, bold)
                     col += 1
@@ -604,14 +604,16 @@ def xlsxDatabase():
                     worksheetTour.write(row, col, item, bold)
                     col += 1
 
-                row = 2
+                #Adding items from the database into the worksheet
+                row = 3
                 col = 1
-                for item in dataEvent:
+                for item in enumerate(dataEvent):
                     worksheetEvent.write_row(row, col, item)
                     row += 1
-                for item in dataTour:
-                    worksheetTour.write_row(row, col, item)
-                    row += 1
+                for i, row in enumerate(dataTour):
+                    for j, value in enumerate(row):
+                        worksheetTour.write_row(i, j, item)
+                row += 1
 
                 workbook.close()
             except:
