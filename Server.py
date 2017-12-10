@@ -661,7 +661,6 @@ def moduleSearch():
             query4 = "SELECT * FROM tblEvent WHERE postcode=? ;"
             query5 = "SELECT * FROM tblEvent WHERE eventRegion=? ;"
             query6 = "SELECT * FROM tblEvent WHERE inclusivity=? ;"
-            query7 = "SELECT * FROM tblEvent WHERE eventName=? ;"
             query8 = "SELECT * FROM tblEvent WHERE activityTypes=? ;"
             query9 = "SELECT * FROM tblTournament WHERE ID=? ;"
             query10 = "SELECT * FROM tblTournament WHERE peopleNum=?;"
@@ -786,22 +785,6 @@ def searchdl():
             print(data)
             print(data2)
             return render_template('admin/searchdl.html', title="Search", admin=True, isloggedin=checkIsLoggedIn(), username=name, data=data, data2=data2)
-
-def selectAllFromDatabaseTable(sqlStatement, arrayOfTerms=None, arrayOfTerms2=None, arrayOfTerms3=None, all=False):
-    try:
-        conn = sql.connect(DATABASE)
-        cur = conn.cursor()
-        cur.execute(sqlStatement, arrayOfTerms)
-        if (all):
-            data = cur.fetchall()
-        else:
-            data = cur.fetchone()
-    except sql.ProgrammingError as e:
-        print("Error in select operation," + str(e))
-        data = "Error"
-    finally:
-        conn.close()
-        return data
 
 @app.route("/Logout", methods=['GET'])
 def logout():
