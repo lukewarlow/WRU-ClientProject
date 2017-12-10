@@ -537,50 +537,6 @@ def ammendStaff():
         else:
             return "Error: incorrect password."
 
-@app.route("/Admin/Deletestaff", methods=['GET'])
-@app.route("/Admin/deleteStaff", methods=['GET'])
-@app.route("/Admin/deletestaff", methods=['GET'])
-@app.route("/admin/DeleteStaff", methods=['GET'])
-@app.route("/admin/Deletestaff", methods=['GET'])
-@app.route("/admin/deleteStaff", methods=['GET'])
-@app.route("/admin/deletestaff", methods=['GET'])
-def redirectDeleteStaff():
-    return redirect("/Admin/DeleteStaff")
-
-@app.route("/Admin/DeleteStaff", methods=['POST', 'GET'])
-def deleteStaff():
-    if request.method == 'GET':
-        if checkIsAdmin():
-            name = getUsernameFromSession()
-            if (not "error" in name):
-                return render_template('admin/deletestaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
-            else:
-                return render_template('admin/deletestaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
-        else:
-            return redirect("/Home")
-    elif request.method == 'POST':
-        otherusername = request.form.get('username', default="Error")
-        otherusername = otherusername.lower()
-        password = request.form.get('password', default="Error")
-        if (otherusername == getUsernameFromSession()):
-            msg = "Can't delete self"
-        elif (checkLogin(getUsernameFromSession(), password)):
-            data = getDetailsFromUsername(otherusername)
-            msg = deleteFromTable("DELETE FROM tblStaff WHERE username=?;", [otherusername])
-            if (not "Error" in msg):
-                msg = "User {} successfully deleted".format(otherusername)
-                print("Deleted staff member:" + otherusername)
-                message = """\
-                <p>
-                    Hi {} {},<br>
-                    You've been removed from the WRU staff database.<br>
-                    You will no longer have access to the tool.
-                </p>""".format(data[0], data[1])
-                sendEmail(data[2], "Account Deleted", message)
-        else:
-            msg = "Error: Incorrect password"
-        return msg
-
 @app.route("/Admin/download", methods=['GET'])
 @app.route("/admin/Download", methods=['GET'])
 @app.route("/admin/download", methods=['GET'])
