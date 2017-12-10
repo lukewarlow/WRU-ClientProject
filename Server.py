@@ -650,6 +650,12 @@ def moduleSearch():
             #     cur.execute("SELECT * FROM tblEvent WHERE eventName=? ;", [event])
             #     data = cur.fetchall()
 
+            if (tournament != None):
+                data9 = selectAllFromDatabaseTable(query9, [tournament])
+                data10 = selectAllFromDatabaseTable(query10, [tournament])
+                data11 = selectAllFromDatabaseTable(query11, [tournament])
+                data12 = selectAllFromDatabaseTable(query12, [tournament])
+                data13 = selectAllFromDatabaseTable(query13, [tournament])
 
             #     cur.execute("SELECT * FROM tblTournament WHERE ageCategory=? ;", [tournament])
             #     data2 = cur.fetchall()
