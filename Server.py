@@ -609,7 +609,7 @@ def moduleSearch():
                 return render_template('admin/search.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
-    if request.method =='POST':
+    elif request.method =='POST':
         try:
             data1 = ""
             data2 = ""
@@ -671,7 +671,8 @@ def moduleSearch():
             print("Failed to connect to DB")
 
         finally:
-            return render_template('admin/search.html', data1=data1, data2=data2, data3=data3, data4=data4, data5=data5,
+            name = getUsernameFromSession()
+            return render_template('admin/search.html', title="Search", admin=True, isloggedin=checkIsLoggedIn(), username=name, data1=data1, data2=data2, data3=data3, data4=data4, data5=data5,
          data6=data6, data7=data7, data8=data8, data9=data9, data10=data10, data11=data11, data12=data12, data13=data13)
 
 @app.route("/Admin/Chart", methods = ['GET','POST'])
@@ -713,7 +714,8 @@ def chart():
             labels = ["Male (" + str(malesPercentage)+ "%)", "Female (" + str(femalesPercentage)+"%)"]
             values = [males, females]
             colors = [ "#F7464A", "#46BFBD"]
-            return render_template('admin/chart.html', data=data, set=zip(values, labels, colors))
+            name = getUsernameFromSession()
+            return render_template('admin/chart.html', title="Visualise search", admin=True, username=name, data=data, set=zip(values, labels, colors))
 
 @app.route("/Logout", methods=['GET'])
 def logout():
