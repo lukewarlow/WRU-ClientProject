@@ -168,15 +168,15 @@ def staffAccount():
             elif (newemail is not "Error"):
                 if (verifyEmail(newemail)):
                     if (not checkIfEmailIsUsed(newemail)):
-                        msg = updateTable("UPDATE tblStaff SET email=?;", [newemail])
+                        msg = updateTable("UPDATE tblStaff SET email=? WHERE username=?;", [newemail, username])
                         if ("Error" not in msg):
                             message1 = """\
                             <p>
-                                Hi {} {},<br>
+                                Hi {},<br>
                                 You're email address has been changed to: {}.<br>
                                 If this was done by you, you can safely ignore this email.<br>
                                 If this wasn't done by you please contact a system admin immediately.<br>
-                            </p>""".format(data[0], data[1], newemail)
+                            </p>""".format(data[0], newemail)
                             message2 = """\
                             <p>
                                 Hi,<br>
