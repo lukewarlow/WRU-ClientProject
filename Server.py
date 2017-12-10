@@ -646,23 +646,23 @@ def moduleSearch():
             # cur = conn.cursor()
             #
             if (event != None):
-                data1 = selectAllFromDatabaseTable(query1, [event])
-                data2 = selectAllFromDatabaseTable(query2, [event])
-                data3 = selectAllFromDatabaseTable(query3, [event])
-                data4 = selectAllFromDatabaseTable(query4, [event])
-                data5 = selectAllFromDatabaseTable(query5, [event])
-                data6 = selectAllFromDatabaseTable(query6, [event])
-                data7 = selectAllFromDatabaseTable(query7, [event])
-                data8 = selectAllFromDatabaseTable(query8, [event])
+                data1 = selectFromDatabaseTable(query1, [event], True)
+                data2 = selectFromDatabaseTable(query2, [event], True)
+                data3 = selectFromDatabaseTable(query3, [event], True)
+                data4 = selectFromDatabaseTable(query4, [event], True)
+                data5 = selectFromDatabaseTable(query5, [event], True)
+                data6 = selectFromDatabaseTable(query6, [event], True)
+                data7 = selectFromDatabaseTable(query7, [event], True)
+                data8 = selectFromDatabaseTable(query8, [event], True)
             #     cur.execute("SELECT * FROM tblEvent WHERE eventName=? ;", [event])
             #     data = cur.fetchall()
 
             if (tournament != None):
-                data9 = selectAllFromDatabaseTable(query9, [tournament])
-                data10 = selectAllFromDatabaseTable(query10, [tournament])
-                data11 = selectAllFromDatabaseTable(query11, [tournament])
-                data12 = selectAllFromDatabaseTable(query12, [tournament])
-                data13 = selectAllFromDatabaseTable(query13, [tournament])
+                data9 = selectFromDatabaseTable(query9, [tournament], True)
+                data10 = selectFromDatabaseTable(query10, [tournament], True)
+                data11 = selectFromDatabaseTable(query11, [tournament], True)
+                data12 = selectFromDatabaseTable(query12, [tournament], True)
+                data13 = selectFromDatabaseTable(query13, [tournament], True)
 
             #     cur.execute("SELECT * FROM tblTournament WHERE ageCategory=? ;", [tournament])
             #     data2 = cur.fetchall()
@@ -762,25 +762,15 @@ def checkIfUserExists(username):
     else:
         return False
 
-def selectFromDatabaseTable(sqlStatement, arrayOfTerms=None):
+def selectFromDatabaseTable(sqlStatement, arrayOfTerms=None, all=False):
     try:
         conn = sql.connect(DATABASE)
         cur = conn.cursor()
         cur.execute(sqlStatement, arrayOfTerms)
-        data = cur.fetchone()
-    except sql.ProgrammingError as e:
-        print("Error in select operation," + str(e))
-        data = "Error"
-    finally:
-        conn.close()
-        return data
-
-def selectAllFromDatabaseTable(sqlStatement, arrayOfTerms=None):
-    try:
-        conn = sql.connect(DATABASE)
-        cur = conn.cursor()
-        cur.execute(sqlStatement, arrayOfTerms)
-        data = cur.fetchall()
+        if (all):
+            data = cur.fetchall()
+        else:
+            data = cur.fetchone()
     except sql.ProgrammingError as e:
         print("Error in select operation," + str(e))
         data = "Error"
