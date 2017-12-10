@@ -38,7 +38,6 @@ def redirectHome():
 @app.route("/Home", methods=['GET'])
 def home():
     if request.method == 'GET':
-        # testApi()
         name = getUsernameFromSession()
         if (not "error" in name):
             return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), username=name)
@@ -114,8 +113,8 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username', default="Error").lower()
         password = request.form.get('password', default="Error")
-        userexists = checkIfUserExists(username).split(":")
-        if (len(userexists) == 2):
+        userexists = checkIfUserExists(username)
+        if (type(userexists) is not type(bool)):
             check = checkLogin(username, password)
             if (check == False):
                 print("Failed to log in, incorrect password.")
@@ -129,7 +128,7 @@ def login():
             else:
                 return "Error: please verify account through the link in email."
         else:
-            print("Failed to log in, incorrect username or use.")
+            print("Failed to log in, incorrect username.")
             return "Error: user not found"
     else:
         return render_template('staff/login.html', title="Log In", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
@@ -152,7 +151,7 @@ def staffAccount():
         if (checkLogin(username, password)):
             data = getDetailsFromUsername(username)
             if (newpassword is not "Error"):
-                msg = updateTable("UPDATE tblStaff SET password=?;", [encrypt(newpassword)])
+                msg = updateTable("UPDATE tblStaff SET password=? WHERE username=?;", [encrypt(newpassword), username])
                 if ("Error" not in msg):
                     message = """\
                     <p>
@@ -750,9 +749,7 @@ def chart():
 
 @app.route("/Logout", methods=['GET'])
 def logout():
-    print(session)
     session.clear()
-    print(session)
     return "successful"
 
 @app.route("/SW", methods = ['GET'])
