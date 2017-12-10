@@ -179,6 +179,12 @@ function addEvent()
   try
   {
     var eventEndDate = document.forms["eventForm"]["eventEndDate"].value;
+    if (eventEndDate <= eventStartDate)
+    {
+      msg = "Error: Event end date can't be before or the same as the start date.";
+      document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
+      return false;
+    }
   }
   catch (TypeError)
   {
@@ -309,15 +315,15 @@ function checkboxChecked(checkbox, id)
   if(checkbox.checked)
   {
     document.getElementById(id).style.display = "block";
-    if (checkbox.value != "hubActivity") document.getElementById("submit").disabled = true;
+    if (checkbox.value != "hubActivity" && checkbox.value != "multiDay") document.getElementById("submit").disabled = true;
+    else if(checkbox.value=="multiDay") document.getElementById("eventTxt").innerHTML = "Event start date";
   }
   else
   {
     document.getElementById(id).style.display = "none";
     if (checkbox.value != "hubActivity") document.getElementById("submit").disabled = false;
+    else if(checkbox.value=="multiDay") document.getElementById("eventTxt").innerHTML = "Event date";
   }
-  if(checkbox.value=="multiDay" && checkbox.checked) document.getElementById("eventTxt").innerHTML = "Event start date";
-  else if(checkbox.value=="multiDay" && !checkbox.checked) document.getElementById("eventTxt").innerHTML = "Event date";
 }
 
 function radioChecked(selector, id)
