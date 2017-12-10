@@ -363,7 +363,11 @@ def tournamentForm():
             path = "\{}\{}".format(str(eventID), str(rugbyOffer))
             filePath = upload_photos(path)
             if ("Error" in filePath):
-                filePath = "N/A"
+                if ("innapropriate" in filePath):
+                    filePath = "Censored"
+                else:
+                    filePath = "N/A"
+
             msg = ""
             if 'username' in session:
                 username = escape(session['username'])
@@ -378,7 +382,10 @@ def tournamentForm():
                 ('peopleNum', 'ageCategory', 'rugbyOffer', 'genderRatio',\
                 'staffName', 'filePathToPhoto', 'eventID') VALUES (?,?,?,?,?,?,?)",(peopleNum,\
                  ageCategory, rugbyOffer, genderRatio, staffName, filePath, eventID))
-            return msg
+            if (filePath is not "Censored"):
+                return msg
+            else:
+                return msg + " Image not saved due to innapropriate content."
         else:
             print("Error: event not found")
             return "Event not found, check event data"
@@ -925,22 +932,40 @@ def upload_photos(subdirectory=""):
             filepath = os.path.join(path, filename)
             photo.save(filepath)
             msg = filepath
+            checkResult = checkUploadedPhoto(filepath)
+            if (checkResult[0] == False):
+                issueWithPhoto = checkResult[1]
+                if (issueWithPhoto == "wad"):
+                    msg = "Error photo is deemed innapropriate, due to weapons or drugs."
+                elif (issueWithPhoto == "nudity"):
+                    msg = "Error photo is deemed innapropriate, due to raw or partial nudity."
         else:
             msg = "Error not allowed that type of file."
     print(msg)
     return msg
 
 #https://sightengine.com/ Accessed: 09/12/2017
-def testApi():
-    # filepath = os.path.join(app.config['UPLOAD_FOLDER'], "weaponTestForSightEngineApi.jpg")
-    # output = client.check("wad").set_file(filepath)
-    output = client.check("wad").set_url("http://www.mynewsmag.co.uk/wp-content/uploads/2014/05/592149_34629622-knife-crime-stock.jpg")
-    print(output)
-    weapon = output.get("weapon")
-    drug = output.get("drugs")
-    if (weapon > 0.4 or drug > 0.4):
-        print("innapropriate image")
-        # os.remove(filepath)
+def checkUploadedPhoto(filePath):
+    wadCheck = client.check("wad").set_file(filePath)
+    nudityCheck = client.check("nudity").set_file(filePath)
+    weapon = wadCheck.get("weapon")
+    drugs = wadCheck.get("drugs")
+    nudityOutput = nudityCheck.get("nudity")
+    raw = nudityOutput.get("raw")
+    partial = nudityOutput.get("partial")
+    safe = nudityOutput.get("safe")
+    if (weapon > 0.45 or drugs > 0.4):
+        msg = "Innapropriate image uploaded, contains weapons or drugs."
+        print(msg)
+        os.remove(filePath)
+        return (False, "wad")
+    elif (raw > safe or partial > safe):
+        msg = "Innapropriate image uploaded, contains partial or raw nudity."
+        print(msg)
+        os.remove(filePath)
+        return (False, "nudity")
+    else:
+        return (True,"")
 
 
 
