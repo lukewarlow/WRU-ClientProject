@@ -65,6 +65,27 @@ function validateAccountChanges()
   return false;
 }
 
+function validateStaffChange()
+{
+  var password = document.forms["staffChange"]["password"].value;
+  var username = document.forms["staffChange"]["username"].value;
+  params = "";
+  try
+  {
+    var newemail = document.forms["staffChange"]["newemail"].value;
+    params = "password="+password+"&username="+username+"&newemail="+newemail;
+  }
+  catch (TypeError)
+  {
+    params = "password="+password+"&username="+username;
+  }
+  ajaxData("POST", "/Admin/AmmendStaff", params);
+  setTimeout(5000);
+  msg = document.getElementById("msg").innerHTML;
+  if (!msg.includes("Error")) document.forms["staffChange"].reset();
+  return false;
+}
+
 function validateLoginIssues()
 {
   params = "";
@@ -256,16 +277,16 @@ function staffActionSelected(selectbox)
       document.getElementById("submitStaffChange").disabled = true;
       document.getElementById("staffChangeForm").innerHTML = `
       <b>New email</b>
-      <input type='email' id="newemail" placeholder='Enter your new email here' name='newemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>
+      <input type='email' id="newemail" placeholder='Enter their new email here' name='newemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>
       <b>Confirm New email:</b>
-      <input type='email' id="checknewemail" placeholder='Re-Enter your new email here' name='checknewemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>`;
+      <input type='email' id="checknewemail" placeholder='Re-Enter their new email here' name='checknewemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>
+      <br>
+      <br>`;
     }
     else if (selectbox.value == "deleteStaff")
     {
       document.getElementById("submitStaffChange").disabled = false;
-      document.getElementById("staffChangeForm").innerHTML = `
-      <b>Their</b> Username:
-      <input type = "text" placeholder="Enter their username here" name = "username" required>`;
+      document.getElementById("staffChangeForm").innerHTML = "";
     }
 }
 

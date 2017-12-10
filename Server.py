@@ -485,6 +485,57 @@ def ammendStaff():
                 return render_template('admin/ammendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
         else:
             return redirect("/Home")
+    else:
+        username = getUsernameFromSession()
+        theirusername = request.form.get('username', default="Error")
+        theirusername = theirusername.lower()
+        password = request.form.get('password', default="Error")
+        newemail = request.form.get('newemail', default="Error")
+        if (username == theirusername):
+            return "Error: Go to Staff/Account to update your own details."
+        elif (checkLogin(username, password)):
+            data = getDetailsFromUsername(theirusername)
+            if (newemail is not "Error"):
+                if (verifyEmail(newemail)):
+                    if (not checkIfEmailIsUsed(newemail)):
+                        msg = updateTable("UPDATE tblStaff SET email=? WHERE username=?;", [newemail, theirusername])
+                        if ("Error" not in msg):
+                            message1 = """\
+                            <p>
+                                Hi {}, <br>
+                                You're email address has been changed to: {}, by an admin.<br>
+                                If this wasn't done by you please contact a system admin immediately.<br>
+                            </p>""".format(data[0], newemail)
+                            message2 = """\
+                            <p>
+                                Hi,<br>
+                                Your account is now registered to this email account.<br>
+                                If you do not recognise this service.<br>
+                                Then ignore this email.<br>
+                            </p>""".format(data[2])
+                            sendEmail(data[2], "Admin has changed your email", message1)
+                            sendEmail(newemail, "Email changed", message2)
+                            print("{}'s email updated successfully".format(theirusername))
+                    else:
+                        msg = "Error: email already used"
+                    return msg
+                else:
+                    return "Error: invalid email."
+            else:
+                msg = deleteFromTable("DELETE FROM tblStaff WHERE username=?;", [theirusername])
+                if (not "Error" in msg):
+                    msg = "User {} successfully deleted".format(theirusername)
+                    print(msg)
+                    message = """\
+                    <p>
+                        Hi {},<br>
+                        An admin has removed from the WRU staff database.<br>
+                        You will no longer have access to the tool.
+                    </p>""".format(data[0], data[1])
+                    sendEmail(data[2], "Account Deleted", message)
+                return msg
+        else:
+            return "Error: incorrect password."
 
 @app.route("/Admin/Deletestaff", methods=['GET'])
 @app.route("/Admin/deleteStaff", methods=['GET'])
