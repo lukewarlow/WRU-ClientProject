@@ -10,6 +10,7 @@ import random
 import sqlite3 as sql
 import sys
 import datetime
+import time
 import smtplib
 import xlsxwriter
 
@@ -556,9 +557,9 @@ def getPage():
         else:
             return redirect("/Home")
 
-@app.route("/Admin/Downloadfile", methods=['GET'])
+@app.route("/Admin/Downloadfile", methods=['POST'])
 def xlsxDatabase():
-        if request.method =='GET':
+        if request.method =='POST':
             try:
                 conn = sql.connect(DATABASE)
                 cur = conn.cursor()
@@ -567,8 +568,10 @@ def xlsxDatabase():
                 cur.execute("SELECT * FROM tblTournament;")
                 dataTours = cur.fetchall()
 
+                millis = int(round(time.time() * 1000))
                 #Documentation - http://xlsxwriter.readthedocs.io/
-                workbook = xlsxwriter.Workbook('static/downloads/FormInformation.xlsx')
+                fileRoute = 'static/downloads/FormInformation{}.xlsx'.format(millis)
+                workbook = xlsxwriter.Workbook(fileRoute)
                 worksheetEvent = workbook.add_worksheet()
                 worksheetTour = workbook.add_worksheet()
 
@@ -578,8 +581,8 @@ def xlsxDatabase():
                 'Gender ratio', 'Rugby offer', 'Staff name','File path to photo', 'Event ID']
 
                 # Set the columns widths.
-                worksheetEvent.set_column('B:J', 15)
-                worksheetTour.set_column('B:H', 19)
+                worksheetEvent.set_column('B:K', 18)
+                worksheetTour.set_column('B:I', 19)
 
                 # Aesthetic
                 worksheetEvent.set_tab_color('red')
@@ -608,7 +611,7 @@ def xlsxDatabase():
                     col += 1
 
                 #Adding items from the database into the worksheet
-                row = 3
+                row = 4
                 col = 1
                 for event in dataEvents:
                     print(event)
@@ -619,6 +622,8 @@ def xlsxDatabase():
                     row += 1
                     col = 1
 
+                row = 4
+                col = 1
                 for tour in dataTours:
                     for item in tour:
                         worksheetTour.write_string(row, col, str(item))
@@ -634,7 +639,7 @@ def xlsxDatabase():
                 conn.close()
             finally:
                 conn.close()
-                return render_template('admin/download.html')
+                return '/{}'.format(fileRoute)
 
 @app.route("/Admin/Chart", methods = ['GET','POST'])
 def chart():
