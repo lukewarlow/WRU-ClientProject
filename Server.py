@@ -638,6 +638,9 @@ def chart():
     if request.method =='POST':
         try:
             data = ""
+            data2 = ""
+
+            query1 = "SELECT * FROM tblTournament WHERE ID=?;"
 
             tournament = request.form.get('tournamentchart')
 
@@ -647,6 +650,7 @@ def chart():
             if (tournament != None):
                 cur.execute("SELECT peopleNum, genderRatio FROM tblTournament WHERE ID=?;", [tournament])
                 data = cur.fetchall()
+                data2 = selectFromDatabaseTable(query1, [tournament], True)
 
         except:
             print("Failed to connect to DB")
@@ -657,12 +661,16 @@ def chart():
             malesPercentage = int(data[0][1])
             femalesPercentage = 100 - malesPercentage
 
+            # tournid = str(data2[0][0])
+            # tourncat = (data2[0][2])
+
+
             males = (population / 100) * malesPercentage
             females = (population / 100) * femalesPercentage
             labels = ["Male (" + str(malesPercentage)+ "%)", "Female (" + str(femalesPercentage)+"%)"]
             values = [males, females]
             colors = [ "#F7464A", "#46BFBD"]
-            return render_template('admin/chart.html', title="Visualise search", data=data, set=zip(values, labels, colors))
+            return render_template('admin/chart.html', title="Visualise search", data=data, data2=data2, set=zip(values, labels, colors))
 
 @app.route("/Admin/DLsearch", methods=['GET'])
 @app.route("/admin/dlSearch", methods=['GET'])
