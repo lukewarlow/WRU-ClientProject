@@ -60,9 +60,11 @@ def staffVerifyGet(payload):
             return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=False, payload=payload)
 
 
-@app.route('/Staff/Verify', methods=['POST'])
+@app.route('/Staff/Verify', methods=['POST', 'GET'])
 def staffVerifyPost():
-    if request.method == "POST":
+    if request.method == "GET":
+        return redirect("/Home")
+    elif request.method == "POST":
         if checkIsLoggedIn() == False and checkIsVerified() == False:
             payload = request.form.get('payload', default="Error")
             try:
