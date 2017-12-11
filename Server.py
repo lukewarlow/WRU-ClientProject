@@ -624,9 +624,9 @@ def xlsxDatabase():
 
 @app.route("/Admin/Chart", methods = ['GET','POST'])
 def chart():
+    name = getUsernameFromSession()
     if request.method =='GET':
         if checkIsAdmin():
-            name = getUsernameFromSession()
             if (not "error" in name):
                 return render_template('admin/chart.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
             else:
@@ -643,7 +643,7 @@ def chart():
             cur = conn.cursor()
 
             if (tournament != None):
-                cur.execute("SELECT peopleNum, genderRatio FROM tblTournament WHERE ID=? ;", [tournament])
+                cur.execute("SELECT peopleNum, genderRatio FROM tblTournament WHERE ID=?;", [tournament])
                 data = cur.fetchall()
 
         except:
@@ -662,7 +662,7 @@ def chart():
             values = [males, females]
             colors = [ "#F7464A", "#46BFBD"]
             name = getUsernameFromSession()
-            return render_template('admin/chart.html', title="Visualise search", admin=True, username=name, data=data, set=zip(values, labels, colors))
+            return render_template('admin/chart.html', title="Visualise search", admin=True, isloggedin=checkIsLoggedIn(), username=name, data=data, set=zip(values, labels, colors))
 
 @app.route("/Admin/search", methods=['GET'])
 @app.route("/admin/Search", methods=['GET'])
