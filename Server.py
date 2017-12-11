@@ -651,7 +651,6 @@ def chart():
             conn.close()
         finally:
             conn.close()
-            print(data)
             population = int(data[0][0])
             malesPercentage = int(data[0][1])
             femalesPercentage = 100 - malesPercentage
