@@ -7,7 +7,7 @@
 {% block main %}
 <section class = "main-item searchForm">
   <h1>Event Data</h1>
-  <form id='myForm' action='/Admin/Search' method = 'post'>
+  <form id='myForm' action='/Admin/DLSearch' method = 'post'>
     <!-- Event Name:<input type = "text" name = "eventName"><br> -->
     Start date for search: <input type="date" name="searchStartDate" value="{{ quarter }}" required><br>
     End date for search: <input type="date" name="searchEndDate" value="{{ today }}" required><br>
