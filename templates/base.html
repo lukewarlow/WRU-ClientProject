@@ -57,6 +57,7 @@
             <a href="/Admin/AddStaff"> Add staff </a>
             <a href="/Admin/AmendStaff"> Amend staff </a>
             <a href="/Admin/Search"> Data Search </a>
+            <a href="/Admin/DLSearch"> Download Search </a>
             <a href="/Admin/Chart"> Data Representation </a>
             <a href="/Admin/Download"> Download </a>
           </div>
@@ -64,8 +65,6 @@
         {% endif %}
         {% if isloggedin == True %}
         <li><a id="logout" onclick="logout()"> Logout </a></li>
-        {% endif %}
-        {% if isloggedin == True %}
         <li id="loginName"><a>Logged in as {{ username }} </a></li>
         {% endif %}
       </ul>
@@ -84,16 +83,18 @@
       </ul>
     </footer>
     {% endblock %}
-
     <script>
       if('serviceWorker' in navigator)
       {
-        navigator.serviceWorker
-        .register('/SW')
-        .then(function(registration) { console.log("Service Worker Registered"); });
+        navigator.serviceWorker.register('/SW').then(function(registration)
+        {
+          console.log("Service Worker Registered");
+        }).catch(function(error)
+        {
+          console.error("Service Worker failed to register");
+        });
       }
       else console.log('Service worker not supported.');
     </script>
-
   </body>
 </html>

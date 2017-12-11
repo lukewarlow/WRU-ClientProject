@@ -5,6 +5,7 @@ self.addEventListener('install', function(e)
   e.waitUntil(caches.open('WRU').then(function(cache)
   {
     return cache.addAll([
+      '/',
       '/Home',
       '/Staff/Login',
       '/Staff/EventForm',
@@ -19,12 +20,16 @@ self.addEventListener('install', function(e)
   );
 });
 
+self.addEventListener('activate', function(event)
+{
+  console.log('SW now ready to handle fetches!');
+});
+
 self.addEventListener('fetch', function(event)
 {
+  //https://jakearchibald.com/2014/offline-cookbook/#network-falling-back-to-cache Accessed: 3/12/2017
   console.log(event.request.url);
-  event.respondWith(
-    //https://jakearchibald.com/2014/offline-cookbook/#network-falling-back-to-cache Accessed: 3/12/2017
-    fetch(event.request).catch(function()
+  event.respondWith(fetch(event.request).catch(function()
     {
       return caches.match(event.request)
     })

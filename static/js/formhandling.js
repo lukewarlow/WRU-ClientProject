@@ -228,7 +228,7 @@ function addEvent()
   ajaxData("POST", "/Staff/EventForm", params);
   setTimeout(5000);
   msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error")) document.forms["eventForm"].reset();
+  if (!msg.includes("Error" && msg != "")) document.forms["eventForm"].reset();
   return false;
 }
 
@@ -456,7 +456,7 @@ function resendStoredData()
     if (messages[i] != null)
     {
       console.log(messages[i]);
-      ajaxData(messages[i]["method"], messages[i]["action"], messages[i]["params"], messages[i]["storeOffline"]);
+      ajaxData(messages[i]["method"], messages[i]["action"], messages[i]["params"], messages[i]["handleFileData"]);
     }
   }
 }
@@ -467,7 +467,7 @@ function ajaxData(method, action, params, handleFileData=false)
   var msg = "";
   xhttp.open(method, action, true); // true is asynchronous
   if (!handleFileData) xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.onload = function()
+  xhttp.onreadystatechange = function()
   {
     if (xhttp.readyState === 4)
     {
@@ -485,6 +485,7 @@ function ajaxData(method, action, params, handleFileData=false)
         console.error(xhttp.statusText);
         msg = "Error: other wierd response " + xhttp.status;
       }
+      
       try
       {
         document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
@@ -554,7 +555,6 @@ function toggleOnlineOnlyStuff(status)
   var offlineStaffPages = document.getElementById("offlineStaffPages");
   if (offlineStaffPages != null)
   {
-    console.log("Test");
     offlineStaffPages.style.display = display;
   }
 }

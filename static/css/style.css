@@ -318,6 +318,16 @@ input[type=checkbox]
     min-height:20px;
     min-width:20px;
 }
+input[type=radio]
+{
+    min-height:20px;
+    min-width:20px;
+}
+.chartposition
+{
+  position: fixed;
+  bottom: 30px;
+}
 
 #otherbox, #otherbox2, #otherbox3, #collabBox, #hubBox, #hubSelect, #endDate, #offlineStaffPages
 {
