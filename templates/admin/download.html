@@ -18,11 +18,12 @@
 </section>
 <script>
 function downloadxlsx(){
-  $.ajax({ type: "POST",
-   url: "/Admin/Downloadfile",
-   data: null,
-   success: savexlsx,
-   dataType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+  $.ajax({
+    type: "GET",
+    url: "/Admin/Downloadfile",
+    data: null,
+    success: savexlsx,
+    dataType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
 }
 function savexlsx(data){
   console.log(data)
