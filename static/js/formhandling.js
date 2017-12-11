@@ -136,8 +136,11 @@ function login()
   params = 'username='+username+'&password='+password;
   ajaxData("POST", "/Staff/Login", params);
   setTimeout(5000);
-  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
+  setTimeout(function()
+  {
+    msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+    if (!msg.includes("Error")) redirect("/Home");
+  }, 1500);
   return false;
 }
 
@@ -478,7 +481,7 @@ function ajaxData(method, action, params, handleFileData=false)
       else if (xhttp.status === 503 || xhttp.status === 0)
       {
         storeOffline(method, action, params, handleFileData);
-        msg = "Browser offline data stored for submission when online";
+        msg = "Error: Browser offline data stored for submission when online";
       }
       else
       {
@@ -532,7 +535,13 @@ function toggleOnlineOnlyStuff(status)
   var home = document.getElementById("home");
   if (home != null) home.style.display = display;
   var loginbutton = document.getElementById("login");
-  if (loginbutton != null) loginbutton.style.display = display;
+  if (loginbutton != null)
+  {
+    loginbutton.style.display = display;
+    var homepagemessage = document.getElementById("homepagemessage");
+    if (homepagemessage != null && !status) homepagemessage.innerHTML = "Welcome to the Welsh Rugby Union's data collection tool. <br>Unfortunately you only have offline access to this site when logged in.";
+    else if (homepagemessage != null && status) homepagemessage.innerHTML = "Welcome to the Welsh Rugby Union's data collection tool.";
+  }
   var staffpages = document.getElementById("staffpages");
   if (staffpages != null) staffpages.style.display = display;
   var logoutbutton = document.getElementById("logout");
