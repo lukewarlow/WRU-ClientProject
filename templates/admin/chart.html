@@ -13,9 +13,15 @@
   </form>
 
   <div class="chartposition" position="None">
+{% for item in data2 %}
+    <p> This chart displays Tournament ID: <b>{{item[0]}}</b>. <br>
+    This tournament was a <b>{{item[2]}}</b> tournament</p><br>
+{% endfor %}
  <canvas id="chart" width="400%" height="320%"></canvas>
  </div>
 </section>
+
+
 
 
 
