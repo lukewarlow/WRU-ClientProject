@@ -716,9 +716,11 @@ def dlsearch():
 
 @app.route("/Admin/Search", methods = ['GET','POST'])
 def moduleSearch():
+    now = datetime.datetime.now()
+    quarter = now - datetime.timedelta(days=91)
     if request.method =='GET':
         if checkIsAdmin():
-            return render_template('admin/search.html', title="Admin")
+            return render_template('admin/search.html', title="Admin", today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
         else:
             return redirect("/Home")
     elif request.method =='POST':
@@ -782,7 +784,7 @@ def moduleSearch():
             print("Failed to connect to DB")
 
         finally:
-            return render_template('admin/search.html', title="Search", data1=data1, data2=data2, data3=data3, data4=data4, data5=data5,
+            return render_template('admin/search.html', title="Search", today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"), data1=data1, data2=data2, data3=data3, data4=data4, data5=data5,
          data6=data6, data7=data7, data8=data8, data9=data9, data10=data10, data11=data11, data12=data12, data13=data13)
 
 
