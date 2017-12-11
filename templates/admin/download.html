@@ -15,7 +15,7 @@
   <br>
   <div class="italics">Includes event forms and tournament forms in separate tabs</div>
   <button onclick="generatexlsx()">Generate xslx file</button>
-  <div id="downloadStatus"><a href="/static/downloads/FormInformation.xlsx">Click this link to download the spreadsheet</a></div>
+  <div><a href="/static/downloads/FormInformation.xlsx" id="downloadStatus"></a></div>
 </section>
 <script>
 function generatexlsx(){
@@ -24,7 +24,9 @@ function generatexlsx(){
     url: "/Admin/Downloadfile",
     data: null,
     success: savexlsx});
+    document.getElementById("downloadStatus").innerHTML = "Click this link to download the spreadsheet";
 }
+
 function savexlsx(data){
   console.log('Hello')
 
