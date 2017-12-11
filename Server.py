@@ -3,7 +3,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from werkzeug.utils import secure_filename
 from bcrypt import hashpw, gensalt
-from itsdangerous import URLSafeTimedSerializer
+from itsdangerous import URLSafeTimedSerializer, BadSignature, BadData
 from sightengine.client import SightengineClient
 import os
 import random
@@ -66,9 +66,21 @@ def staffVerifyPost():
             payload = request.form.get('payload', default="Error")
             try:
                 user = verificationSigner.loads(payload)
-            except Exception as e:
-                print(str(e))
-                return "Verification failed"
+            except BadSignature as e:
+                encodedUser = e.payload
+                if encodedUser is not None:
+                    try:
+                        user = verificationSigner.load_payload(encodedUser)
+                        msg = "Error: Verification failed, bad signature, try again."
+                    except BadData:
+                        msg = "Error: Verification failed, try again."
+                    finally:
+                        print(msg)
+                        return msg
+                else:
+                    print("Verification failed, no data")
+                    return "Error: Verification failed, try again."
+
             username = request.form.get('username', default="Error")
             password = request.form.get('password', default="Error")
             newpassword = encrypt(request.form.get('newpassword', default="Error"))
