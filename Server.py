@@ -664,23 +664,23 @@ def chart():
             name = getUsernameFromSession()
             return render_template('admin/chart.html', title="Visualise search", admin=True, isloggedin=checkIsLoggedIn(), username=name, data=data, set=zip(values, labels, colors))
 
-@app.route("/Admin/search", methods=['GET'])
-@app.route("/admin/Search", methods=['GET'])
-@app.route("/admin/search", methods=['GET'])
+@app.route("/Admin/DLsearch", methods=['GET'])
+@app.route("/admin/dlSearch", methods=['GET'])
+@app.route("/admin/DLSearch", methods=['GET'])
 def redirectSearch():
-    return redirect("/Admin/Search")
+    return redirect("/Admin/DLSearch")
 
-@app.route("/Admin/Search", methods = ['GET','POST'])
-def search():
+@app.route("/Admin/DLSearch", methods = ['GET','POST'])
+def dlsearch():
     now = datetime.datetime.now()
     quarter = now - datetime.timedelta(days=91)
     if request.method =='GET':
         if checkIsAdmin():
             name = getUsernameFromSession()
             if (not "error" in name):
-                return render_template('admin/search.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name, today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
+                return render_template('admin/dlsearch.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name, today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
             else:
-                return render_template('admin/search.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
+                return render_template('admin/dlsearch.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
         else:
             return redirect("/Home")
     elif request.method =='POST':
@@ -693,16 +693,13 @@ def search():
         tournquery = "SELECT peopleNum, ageCategory, genderRatio, rugbyOffer, eventID FROM tblTournament WHERE eventID=?;"
         events = selectFromDatabaseTable(eventquery, [searchStartDate, searchEndDate], True)
         for event in events:
-            print(event[0])
             msg = selectFromDatabaseTable(tournquery, [event[0]], True)
-            print(msg)
             if ("Error" not in msg):
                 for item in msg:
                     tournaments.append(item)
 
         data = []
         for event in events:
-            print(event)
             data.append(["Event Name", "Event date", "Postcode", "Region", "Inclusivity", "Activity Types"])
             data.append(event[1:])
             data.append(["No. of people", "Age Category", "Gender Ratio", "Rugby offer"])
@@ -711,7 +708,85 @@ def search():
                     data.append(tournament[:-1])
 
         name = getUsernameFromSession()
-        return render_template('admin/search.html', title="Search", admin=True, isloggedin=checkIsLoggedIn(), username=name, data=data, today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
+        return render_template('admin/dlsearch.html', title="DLSearch", admin=True, isloggedin=checkIsLoggedIn(), username=name, data=data, today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
+
+
+@app.route("/Admin/Search", methods = ['GET','POST'])
+def moduleSearch():
+    if request.method =='GET':
+        if checkIsAdmin():
+            name = getUsernameFromSession()
+            if (not "error" in name):
+                return render_template('admin/search.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
+            else:
+                return render_template('admin/search.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+        else:
+            return redirect("/Home")
+    elif request.method =='POST':
+        try:
+            data1 = ""
+            data2 = ""
+            data3 = ""
+            data4 = ""
+            data5 = ""
+            data6 = ""
+            data7 = ""
+            data8 = ""
+            data9 = ""
+            data10 = ""
+            data11 = ""
+            data12 = ""
+            data13 = ""
+
+            query1 = "SELECT * FROM tblEvent WHERE ID=? ;"
+            query2 = "SELECT * FROM tblEvent WHERE eventName=? ;"
+            query3 = "SELECT * FROM tblEvent WHERE eventStartDate=? ;"
+            query4 = "SELECT * FROM tblEvent WHERE postcode=? ;"
+            query5 = "SELECT * FROM tblEvent WHERE eventRegion=? ;"
+            query6 = "SELECT * FROM tblEvent WHERE inclusivity=? ;"
+            query8 = "SELECT * FROM tblEvent WHERE activityTypes=? ;"
+            query9 = "SELECT * FROM tblTournament WHERE ID=? ;"
+            query10 = "SELECT * FROM tblTournament WHERE peopleNum=?;"
+            query11 = "SELECT * FROM tblTournament WHERE ageCategory=? ;"
+            query12 = "SELECT * FROM tblTournament WHERE genderRatio=? ;"
+            query13 = "SELECT * FROM tblTournament WHERE rugbyOffer=? ;"
+
+            event = request.form.get('eventsearch')
+            tournament = request.form.get('tournamentsearch')
+
+            # conn = sql.connect(DATABASE)
+            # cur = conn.cursor()
+            #
+            if (event != None):
+                data1 = selectFromDatabaseTable(query1, [event], True)
+                data2 = selectFromDatabaseTable(query2, [event], True)
+                data3 = selectFromDatabaseTable(query3, [event], True)
+                data4 = selectFromDatabaseTable(query4, [event], True)
+                data5 = selectFromDatabaseTable(query5, [event], True)
+                data6 = selectFromDatabaseTable(query6, [event], True)
+                data7 = selectFromDatabaseTable(query7, [event], True)
+                data8 = selectFromDatabaseTable(query8, [event], True)
+            #     cur.execute("SELECT * FROM tblEvent WHERE eventName=? ;", [event])
+            #     data = cur.fetchall()
+
+            if (tournament != None):
+                data9 = selectFromDatabaseTable(query9, [tournament], True)
+                data10 = selectFromDatabaseTable(query10, [tournament], True)
+                data11 = selectFromDatabaseTable(query11, [tournament], True)
+                data12 = selectFromDatabaseTable(query12, [tournament], True)
+                data13 = selectFromDatabaseTable(query13, [tournament], True)
+
+            #     cur.execute("SELECT * FROM tblTournament WHERE ageCategory=? ;", [tournament])
+            #     data2 = cur.fetchall()
+
+        except:
+            print("Failed to connect to DB")
+
+        finally:
+            name = getUsernameFromSession()
+            return render_template('admin/search.html', title="Search", admin=True, isloggedin=checkIsLoggedIn(), username=name, data1=data1, data2=data2, data3=data3, data4=data4, data5=data5,
+         data6=data6, data7=data7, data8=data8, data9=data9, data10=data10, data11=data11, data12=data12, data13=data13)
+
 
 @app.route("/Logout", methods=['GET'])
 def logout():
