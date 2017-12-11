@@ -688,7 +688,7 @@ def dlsearch():
         searchStartDate = request.form.get('searchStartDate')
         searchEndDate = request.form.get('searchEndDate')
 
-        eventquery = "SELECT ID, eventName, eventStartDate, postcode, eventRegion, inclusivity, activityTypes FROM tblEvent WHERE eventStartDate BETWEEN ? and ?;"
+        eventquery = "SELECT ID, eventName, eventStartDate, postcode, eventRegion, inclusivity, activityTypes FROM tblEvent WHERE eventStartDate BETWEEN ? and ? ORDER BY eventStartDate;"
         tournquery = "SELECT peopleNum, ageCategory, genderRatio, rugbyOffer, eventID FROM tblTournament WHERE eventID=?;"
         events = selectFromDatabaseTable(eventquery, [searchStartDate, searchEndDate], True)
         for event in events:
