@@ -554,29 +554,26 @@ def getPage():
         else:
             return redirect("/Home")
 
-@app.route("/Admin/Downloadfile", methods=['POST'])
+@app.route("/Admin/Downloadfile", methods=['GET'])
 def xlsxDatabase():
-        if request.method =='POST':
+        if request.method =='GET':
             try:
-                headerEvent = ['ID', 'Event name', 'Event date', 'postcode', \
-                'Inclusivity', 'Activity type', 'Comments', 'Staff name']
-                headerTour = ['ID', 'Number of  people', 'Age category' \
-                'Gender ratio', 'Rugby offer', 'Staff name', 'Event ID']
-
                 conn = sql.connect(DATABASE)
                 cur = conn.cursor()
                 cur.execute("SELECT * FROM tblEvent;")
-                dataEvent = cur.fetchall()
+                dataEvents = cur.fetchall()
                 cur.execute("SELECT * FROM tblTournament;")
-                dataTour = cur.fetchall()
+                dataTours = cur.fetchall()
 
                 #Documentation - http://xlsxwriter.readthedocs.io/
-                workbook = xlsxwriter.Workbook('FormInformation.xlsx')
+                workbook = xlsxwriter.Workbook('static/downloads/FormInformation.xlsx')
                 worksheetEvent = workbook.add_worksheet()
                 worksheetTour = workbook.add_worksheet()
 
-                #Formatting
-                date_format = workbook.add_format({'num_format': 'mmmm d yyyy'})
+                headerEvent = ['ID', 'Event name', 'Event Start date','Event end date', 'postcode', \
+                'Event region', 'Inclusivity', 'Activity type', 'Comments', 'Staff name']
+                headerTour = ['ID', 'Number of people', 'Age category', \
+                'Gender ratio', 'Rugby offer', 'Staff name','File path to photo', 'Event ID']
 
                 # Set the columns widths.
                 worksheetEvent.set_column('B:J', 15)
@@ -586,6 +583,9 @@ def xlsxDatabase():
                 worksheetEvent.set_tab_color('red')
                 worksheetTour.set_tab_color('green')
                 bold = workbook.add_format({'bold': True})
+
+                # Add an Excel date format.
+                date_format = workbook.add_format({'num_format': 'mmmm d yyyy'})
 
                 #Headings
                 title = "Event form information"
@@ -599,6 +599,8 @@ def xlsxDatabase():
                 for item in headerEvent:
                     worksheetEvent.write(row, col, item, bold)
                     col += 1
+                row = 2
+                col = 1
                 for item in headerTour:
                     worksheetTour.write(row, col, item, bold)
                     col += 1
@@ -606,15 +608,25 @@ def xlsxDatabase():
                 #Adding items from the database into the worksheet
                 row = 3
                 col = 1
-                for item in enumerate(dataEvent):
-                    worksheetEvent.write_row(row, col, item)
+                for event in dataEvents:
+                    print(event)
+                    for item in event:
+                        print(item)
+                        worksheetEvent.write_string(row, col, str(item))
+                        col +=1
                     row += 1
-                for i, row in enumerate(dataTour):
-                    for j, value in enumerate(row):
-                        worksheetTour.write_row(i, j, item)
-                row += 1
+                    col = 1
+
+                for tour in dataTours:
+                    for item in tour:
+                        worksheetTour.write_string(row, col, str(item))
+                        col +=1
+                    row += 1
+                    col = 1
 
                 workbook.close()
+                print(dataEvent)
+                print(dataTour)
             except:
                 print("Failed to connect to DB")
                 conn.close()
