@@ -27,7 +27,7 @@
     <nav class = "navbar-container">
       <ul class="navbar">
         <li><span id='connectionStatus'></span></li>
-        <li><a href = "/Home"> Home </a></li>
+        <li><a id="home" href = "/Home"> Home </a></li>
         {% if session['username'] is not defined %}
         <li><a id="login" href="/Staff/Login"> Login </a></li>
         {% endif %}
@@ -69,8 +69,8 @@
     {% block footer %}
     <footer class = "footer-container"> <!-- Needs looking at -->
       <ul class="footer">
-        <li><a class = "footer-item" href="http://www.wru.co.uk/eng/home.php"> Visit WRU </a></li>
-        <li><a class = "footer-item">©2017</a></li>
+        <li><a id="footer" class = "footer-item" href="http://www.wru.co.uk/eng/home.php"> Visit WRU </a></li>
+        <li><a id="footer2" class = "footer-item">©2017</a></li>
       </ul>
     </footer>
     {% endblock %}

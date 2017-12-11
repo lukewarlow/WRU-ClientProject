@@ -1,32 +1,3 @@
-// function updateNavbar()
-// {
-//   console.log("Navbar update");
-//   if (isLoggedIn)
-//   {
-//     console.log("Is Logged in");
-//     var login = document.getElementById("login");
-//     if (login != null) accountChange.style.display = "none";
-//     var staffpages = document.getElementById("staffpages");
-//     if (staffpages != null) staffpages.style.display = "block";
-//     var logout = document.getElementById("logout");
-//     if (logout != null) logout.style.display = "block";
-//     var loginName = document.getElementById("loginName");
-//     if (loginName != null) logout.style.display = "block";
-//   }
-//   else
-//   {
-//     console.log("Is not Logged in");
-//     var login = document.getElementById("login");
-//     if (login != null) login.style.display = "block";
-//     var staffpages = document.getElementById("staffpages");
-//     if (staffpages != null) staffpages.style.display = "none";
-//     var logout = document.getElementById("logout");
-//     if (logout != null) logout.style.display = "none";
-//     var loginName = document.getElementById("loginName");
-//     if (loginName != null) logout.style.display = "none";
-//   }
-// }
-
 function verifyForm()
 {
   var username = document.forms["verify"]["username"].value;
@@ -166,11 +137,7 @@ function login()
   ajaxData("POST", "/Staff/Login", params);
   setTimeout(5000);
   msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error"))
-  {
-    // isLoggedIn = true;
-    setTimeout(redirect, 700, "/Home");
-  }
+  if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
   return false;
 }
 
@@ -275,11 +242,7 @@ function logout()
     if (xhttp.readyState === 4 && xhttp.status === 200)
     {
       console.log("Log out " + xhttp.responseText);
-      if (xhttp.responseText == "successful")
-      {
-        // isLoggedIn = false;
-        setTimeout(redirect, 300, "/Home");
-      }
+      if (xhttp.responseText == "successful") setTimeout(redirect, 300, "/Home");
     }
     else console.error(xhttp.statusText);
   };
@@ -543,8 +506,6 @@ function storeOffline(method, action, params, handleFileData)
 //Adapted from https://ponyfoo.com/articles/backgroundsync Accessed: 1/12/2017
 function isOnline ()
 {
-  // console.log(isLoggedIn);
-  // updateNavbar();
   var connectionStatus = document.getElementById('connectionStatus');
   if (navigator.onLine)
   {
@@ -568,22 +529,22 @@ function toggleOnlineOnlyStuff(status)
 {
   if (status) display = "block";
   else display = "none";
+  var home = document.getElementById("home");
+  if (home != null) home.style.display = display;
   var loginbutton = document.getElementById("login");
-  if (loginbutton != null)
-  {
-    loginbutton.style.display = display;
-    var homepagemessage = document.getElementById("homepagemessage");
-    if (homepagemessage != null && !status)
-    {
-      homepagemessage.innerHTML = "Welcome to the Welsh Rugby Union's data collection tool. <br>Unfortunately you only have offline access to this site when logged in.";
-    }
-    else if (homepagemessage != null && status)
-    {
-      homepagemessage.innerHTML = "Welcome to the Welsh Rugby Union's data collection tool.";
-    }
-  }
+  if (loginbutton != null) loginbutton.style.display = display;
+  var staffpages = document.getElementById("staffpages");
+  if (staffpages != null) staffpages.style.display = display;
   var logoutbutton = document.getElementById("logout");
   if (logoutbutton != null) logoutbutton.style.display = display;
+  var loginName = document.getElementById("loginName");
+  if (loginName != null) loginName.style.display = display;
+  var tournamentButton = document.getElementById("tournamentButton");
+  if (tournamentButton != null && status) tournamentButton.style.display = "none";
+  else if (tournamentButton != null && !status) tournamentButton.style.display = "block";
+  var eventButton = document.getElementById("eventButton");
+  if (eventButton != null && status) eventButton.style.display = "none";
+  else if (eventButton != null && !status) eventButton.style.display = "block";
   var admindropdown = document.getElementById("adminsection");
   if (admindropdown != null) admindropdown.style.display = display;
   var accountChange = document.getElementById("accountChanges");
@@ -591,6 +552,10 @@ function toggleOnlineOnlyStuff(status)
   var submit = document.getElementById("submit");
   if (status && submit != null) submit.textContent = "Submit";
   else if (submit != null) submit.textContent = "Submit when online";
+  var footer = document.getElementById("footer");
+  if (footer != null) footer.style.display = display;
+  var footer2 = document.getElementById("footer2");
+  if (footer2 != null) footer2.style.display = display;
 }
 
 //Slider work in progress
