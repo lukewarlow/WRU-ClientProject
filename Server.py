@@ -674,7 +674,7 @@ def dlsearch():
         searchEndDate = request.form.get('searchEndDate')
 
         eventquery = "SELECT ID, eventName, eventStartDate, postcode, eventRegion, inclusivity, activityTypes FROM tblEvent WHERE eventStartDate BETWEEN ? and ? ORDER BY eventStartDate;"
-        tournquery = "SELECT peopleNum, ageCategory, genderRatio, rugbyOffer, eventID FROM tblTournament WHERE eventID=?;"
+        tournquery = "SELECT ID, peopleNum, ageCategory, genderRatio, rugbyOffer, eventID FROM tblTournament WHERE eventID=?;"
         events = selectFromDatabaseTable(eventquery, [searchStartDate, searchEndDate], True)
         for event in events:
             msg = selectFromDatabaseTable(tournquery, [event[0]], True)
@@ -686,7 +686,7 @@ def dlsearch():
         for event in events:
             data.append(["Event Name", "Event date", "Postcode", "Region", "Inclusivity", "Activity Types"])
             data.append(event[1:])
-            data.append(["No. of people", "Age Category", "Gender Ratio", "Rugby offer"])
+            data.append(["Tournament ID", "No. of people", "Age Category", "Gender Ratio", "Rugby offer"])
             for tournament in tournaments:
                 if (tournament[-1] == event[0]):
                     data.append(tournament[:-1])
