@@ -452,8 +452,9 @@ def addStaff():
                             Hi {} {},<br>
                             You've been added to the WRU staff database for there event data collection tool.<br>
                             Username: {}<br>
+                            Initial Password: {}<br>
                             <a href="http://localhost:5000/Staff/Verify/{}">Click to login.</a>
-                        </p>""".format(firstName, surname, username, verificationSigner.dumps(username))
+                        </p>""".format(firstName, surname, username, password, verificationSigner.dumps(username))
                         sendEmail(email, "New Account", message)
             else:
                 msg = "Error: email already used."
@@ -1025,12 +1026,11 @@ def checkUploadedPhoto(filePath):
     else:
         return (True,"")
 
-
-
 @app.before_request
 def make_session_permanent():
     session.permanent = True
 
 if __name__ == "__main__":
     app.run(debug=True, port=80)
+    # app.run(debug=True, port=80, host="0.0.0.0")
     # app.run(debug=True, ssl_context=('Certificates/cert.pem', 'Certificates/key.pem'))
