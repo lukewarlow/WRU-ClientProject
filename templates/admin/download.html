@@ -14,19 +14,20 @@
   <h1> Download the database as an excel file </h1>
   <br>
   <div class="italics">Includes event forms and tournament forms in separate tabs</div>
-  <button onclick="downloadxlsx()">Download xslx file</button>
+  <button onclick="generatexlsx()">Generate xslx file</button>
+  <div id="downloadStatus"><a href="/static/downloads/FormInformation.xlsx">Click this link to download the spreadsheet</a></div>
 </section>
 <script>
-function downloadxlsx(){
-  $.ajax({
+function generatexlsx(){
+  $.get({
     type: "GET",
     url: "/Admin/Downloadfile",
     data: null,
-    success: savexlsx,
-    dataType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+    success: savexlsx});
 }
 function savexlsx(data){
-  console.log(data)
+  console.log('Hello')
+
 }
 </script>
 {%endblock%}
