@@ -1,3 +1,32 @@
+// function updateNavbar()
+// {
+//   console.log("Navbar update");
+//   if (isLoggedIn)
+//   {
+//     console.log("Is Logged in");
+//     var login = document.getElementById("login");
+//     if (login != null) accountChange.style.display = "none";
+//     var staffpages = document.getElementById("staffpages");
+//     if (staffpages != null) staffpages.style.display = "block";
+//     var logout = document.getElementById("logout");
+//     if (logout != null) logout.style.display = "block";
+//     var loginName = document.getElementById("loginName");
+//     if (loginName != null) logout.style.display = "block";
+//   }
+//   else
+//   {
+//     console.log("Is not Logged in");
+//     var login = document.getElementById("login");
+//     if (login != null) login.style.display = "block";
+//     var staffpages = document.getElementById("staffpages");
+//     if (staffpages != null) staffpages.style.display = "none";
+//     var logout = document.getElementById("logout");
+//     if (logout != null) logout.style.display = "none";
+//     var loginName = document.getElementById("loginName");
+//     if (loginName != null) logout.style.display = "none";
+//   }
+// }
+
 function verifyForm()
 {
   var username = document.forms["verify"]["username"].value;
@@ -137,7 +166,11 @@ function login()
   ajaxData("POST", "/Staff/Login", params);
   setTimeout(5000);
   msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
+  if (!msg.includes("Error"))
+  {
+    // isLoggedIn = true;
+    setTimeout(redirect, 700, "/Home");
+  }
   return false;
 }
 
@@ -242,7 +275,11 @@ function logout()
     if (xhttp.readyState === 4 && xhttp.status === 200)
     {
       console.log("Log out " + xhttp.responseText);
-      if (xhttp.responseText == "successful") setTimeout(redirect, 300, "/Home")
+      if (xhttp.responseText == "successful")
+      {
+        // isLoggedIn = false;
+        setTimeout(redirect, 300, "/Home");
+      }
     }
     else console.error(xhttp.statusText);
   };
@@ -485,7 +522,7 @@ function ajaxData(method, action, params, handleFileData=false)
         console.error(xhttp.statusText);
         msg = "Error: other wierd response " + xhttp.status;
       }
-      
+
       try
       {
         document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
@@ -506,6 +543,8 @@ function storeOffline(method, action, params, handleFileData)
 //Adapted from https://ponyfoo.com/articles/backgroundsync Accessed: 1/12/2017
 function isOnline ()
 {
+  // console.log(isLoggedIn);
+  // updateNavbar();
   var connectionStatus = document.getElementById('connectionStatus');
   if (navigator.onLine)
   {
@@ -552,11 +591,6 @@ function toggleOnlineOnlyStuff(status)
   var submit = document.getElementById("submit");
   if (status && submit != null) submit.textContent = "Submit";
   else if (submit != null) submit.textContent = "Submit when online";
-  var offlineStaffPages = document.getElementById("offlineStaffPages");
-  if (offlineStaffPages != null)
-  {
-    offlineStaffPages.style.display = display;
-  }
 }
 
 //Slider work in progress

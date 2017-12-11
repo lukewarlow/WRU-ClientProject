@@ -5,7 +5,7 @@
     <title>{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-      <link rel="stylesheet" type="text/css" href="/static/css/slider.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/slider.css">
     <link rel="shortcut icon" href="/static/resources/images/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <script type="text/javascript" src="/static/js/formhandling.js"></script>
@@ -28,12 +28,12 @@
       <ul class="navbar">
         <li><span id='connectionStatus'></span></li>
         <li><a href = "/Home"> Home </a></li>
-        {% if isloggedin == False %}
+        {% if session['username'] is not defined %}
         <li><a id="login" href="/Staff/Login"> Login </a></li>
         {% endif %}
-        {% if isloggedin == True %}
+        {% if session['username'] %}
         <li class = "dropdown">
-          <label class = "droptext"> Staff Pages &#9660;</label>
+          <label id="staffpages" class = "droptext"> Staff Pages &#9660;</label>
           <div class = "dropdown-content">
             <a href="/Staff/EventForm"> Event Form </a>
             <a href="/Staff/TournamentForm"> Tournament Form </a>
@@ -41,16 +41,7 @@
           </div>
         </li>
         {% endif %}
-        {% if isloggedin == False %}
-        <li class = "dropdown" id="offlineStaffPages">
-          <label class = "droptext offline-drop" id="offlineStaffPages"> Offline Staff Pages &#9660;</label>
-          <div class = "dropdown-content">
-            <a href="/Staff/EventForm"> Event Form </a>
-            <a href="/Staff/TournamentForm"> Tournament Form </a>
-          </div>
-        </li>
-        {% endif %}
-        {% if admin == True %}
+        {% if session['usertype'] == "Admin" %}
         <li id="adminsection" class = "dropdown">
           <label class = "droptext"> Admin &#9660;</label>
           <div class = "dropdown-content">
@@ -63,9 +54,9 @@
           </div>
         </li>
         {% endif %}
-        {% if isloggedin == True %}
+        {% if session['username'] %}
         <li><a id="logout" onclick="logout()"> Logout </a></li>
-        <li id="loginName"><a>Logged in as {{ username }} </a></li>
+        <li id="loginName"><a>Logged in as {{ session['username'] }} </a></li>
         {% endif %}
       </ul>
     </nav>

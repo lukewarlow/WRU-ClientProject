@@ -2,7 +2,7 @@ importScripts('/static/js/cache-polyfill.js');
 
 self.addEventListener('install', function(e)
 {
-  e.waitUntil(caches.open('WRU').then(function(cache)
+  e.waitUntil(caches.open('WRUv1').then(function(cache)
   {
     return cache.addAll([
       '/',

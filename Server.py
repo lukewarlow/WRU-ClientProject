@@ -39,11 +39,7 @@ def redirectHome():
 @app.route("/Home", methods=['GET'])
 def home():
     if request.method == 'GET':
-        name = getUsernameFromSession()
-        if (not "error" in name):
-            return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), username=name)
-        else:
-            return render_template('index.html', title="Homepage", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn())
+        return render_template('index.html', title="Homepage")
 
 @app.route("/Staff/Verify", methods=['GET'])
 def redirectFalseVerify():
@@ -55,10 +51,10 @@ def redirectFalseVerify():
 def staffVerifyGet(payload):
     if request.method == "GET":
         if checkIsLoggedIn() == False and checkIsVerified() == False:
-            return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=False, payload=payload)
+            return render_template('staff/verify.html', title="Verify Login", payload=payload)
         else:
             logout()
-            return render_template('staff/verify.html', title="Verify Login", admin=False, isloggedin=False, payload=payload)
+            return render_template('staff/verify.html', title="Verify Login", payload=payload)
 
 
 @app.route('/Staff/Verify', methods=['POST', 'GET'])
@@ -201,8 +197,7 @@ def staffAccount():
             return "Error: incorrect password."
     else:
         if (checkIsLoggedIn()):
-            name = getUsernameFromSession()
-            return render_template('staff/account.html', title="Account", admin=checkIsAdmin(), isloggedin=True, username=name)
+            return render_template('staff/account.html', title="Account")
         else:
             return redirect("/Home")
 
@@ -286,11 +281,7 @@ def redirectEvent():
 def eventForm():
     if request.method == 'GET':
         now = datetime.datetime.now()
-        name = getUsernameFromSession()
-        if (not "error" in name):
-            return render_template('staff/event.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"), username=name)
-        else:
-            return render_template('staff/event.html', title="Event Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
+        return render_template('staff/event.html', title="Event Form", date=now.strftime("%Y-%m-%d"))
     elif request.method == 'POST':
         eventStartDate = request.form.get('eventStartDate', default="error")
         eventEndDate = request.form.get('eventEndDate', default="error")
@@ -335,11 +326,7 @@ def tournamentForm():
     if request.method == 'GET':
         #https://www.saltycrane.com/blog/2008/06/how-to-get-current-date-and-time-in/ Date Accessed: 29/11/2017
         now = datetime.datetime.now()
-        name = getUsernameFromSession()
-        if (not "error" in name):
-            return render_template('staff/tournament.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"), username=name)
-        else:
-            return render_template('staff/tournament.html', title="Tournament Form", admin=checkIsAdmin(), isloggedin=checkIsLoggedIn(), date=now.strftime("%Y-%m-%d"))
+        return render_template('staff/tournament.html', title="Tournament Form", date=now.strftime("%Y-%m-%d"))
 
     elif request.method == 'POST':
         eventStartDate = request.form.get('eventDate', default="error")
@@ -406,11 +393,7 @@ def redirectAddStaff():
 def addStaff():
     if request.method == 'GET':
         if checkIsAdmin():
-            name = getUsernameFromSession()
-            if (not "error" in name):
-                return render_template('admin/addstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
-            else:
-                return render_template('admin/addstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+            return render_template('admin/addstaff.html', title="Admin")
         else:
             return redirect("/Home")
     elif request.method == 'POST':
@@ -480,11 +463,7 @@ def redirectAmendStaff():
 def amendStaff():
     if request.method == 'GET':
         if checkIsAdmin():
-            name = getUsernameFromSession()
-            if (not "error" in name):
-                return render_template('admin/amendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
-            else:
-                return render_template('admin/amendstaff.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+            return render_template('admin/amendstaff.html', title="Admin")
         else:
             return redirect("/Home")
     else:
@@ -549,11 +528,7 @@ def redirectAdminDownload():
 def getPage():
     if request.method == 'GET':
         if checkIsAdmin():
-            name = getUsernameFromSession()
-            if (not "error" in name):
-                return render_template('admin/download.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
-            else:
-                return render_template('admin/download.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+            return render_template('admin/download.html', title="Admin")
         else:
             return redirect("/Home")
 
@@ -643,13 +618,9 @@ def xlsxDatabase():
 
 @app.route("/Admin/Chart", methods = ['GET','POST'])
 def chart():
-    name = getUsernameFromSession()
     if request.method =='GET':
         if checkIsAdmin():
-            if (not "error" in name):
-                return render_template('admin/chart.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
-            else:
-                return render_template('admin/chart.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+            return render_template('admin/chart.html', title="Admin")
         else:
             return redirect("/Home")
     if request.method =='POST':
@@ -679,8 +650,7 @@ def chart():
             labels = ["Male (" + str(malesPercentage)+ "%)", "Female (" + str(femalesPercentage)+"%)"]
             values = [males, females]
             colors = [ "#F7464A", "#46BFBD"]
-            name = getUsernameFromSession()
-            return render_template('admin/chart.html', title="Visualise search", admin=True, isloggedin=checkIsLoggedIn(), username=name, data=data, set=zip(values, labels, colors))
+            return render_template('admin/chart.html', title="Visualise search", data=data, set=zip(values, labels, colors))
 
 @app.route("/Admin/DLsearch", methods=['GET'])
 @app.route("/admin/dlSearch", methods=['GET'])
@@ -694,11 +664,7 @@ def dlsearch():
     quarter = now - datetime.timedelta(days=91)
     if request.method =='GET':
         if checkIsAdmin():
-            name = getUsernameFromSession()
-            if (not "error" in name):
-                return render_template('admin/dlsearch.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name, today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
-            else:
-                return render_template('admin/dlsearch.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
+            return render_template('admin/dlsearch.html', title="Admin", today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
         else:
             return redirect("/Home")
     elif request.method =='POST':
@@ -725,19 +691,13 @@ def dlsearch():
                 if (tournament[-1] == event[0]):
                     data.append(tournament[:-1])
 
-        name = getUsernameFromSession()
-        return render_template('admin/dlsearch.html', title="DLSearch", admin=True, isloggedin=checkIsLoggedIn(), username=name, data=data, today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
-
+        return render_template('admin/dlsearch.html', title="DLSearch", data=data, today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
 
 @app.route("/Admin/Search", methods = ['GET','POST'])
 def moduleSearch():
     if request.method =='GET':
         if checkIsAdmin():
-            name = getUsernameFromSession()
-            if (not "error" in name):
-                return render_template('admin/search.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn(), username=name)
-            else:
-                return render_template('admin/search.html', title="Admin", admin=True, isloggedin=checkIsLoggedIn())
+            return render_template('admin/search.html', title="Admin")
         else:
             return redirect("/Home")
     elif request.method =='POST':
@@ -801,8 +761,7 @@ def moduleSearch():
             print("Failed to connect to DB")
 
         finally:
-            name = getUsernameFromSession()
-            return render_template('admin/search.html', title="Search", admin=True, isloggedin=checkIsLoggedIn(), username=name, data1=data1, data2=data2, data3=data3, data4=data4, data5=data5,
+            return render_template('admin/search.html', title="Search", data1=data1, data2=data2, data3=data3, data4=data4, data5=data5,
          data6=data6, data7=data7, data8=data8, data9=data9, data10=data10, data11=data11, data12=data12, data13=data13)
 
 
