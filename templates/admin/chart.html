@@ -6,9 +6,10 @@
 
 {% block main %}
 <section class = "main-item loginform">
+  <h1> Gender Ratio per Tournament</h1> <br>
   <form class='login' action='/Admin/Chart' method = 'post'>
-    Search Tournament ID:<input type = "text" name = "tournamentchart"><br>
-    <button type = "submit"> Show chart </button>
+    Search by Tournament ID:<input type = "text" name = "tournamentchart"><br>
+    <button type = "submit"> Show gender ratio chart </button>
   </form>
 
   <div class="chartposition" position="None">
