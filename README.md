@@ -23,3 +23,7 @@ This installs the image moderation library
 ```
 pip install sightengine
 ```
+This installs the xlsx document writer
+```
+pip install xlsxwriter
+```
