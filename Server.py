@@ -633,45 +633,25 @@ def xlsxDatabase():
 def chart():
     if request.method =='GET':
         if checkIsAdmin():
-            return render_template('admin/chart.html', title="Admin")
+            return render_template('admin/chart.html', title="Visualise search")
         else:
             return redirect("/Home")
     if request.method =='POST':
-        try:
-            data = ""
-            data2 = ""
-
-            query1 = "SELECT * FROM tblTournament WHERE ID=?;"
-
-            tournament = request.form.get('tournamentchart')
-
-            conn = sql.connect(DATABASE)
-            cur = conn.cursor()
-
-            if (tournament != None):
-                cur.execute("SELECT peopleNum, genderRatio FROM tblTournament WHERE ID=?;", [tournament])
-                data = cur.fetchall()
-                data2 = selectFromDatabaseTable(query1, [tournament], True)
-
-        except:
-            print("Failed to connect to DB")
-            conn.close()
-        finally:
-            conn.close()
-            population = int(data[0][0])
-            malesPercentage = int(data[0][1])
+        tournament = request.form.get('tournamentchart')
+        data = selectFromDatabaseTable("SELECT * FROM tblTournament WHERE ID=?;", [tournament], True)
+        if len(data) > 0:
+            population = int(data[0][1])
+            malesPercentage = int(data[0][3])
             femalesPercentage = 100 - malesPercentage
-
-            # tournid = str(data2[0][0])
-            # tourncat = (data2[0][2])
-
 
             males = (population / 100) * malesPercentage
             females = (population / 100) * femalesPercentage
             labels = ["Male (" + str(malesPercentage)+ "%)", "Female (" + str(femalesPercentage)+"%)"]
             values = [males, females]
             colors = [ "#F7464A", "#46BFBD"]
-            return render_template('admin/chart.html', title="Visualise search", data=data, data2=data2, set=zip(values, labels, colors))
+            return render_template('admin/chart.html', title="Visualise search", data=data, set=zip(values, labels, colors))
+        else:
+            return redirect("/Admin/Chart")
 
 @app.route("/Admin/search", methods=['GET'])
 @app.route("/admin/Search", methods=['GET'])

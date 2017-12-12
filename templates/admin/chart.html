@@ -8,29 +8,19 @@
 <section class = "main-item loginform">
   <h1> Gender Ratio per Tournament</h1> <br>
   <form class='login' action='/Admin/Chart' method = 'post'>
-    Search by Tournament ID:<input type = "text" name = "tournamentchart"><br>
+    Search by Tournament ID:<input type = "text" name = "tournamentchart" required><br>
     <button type = "submit"> Show gender ratio chart </button>
   </form>
 
   <div class="chartposition" position="None">
-{% for item in data2 %}
-    <p> This chart displays Tournament ID: <b>{{item[0]}}</b>. <br>
-    This tournament was a <b>{{item[2]}}</b> tournament</p><br>
-{% endfor %}
+  {% for item in data %}
+      <p> This chart displays Tournament ID: <b>{{item[0]}}</b>. <br>
+      This tournament was a <b>{{item[2]}}</b> tournament</p><br>
+  {% endfor %}
  <canvas id="chart" width="400%" height="320%"></canvas>
  </div>
 </section>
-
-
-
-
-
-
-
- <script src='../static/js/Chart.min.js'></script>
-
-
-
+<script src='../static/js/Chart.min.js'></script>
 <script>
    var pieData = [
             {% for item,label,colors in set %}
@@ -39,10 +29,8 @@
                     label: "{{label}}",
                     color : "{{colors}}"
                 },
-                {% endfor %}
-
-
-         ];
+            {% endfor %}
+            ];
 
    // get bar chart canvas
    var mychart = document.getElementById("chart").getContext("2d");
