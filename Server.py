@@ -419,7 +419,7 @@ def addStaff():
         else:
             username = enteredusername
 
-        password = encrypt(request.form.get('password', default="Error"))
+        upassword = request.form.get('password', default="Error")
         email = request.form.get('email', default="Error").lower()
         usertype = request.form.get('usertype', default="Error")
         organisation = request.form.get('organisation', default="Error")
@@ -441,7 +441,7 @@ def addStaff():
                     msg = insertIntoDatabaseTable("INSERT INTO tblStaff ('username',\
                     'password', 'email', 'usertype', 'firstname', 'surname',\
                     'organisation', 'verified', 'adminName') VALUES (?,?,?,?,?,?,?,?,?)",\
-                    (username, password, email, usertype, firstName, surname,\
+                    (username, encrypt(upassword), email, usertype, firstName, surname,\
                     organisation, "False", adminName))
 
                     if "successful" in msg:
@@ -454,7 +454,7 @@ def addStaff():
                             Username: {}<br>
                             Initial Password: {}<br>
                             <a href="http://localhost:5000/Staff/Verify/{}">Click to login.</a>
-                        </p>""".format(firstName, surname, username, password, verificationSigner.dumps(username))
+                        </p>""".format(firstName, surname, username, upassword, verificationSigner.dumps(username))
                         sendEmail(email, "New Account", message)
             else:
                 msg = "Error: email already used."
@@ -712,7 +712,7 @@ def search():
         for event in events:
             data.append(["Event Name", "Event date", "Postcode", "Region", "Inclusivity", "Activity Types"])
             data.append(event[1:])
-            data.append(["Tournament ID", "No. of people", "Age Category", "Gender Ratio", "Rugby offer"])
+            data.append(["Tournament ID", "No. of people", "Age Category", "Percentage of males", "Rugby offer"])
             for tournament in tournaments:
                 if (tournament[-1] == event[0]):
                     data.append(tournament[:-1])
@@ -964,6 +964,5 @@ def make_session_permanent():
     session.permanent = True
 
 if __name__ == "__main__":
-    # app.run(debug=True, port=80)
-    app.run(debug=True, host="0.0.0.0")
-    # app.run(debug=True, ssl_context=('Certificates/cert.pem', 'Certificates/key.pem'))
+    app.run(debug=True, port=80)
+    # app.run(host="0.0.0.0", port=80, debug=True)
