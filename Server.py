@@ -623,11 +623,9 @@ def xlsxDatabase():
                 print(dataEvent)
                 print(dataTour)
             except:
-                print("Failed to connect to DB")
                 conn.close()
             finally:
                 conn.close()
-                # return send_file(fileRoute, as_attachment=True)
                 return '/{}'.format(fileRoute)
 
 @app.route("/Admin/Chart", methods = ['GET','POST'])
