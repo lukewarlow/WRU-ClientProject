@@ -726,32 +726,42 @@ def search():
     elif request.method =='POST':
         allEvents = []
         tournaments = []
-        filterSelect = request.form.get("filterSelect")
-        filterValue = request.form.get("filterValue")
-        print(filterValue)
+        addEventSearchFilter = request.form.get("addEventSearchFilter", default="Error")
+        addTournamentSearchFilter = request.form.get("addTournamentSearchFilter", default="Error")
+        eventFilterSelect = request.form.get("eventFilterSelect")
+        eventFilterValue = request.form.get("eventFilterValue")
+        tournamentFilterSelect = request.form.get("tournamentFilterSelect")
+        tournamentFilterValue = request.form.get("tournamentFilterValue")
         searchStartDate = request.form.get('searchStartDate')
         searchEndDate = request.form.get('searchEndDate')
+
         eventquery = "SELECT ID, eventName, eventStartDate, postcode, eventRegion, inclusivity, activityTypes FROM tblEvent"
-        addSearchFilter = request.form.get("addSearchFilter", default="Error")
-        if (addSearchFilter is not "Error"):
+        if (addEventSearchFilter is not "Error"):
             if (searchStartDate is not "" and searchEndDate is not ""):
-                eventquery = eventquery + " WHERE {}=? AND eventStartDate BETWEEN ? AND ?".format(filterSelect)
-                arrayOfTerms = [filterValue, searchStartDate, searchEndDate]
+                eventquery = eventquery + " WHERE {}=? AND eventStartDate BETWEEN ? AND ?".format(eventFilterSelect)
+                arrayOfTerms = [eventFilterValue, searchStartDate, searchEndDate]
             else:
-                eventquery = eventquery + " WHERE {}=?".format(filterSelect)
-                arrayOfTerms = [filterValue]
+                eventquery = eventquery + " WHERE {}=?".format(eventFilterSelect)
+                arrayOfTerms = [eventFilterValue]
         elif (searchStartDate is not "" and searchEndDate is not ""):
             eventquery = eventquery + " WHERE eventStartDate BETWEEN ? AND ?"
             arrayOfTerms = [searchStartDate, searchEndDate]
         else:
             arrayOfTerms = []
         eventquery = eventquery + " ORDER BY eventStartDate DESC;"
-        print(eventquery)
-        # eventquery = "SELECT ID, eventName, eventStartDate, postcode, eventRegion, inclusivity, activityTypes FROM tblEvent WHERE eventStartDate BETWEEN ? and ? ORDER BY eventStartDate;"
-        tournquery = "SELECT ID, peopleNum, ageCategory, genderRatio, rugbyOffer, eventID FROM tblTournament WHERE eventID=?;"
+
+        tournquery = "SELECT ID, peopleNum, ageCategory, genderRatio, rugbyOffer, eventID FROM tblTournament WHERE eventID=?"
+        if (addTournamentSearchFilter is not "Error"):
+            tournquery = tournquery + " AND {}=?".format(tournamentFilterSelect)
+            arrayOfTerms2 = [tournamentFilterValue]
+        else:
+            arrayOfTerms2 = []
+        tournquery = tournquery + ";"
+        print(tournquery)
+        print(arrayOfTerms2)
         events = selectFromDatabaseTable(eventquery, arrayOfTerms, True)
         for event in events:
-            msg = selectFromDatabaseTable(tournquery, [event[0]], True)
+            msg = selectFromDatabaseTable(tournquery, [event[0]] + arrayOfTerms2, True)
             if ("Error" not in msg):
                 for item in msg:
                     tournaments.append(item)

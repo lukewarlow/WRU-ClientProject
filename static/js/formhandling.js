@@ -589,10 +589,15 @@ function searchCheckboxChecked(checkbox)
     display = "none";
   }
 
-  if (checkbox.value == "addSearchFilter")
+  if (checkbox.value == "addEventSearchFilter")
   {
     index = checkbox.id;
-    document.getElementById("filter" + index).style.display = display;
+    document.getElementById("eventFilter" + index).style.display = display;
+  }
+  else if (checkbox.value == "addTournamentSearchFilter")
+  {
+    index = checkbox.id;
+    document.getElementById("tournamentFilter" + index).style.display = display;
   }
   else if (checkbox.value == "narrowByDates")
   {
@@ -604,29 +609,29 @@ function searchCheckboxChecked(checkbox)
 
 function filterSelectChange(selectbox)
 {
-  if (selectbox.className == "filterSelect")
+  if (selectbox.className == "eventFilterSelect")
   {
     index = selectbox.id;
-    divToChange = document.getElementById("filterValue" + index);
+    divToChange = document.getElementById("eventFilterValue" + index);
     if (selectbox.value == "eventRegion")
     {
       divToChange.innerHTML = `
         <label>Select the event region you wish to filter by:</label><br>
-        <select name = "filterValue" class = "filterValue" value="region">
+        <select name = "eventFilterValue" class = "eventFilterValue">
           <option value="Scarlets">Scarlets</option>
           <option value="Ospreys">Ospreys</option>
           <option value="Blues">Blues</option>
           <option value="Dragons">Dragons</option>
           <option value="RGC">RGC</option>
           <option value="AllWales">All Wales</option>
-        <!--  <!--<option value="Other">Other</option>-->
+        <!--  <option value="Other">Other</option>-->
         </select>`
     }
     else if (selectbox.value == "inclusivity")
     {
       divToChange.innerHTML = `
         <label>Select the event inclusivity you wish to filter by:</label><br>
-        <select name = "filterValue" value="inclusivity" name="inclusivity">
+        <select name = "eventFilterValue" value="eventFilterValue" name="inclusivity">
           <option value="N/A">Not applicable</option>
           <option value="BME">BME</option>
           <option value="Disability">Disability</option>
@@ -639,7 +644,7 @@ function filterSelectChange(selectbox)
     {
       divToChange.innerHTML = `
         <label>Select the activity type you wish to filter by:</label><br>
-        <select name = "filterValue" value="activityTypes" name="activityTypes">
+        <select name = "eventFilterValue" value="eventFilterValue" name="activityTypes">
           <!--<option value="hubActivity">Hub activity</option>-->
           <option value="communityFestival">Community festival</option>
           <option value="competition">Competition</option>
@@ -657,41 +662,36 @@ function filterSelectChange(selectbox)
         <input name = "eventName" type="text" required><br>`
     }
   }
-  // else if (selectbox.className == "filterValue")
-  // {
-  //
-  // }
-}
-
-function searchDatabase()
-{
-  params = ""
-  filterSelect = document.getElementsByClassName("filterSelect").value;
-  if (filterSelect != null)
+  else if (selectbox.className == "tournamentFilterSelect")
   {
-    filterValue = document.getElementsByClassName("filterValue").value;
-    params = "filterSelect="+filterSelect+"&filterValue="+filterValue;
+    index = selectbox.id;
+    divToChange = document.getElementById("tournamentFilterValue" + index);
+    if (selectbox.value == "ageCategory")
+    {
+      divToChange.innerHTML = `
+        <label>Select the tournament age category you wish to filter by:</label><br>
+        <select name = "tournamentFilterValue" class = "tournamentFilterValue">
+          <option value="minis">Minis 4-7</option>
+          <option value="junior">Junior 8-15</option>
+          <option value="youth">Youth 10-19</option>
+          <option value="senior">Senior 18+</option>
+        </select>`
+    }
+    else if (selectbox.value == "rugbyOffer")
+    {
+      divToChange.innerHTML = `
+        <label>Select the rugby offer you wish to filter by:</label><br>
+        <section name="tournamentFilterValue" class = "tournamentFilterValue">
+          <input name = "tournamentFilterValue" type="radio" value="standard" checked>15s/12s/10s<br>
+          <input name = "tournamentFilterValue" type="radio" value="sevens">Sevens<br>
+          <input name = "tournamentFilterValue" type="radio" value="touch">Touch<br>
+          <input name = "tournamentFilterValue" type="radio" value="tag">Tag<br>
+          <input name = "tournamentFilterValue" type="radio" value="beach">Beach<br>
+          <input name = "tournamentFilterValue" type="radio" value="streetRugby">Street rugby<br>
+          <input name = "tournamentFilterValue" type="radio" value="mixedAbility">Mixed ability<br>
+          <input name = "tournamentFilterValue" type="radio" value="multiSport">Multi-sport<br>
+          <input name = "tournamentFilterValue" type="radio" value="disability">Disability<br>
+        </section>`
+    }
   }
-
-  // try
-  // {
-  //   // searchStartDate = document.form.get("searchStartDate");
-  //   // if (searchStartDate != null)
-  //   // {
-  //   //   searchEndDate = document.form.get("searchEndDate").value;
-  //   //   params += "&searchStartDate="+searchStartDate.value+"&searchEndDate="+searchEndDate;
-  //   // }
-  // }
-  // catch (Error)
-  // {
-  //
-  // }
-
-  ajaxData("POST", "/Admin/Search", params);
-  setTimeout(function()
-  {
-    msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-    if (!msg.includes("Error")) document.forms["eventSearchForm"].reset();
-  }, 1500);
-  return false;
 }

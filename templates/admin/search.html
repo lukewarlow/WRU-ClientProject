@@ -6,22 +6,22 @@
 
 {% block main %}
 <section class = "main-item searchForm">
-  <h1>Event Data</h1>
   <form id='eventSearchForm' action='/Admin/Search' method = 'post'>
-    Add search filter: <input name="addSearchFilter" value="addSearchFilter" id="1" type="checkbox" onchange="searchCheckboxChecked(this)"><br>
-    <div id="filter1">
-      <div id="filterSelect1">
+    <h1>Event Data</h1>
+    Add search filter: <input name="addEventSearchFilter" value="addEventSearchFilter" id="1" type="checkbox" onchange="searchCheckboxChecked(this)"><br>
+    <div id="eventFilter1">
+      <div id="eventFilterSelect1">
         <label>Select what you wish to filter search by?</label><br>
-        <select id="1" name = "filterSelect" class = "filterSelect" onchange="filterSelectChange(this)">
+        <select id="1" name = "eventFilterSelect" class = "eventFilterSelect" onchange="filterSelectChange(this)">
           <option value="eventRegion">Event Region</option>
           <option value="inclusivity">Event Inclusivity</option>
           <option value="activityTypes">Activity Type</option>
           <option value="eventName">Event Name</option>
         </select>
       </div>
-      <div id="filterValue1">
+      <div id="eventFilterValue1">
         <label>Select the event region you wish to filter by:</label><br>
-        <select name = "filterValue" class = "filterValue" value="region">
+        <select name = "eventFilterValue" class = "eventFilterValue">
           <option value="Scarlets">Scarlets</option>
           <option value="Ospreys">Ospreys</option>
           <option value="Blues">Blues</option>
@@ -29,6 +29,27 @@
           <option value="RGC">RGC</option>
           <option value="AllWales">All Wales</option>
           <!-- <option value="Other">Other</option> -->
+        </select>
+      </div>
+    </div>
+    <br>
+    <h1>Tournament Data</h1>
+    Add search filter: <input name="addTournamentSearchFilter" value="addTournamentSearchFilter" id="1" type="checkbox" onchange="searchCheckboxChecked(this)"><br>
+    <div id="tournamentFilter1">
+      <div id="tournamentFilterSelect1">
+        <label>Select what you wish to filter search by?</label><br>
+        <select id="1" name = "tournamentFilterSelect" class = "tournamentFilterSelect" onchange="filterSelectChange(this)">
+          <option value="ageCategory">Age Category</option>
+          <option value="rugbyOffer">Rugby Offer</option>
+        </select>
+      </div>
+      <div id="tournamentFilterValue1">
+        <label>Select the tournament age category you wish to filter by:</label><br>
+        <select name = "tournamentFilterValue" class = "tournamentFilterValue">
+          <option value="minis">Minis 4-7</option>
+          <option value="junior">Junior 8-15</option>
+          <option value="youth">Youth 10-19</option>
+          <option value="senior">Senior 18+</option>
         </select>
       </div>
     </div>
@@ -41,10 +62,9 @@
       <label>End date for search: </label>
       <input type="date" id="searchEndDate" name="searchEndDate" value="{{ today }}"><br>
     </div>
-    <button type = "submit"> Search information </button>
+    <button type = "submit"> Search information </button><br>
+    <a href="/Admin/Search" style="color:black;"> Reset Page </a>
   </form>
-  <br>
-  <br>
 
   <table style="border: 1px solid black;border-collapse: collapse;">
   {% for row in data %}
