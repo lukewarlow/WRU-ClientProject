@@ -9,7 +9,7 @@
   <h1> What change do you want to make to a staff member? </h1>
   <form id='staffChange' onsubmit="return validateStaffChange()">
     <b>Their</b> Username:
-    <input type = "text" placeholder="Enter their username here" name = "username" required>
+    <input type = "text" placeholder="Enter their username here" autocomplete="off" name = "username" required>
     <b>Select the action:</b><br>
     <select value="action" onchange="staffActionSelected(this)" name="staffAction">
       <option value="changeEmail">Change Email</option>
@@ -18,14 +18,14 @@
     <br>
     <span id="staffChangeForm">
       <b>New email</b>
-      <input type='email' id="newemail" placeholder='Enter your new email here' name='newemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>
+      <input type='email' id="newemail" placeholder='Enter your new email here' autocomplete="off" name='newemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>
       <b>Confirm New email:</b>
-      <input type='email' id="checknewemail" placeholder='Re-Enter your new email here' name='checknewemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>
+      <input type='email' id="checknewemail" placeholder='Re-Enter your new email here' autocomplete="off" name='checknewemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>
       <br>
       <br>
     </span>
     <b>Confirm your password:</b>
-    <input type="password" placeholder="Enter your password here" name="password" required>
+    <input type="password" placeholder="Enter your password here" name="password" autocomplete="current-password" required>
     <br>
     <button id="submitStaffChange" type = "submit" disabled>Submit</button>
   </form>

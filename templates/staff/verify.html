@@ -8,19 +8,19 @@
 <section class = "main-item verifyform">
   <form id='verify' onsubmit="return verifyForm()">
     <b>Username:</b>
-    <input type="text" placeholder="Enter your username here" name="username" required>
+    <input type="text" placeholder="Enter your username here" name="username" autocomplete="username" required>
     <br>
     <b>Password:</b>
-    <input type="password" placeholder="Enter your password here" name="password" required>
+    <input type="password" placeholder="Enter your password here" name="password" autocomplete="current-password" required>
     <br>
     <br>
     <b>Please set new password</b>
     <br>
     <b>Password:</b>
-    <input type="password" placeholder="Enter your password here" name="newpassword" id="newpassword" required onkeyup="checkBoxesMatch('newpassword', 'verifybtn')">
+    <input type="password" placeholder="Enter your password here" name="newpassword" id="newpassword" required autocomplete="new-password" onkeyup="checkBoxesMatch('newpassword', 'verifybtn')">
     <br>
     <b>Re-enter Password:</b>
-    <input type="password" placeholder="Re-enter your password here" name="checknewpassword" id="checknewpassword" required onkeyup="checkBoxesMatch('newpassword', 'verifybtn')">
+    <input type="password" placeholder="Re-enter your password here" name="checknewpassword" id="checknewpassword" required autocomplete="new-password" onkeyup="checkBoxesMatch('newpassword', 'verifybtn')">
     <br>
     <button name='verify' id="verifybtn" type = "submit" disabled>Verify</button>
   </form>

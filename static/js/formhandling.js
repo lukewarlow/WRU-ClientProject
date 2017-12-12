@@ -271,17 +271,17 @@ function actionSelected(selectbox)
     {
       document.getElementById("accountChangeForm").innerHTML = `
       <b>New password</b>
-      <input type='password' id="newpassword" placeholder='Enter your new password here' name='newpassword' onkeyup="checkBoxesMatch('newpassword', 'submitAccountChanges')" required>
+      <input type='password' id="newpassword" placeholder='Enter your new password here' name='newpassword' onkeyup="checkBoxesMatch('newpassword', 'submitAccountChanges')" autocomplete="new-password" required>
       <b>Confirm new password:</b>
-      <input type='password' id="checknewpassword" placeholder='Re-Enter your new password here' name='checknewpassword' onkeyup="checkBoxesMatch('newpassword', 'submitAccountChanges')" required>`;
+      <input type='password' id="checknewpassword" placeholder='Re-Enter your new password here' name='checknewpassword' onkeyup="checkBoxesMatch('newpassword', 'submitAccountChanges')" autocomplete="new-password" required>`;
     }
     else if (selectbox.value == "changeEmail")
     {
       document.getElementById("accountChangeForm").innerHTML = `
       <b>New email</b>
-      <input type='email' id="newemail" placeholder='Enter your new email here' name='newemail' onkeyup="checkBoxesMatch('newemail', 'submitAccountChanges')" required>
+      <input type='email' id="newemail" placeholder='Enter your new email here' name='newemail' onkeyup="checkBoxesMatch('newemail', 'submitAccountChanges')" autocomplete="off" required>
       <b>Confirm New email:</b>
-      <input type='email' id="checknewemail" placeholder='Re-Enter your new email here' name='checknewemail' onkeyup="checkBoxesMatch('newemail', 'submitAccountChanges')" required>`;
+      <input type='email' id="checknewemail" placeholder='Re-Enter your new email here' name='checknewemail' onkeyup="checkBoxesMatch('newemail', 'submitAccountChanges')" autocomplete="off" required>`;
     }
 }
 
@@ -292,9 +292,9 @@ function staffActionSelected(selectbox)
       document.getElementById("submitStaffChange").disabled = true;
       document.getElementById("staffChangeForm").innerHTML = `
       <b>New email</b>
-      <input type='email' id="newemail" placeholder='Enter their new email here' name='newemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>
+      <input type='email' id="newemail" placeholder='Enter their new email here' name='newemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" autocomplete="off" required>
       <b>Confirm New email:</b>
-      <input type='email' id="checknewemail" placeholder='Re-Enter their new email here' name='checknewemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" required>
+      <input type='email' id="checknewemail" placeholder='Re-Enter their new email here' name='checknewemail' onkeyup="checkBoxesMatch('newemail', 'submitStaffChange')" autocomplete="off" required>
       <br>
       <br>`;
     }
@@ -311,15 +311,15 @@ function issueSelected(selectbox)
     {
       document.getElementById("infoRecovery").innerHTML = `
       <b>Enter email address for a username reminder</b>
-      <input type='email' placeholder='Enter your email address here' name='email' required>`;
+      <input type='email' placeholder='Enter your email address here' name='email' autocomplete="email" required>`;
     }
     else if (selectbox.value == "forgotPassword")
     {
       document.getElementById("infoRecovery").innerHTML = `
       <b>Enter username</b>
-      <input type='text' placeholder='Enter your username here' name='username' required>
+      <input type='text' placeholder='Enter your username here' name='username' autocomplete="current-username" required>
       <b>Enter registered email address</b>
-      <input type='email' placeholder='Enter your email address here' name='email' required>`;
+      <input type='email' placeholder='Enter your email address here' name='email' autocomplete="email" required>`;
     }
 }
 

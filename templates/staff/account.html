@@ -16,14 +16,14 @@
     <br>
     <span id="accountChangeForm">
       <b>New password</b>
-      <input type='password' id="newpassword" placeholder='Enter your new password here' name='newpassword' onkeyup="checkBoxesMatch('newpassword', 'submitAccountChanges')" required>
+      <input type='password' id="newpassword" placeholder='Enter your new password here' name='newpassword' onkeyup="checkBoxesMatch('newpassword', 'submitAccountChanges')" autocomplete="new-password" required>
       <b>Confirm new password:</b>
-      <input type='password' id="checknewpassword" placeholder='Re-Enter your new password here' name='checknewpassword' onkeyup="checkBoxesMatch('newpassword', 'submitAccountChanges')" required>
+      <input type='password' id="checknewpassword" placeholder='Re-Enter your new password here' name='checknewpassword' onkeyup="checkBoxesMatch('newpassword', 'submitAccountChanges')" autocomplete="new-password" required>
     </span>
     <br>
     <br>
     <b>Confirm your current password:</b>
-    <input type="password" placeholder="Enter your password here" name="password" required>
+    <input type="password" placeholder="Enter your password here" name="password" autocomplete="current-password" required>
     <br>
     <button id="submitAccountChanges" type = "submit" disabled>Submit</button>
   </form>
