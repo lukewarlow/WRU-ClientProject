@@ -109,9 +109,9 @@ def staffVerifyPost():
                             sendEmail(data[2], "Account verified", message)
                         return msg
                 else:
-                    return "unsuccessful user doesn't exist, contact system admin."
+                    return "Error: user doesn't exist, contact system admin."
             else:
-                return "unsuccessful entered username doesn't match, the one linked to your email."
+                return "Error: entered username doesn't match, the one linked to your email."
 
 @app.route("/Staff/login", methods=['GET'])
 @app.route("/staff/Login", methods=['GET'])
@@ -242,9 +242,9 @@ def loginIssues():
                     Many Thanks
                 </p>""".format(check[1], check[3])
                 sendEmail(email, "Username Reminder", message)
-                return "successful"
+                return "Username reminder successful."
             else:
-                return "email not associated with an account."
+                return "Error: email not associated with an account."
         elif (email is not "Error"):
             check = checkIfEmailIsUsed(email).split(":")
             if (not check[0] == False):
@@ -405,7 +405,7 @@ def redirectAddStaff():
 def addStaff():
     if request.method == 'GET':
         if checkIsAdmin():
-            return render_template('admin/addstaff.html', title="Admin")
+            return render_template('admin/addstaff.html', title="Add Staff")
         else:
             return redirect("/Home")
     elif request.method == 'POST':
@@ -476,7 +476,7 @@ def redirectAmendStaff():
 def amendStaff():
     if request.method == 'GET':
         if checkIsAdmin():
-            return render_template('admin/amendstaff.html', title="Admin")
+            return render_template('admin/amendstaff.html', title="Amend Staff")
         else:
             return redirect("/Home")
     else:
@@ -541,7 +541,7 @@ def redirectAdminDownload():
 def getPage():
     if request.method == 'GET':
         if checkIsAdmin():
-            return render_template('admin/download.html', title="Admin")
+            return render_template('admin/download.html', title="Download Database")
         else:
             return redirect("/Home")
 
@@ -627,6 +627,7 @@ def xlsxDatabase():
                 conn.close()
             finally:
                 conn.close()
+                # return send_file(fileRoute, as_attachment=True)
                 return '/{}'.format(fileRoute)
 
 @app.route("/Admin/Chart", methods = ['GET','POST'])
