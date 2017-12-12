@@ -246,6 +246,11 @@ button:disabled
   margin-bottom: 5px;
 }
 
+.searchForm
+{
+  min-width: 50%;
+}
+
 .content
 {
   align-items: center;
@@ -329,7 +334,7 @@ input[type=radio]
   bottom: 30px;
 }
 
-#otherbox, #otherbox2, #otherbox3, #collabBox, #hubBox, #hubSelect, #endDate, #tournamentButton, #eventButton
+#otherbox, #otherbox2, #otherbox3, #collabBox, #hubBox, #hubSelect, #eventEndDate, #tournamentButton, #eventButton, #searchDates, #filter1
 {
   display: none;
 }

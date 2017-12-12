@@ -6,314 +6,54 @@
 
 {% block main %}
 <section class = "main-item searchForm">
-<h1>Event Data</h1>
-<form id='myForm' action='/Admin/Search' method = 'post'>
-  Event Information:<input type = "text" name = "eventsearch"><br>
-  Narrow by date: <input id="narrowByDates" type="checkbox"><br>
-  Start date for search: <input id="startDate" type="date" name="searchStartDate" value="{{ quarter }}" required><br>
-  End date for search: <input id="endDate" type="date" name="searchEndDate" value="{{ today }}" required><br>
-  <button type = "submit"> Find Event information </button>
-</form>
+  <h1>Event Data</h1>
+  <form id='eventSearchForm' action='/Admin/Search' method = 'post'>
+    Add search filter: <input name="addSearchFilter" value="addSearchFilter" id="1" type="checkbox" onchange="searchCheckboxChecked(this)"><br>
+    <div id="filter1">
+      <div id="filterSelect1">
+        <label>Select what you wish to filter search by?</label><br>
+        <select id="1" name = "filterSelect" class = "filterSelect" onchange="filterSelectChange(this)">
+          <option value="eventRegion">Event Region</option>
+          <option value="inclusivity">Event Inclusivity</option>
+          <option value="activityTypes">Activity Type</option>
+          <option value="eventName">Event Name</option>
+        </select>
+      </div>
+      <div id="filterValue1">
+        <label>Select the event region you wish to filter by:</label><br>
+        <select name = "filterValue" class = "filterValue" value="region">
+          <option value="Scarlets">Scarlets</option>
+          <option value="Ospreys">Ospreys</option>
+          <option value="Blues">Blues</option>
+          <option value="Dragons">Dragons</option>
+          <option value="RGC">RGC</option>
+          <option value="AllWales">All Wales</option>
+          <!-- <option value="Other">Other</option> -->
+        </select>
+      </div>
+    </div>
+    <br>
+    Narrow by dates: <input value="narrowByDates" name ="narrowByDates" type="checkbox" onchange="searchCheckboxChecked(this)"><br>
+    <div id="searchDates">
+      <label>Start date for search: </label>
+      <input type="date" id="searchStartDate" name="searchStartDate"><br>
+      <span id="quarter" hidden>{{ quarter }}</span>
+      <label>End date for search: </label>
+      <input type="date" id="searchEndDate" name="searchEndDate" value="{{ today }}"><br>
+    </div>
+    <button type = "submit"> Search information </button>
+  </form>
+  <br>
+  <br>
 
-<h1>Tournament Data</h1>
-<form id='myForm' action='/Admin/Search' method = 'post'>
-  Tournament Information:<input type = "text" name = "tournamentsearch"><br>
-  <button type = "submit"> Find Tournament information </button>
-</form>
-
-{% for row in data1 %}
-
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Event Name</td>
-   <td>Event date</td>
-   <td>Postcode</td>
-   <td>Region</td>
-   <td>Inclusivity</td>
-   <td>Activity Type</td>
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[4]}}</td>
-     <td>{{row[5]}}</td>
-     <td>{{row[6]}}</td>
-     <td>{{row[7]}}</td>
-   </tr>
-{% endfor %}
-</table>
-
-{% for row in data2 %}
-
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Event Name</td>
-   <td>Event date</td>
-   <td>Postcode</td>
-   <td>Region</td>
-   <td>Inclusivity</td>
-   <td>Activity Type</td>
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[4]}}</td>
-     <td>{{row[5]}}</td>
-     <td>{{row[6]}}</td>
-     <td>{{row[7]}}</td>
-   </tr>
-{% endfor %}
-</table>
-
-{% for row in data3 %}
-
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Event Name</td>
-   <td>Event date</td>
-   <td>Postcode</td>
-   <td>Region</td>
-   <td>Inclusivity</td>
-   <td>Activity Type</td>
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[4]}}</td>
-     <td>{{row[5]}}</td>
-     <td>{{row[6]}}</td>
-     <td>{{row[7]}}</td>
-   </tr>
-{% endfor %}
-</table>
-
-{% for row in data4 %}
-
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Event Name</td>
-   <td>Event date</td>
-   <td>Postcode</td>
-   <td>Region</td>
-   <td>Inclusivity</td>
-   <td>Activity Type</td>
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[4]}}</td>
-     <td>{{row[5]}}</td>
-     <td>{{row[6]}}</td>
-     <td>{{row[7]}}</td>
-   </tr>
-{% endfor %}
-</table>
-
-{% for row in data5 %}
-
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Event Name</td>
-   <td>Event date</td>
-   <td>Postcode</td>
-   <td>Region</td>
-   <td>Inclusivity</td>
-   <td>Activity Type</td>
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[4]}}</td>
-     <td>{{row[5]}}</td>
-     <td>{{row[6]}}</td>
-     <td>{{row[7]}}</td>
-   </tr>
-{% endfor %}
-</table>
-
-{% for row in data6 %}
-
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Event Name</td>
-   <td>Event date</td>
-   <td>Postcode</td>
-   <td>Region</td>
-   <td>Inclusivity</td>
-   <td>Activity Type</td>
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[4]}}</td>
-     <td>{{row[5]}}</td>
-     <td>{{row[6]}}</td>
-     <td>{{row[7]}}</td>
-   </tr>
-{% endfor %}
-</table>
-
-</table>
-{% for row in data8 %}
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Event Name</td>
-   <td>Event date</td>
-   <td>Postcode</td>
-   <td>Region</td>
-   <td>Inclusivity</td>
-   <td>Activity Type</td>
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[4]}}</td>
-     <td>{{row[5]}}</td>
-     <td>{{row[6]}}</td>
-     <td>{{row[7]}}</td>
-   </tr>
-{% endfor %}
-</table>
-
-{% for row in data9 %}
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Total number of people</td>
-   <td>Age Category</td>
-   <td>Gender Ratio</td>
-   <td>Rugby Offers</td>
-   <!-- <td>Event ID</td> -->
-
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[3]}}</td>
-     <td>{{row[4]}}</td>
-     <!-- <td>Event ID</td> -->
-
-   </tr>
-{% endfor %}
-</table>
-
-{% for row in data10 %}
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Total number of people</td>
-   <td>Age Category</td>
-   <td>Gender Ratio</td>
-   <td>Rugby Offers</td>
-   <!-- <td>Event ID</td> -->
-
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[3]}}</td>
-     <td>{{row[4]}}</td>
-     <!-- <td>Event ID</td> -->
-
-   </tr>
-{% endfor %}
-</table>
-
-{% for row in data11 %}
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Total number of people</td>
-   <td>Age Category</td>
-   <td>Gender Ratio</td>
-   <td>Rugby Offers</td>
-   <!-- <td>Event ID</td> -->
-
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[3]}}</td>
-     <td>{{row[4]}}</td>
-     <!-- <td>Event ID</td> -->
-
-   </tr>
-{% endfor %}
-</table>
-
-{% for row in data12 %}
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Total number of people</td>
-   <td>Age Category</td>
-   <td>Gender Ratio</td>
-   <td>Rugby Offers</td>
-   <!-- <td>Event ID</td> -->
-
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[3]}}</td>
-     <td>{{row[4]}}</td>
-     <!-- <td>Event ID</td> -->
-
-   </tr>
-{% endfor %}
-</table>
-
-{% for row in data13 %}
-<table border = 1>
-<thead>
-   <!-- <td>ID</td> -->
-   <td>Total number of people</td>
-   <td>Age Category</td>
-   <td>Gender Ratio</td>
-   <td>Rugby Offers</td>
-   <!--  <td>Event ID</td> -->
-
-</thead>
-
-   <tr>
-     <!-- <td>{{row[0]}}</td> -->
-     <td>{{row[1]}}</td>
-     <td>{{row[2]}}</td>
-     <td>{{row[3]}}</td>
-     <td>{{row[4]}}</td>
-     <!-- <td>Event ID</td> -->
-
-   </tr>
-{% endfor %}
-</table>
-
+  <table style="border: 1px solid black;border-collapse: collapse;">
+  {% for row in data %}
+    <tr>
+      {% for item in row %}
+        <td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">{{item}}</td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+  </table>
+</section>
 {%endblock%}

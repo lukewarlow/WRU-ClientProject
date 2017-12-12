@@ -135,7 +135,6 @@ function login()
   var password = document.forms["login"]["password"].value;
   params = 'username='+username+'&password='+password;
   ajaxData("POST", "/Staff/Login", params);
-  setTimeout(5000);
   setTimeout(function()
   {
     msg = document.getElementById("msg").innerHTML.split("<br>")[0];
@@ -217,11 +216,11 @@ function addEvent()
         document.getElementById("msg").innerHTML = msg + "<br>"+document.getElementById("msg").innerHTML;
         return false;
       }
-      activityTypes.push("other:" + otherValue);
+      activityTypes.push("Other:" + otherValue);
     }
     else if (checkboxes[i].value == "hubActivity")
     {
-      if (document.getElementById("hubSelect").value == "other") activityTypes.push(document.getElementById("hubBox").value);
+      if (document.getElementById("hubSelect").value == "Other") activityTypes.push(document.getElementById("hubBox").value);
       else activityTypes.push(document.getElementById("hubSelect").value);
     }
     else if (checkboxes[i].value == "collaborativeDelivery") activityTypes.push(document.getElementById("collabBox").value);
@@ -346,7 +345,7 @@ function radioChecked(selector, id)
 
 function otherSelected(selectbox, idOfTextBox)
 {
-    if (selectbox.value == "other")
+    if (selectbox.value == "Other")
     {
        document.getElementById(idOfTextBox).style.display = "block";
        document.getElementById("submit").disabled = true;
@@ -577,4 +576,122 @@ function outputUpdate(ratio)
 {
   document.getElementById("maleRatio").innerHTML = "Male: " + ratio + "%"
   document.getElementById("femaleRatio").innerHTML = "Female: " + (100 - ratio) + "%"
+}
+
+function searchCheckboxChecked(checkbox)
+{
+  if(checkbox.checked)
+  {
+    display = "block";
+  }
+  else
+  {
+    display = "none";
+  }
+
+  if (checkbox.value == "addSearchFilter")
+  {
+    index = checkbox.id;
+    document.getElementById("filter" + index).style.display = display;
+  }
+  else if (checkbox.value == "narrowByDates")
+  {
+    document.getElementById("searchDates").style.display = display;
+    if (display == "block") document.getElementById("searchStartDate").setAttribute("value", document.getElementById("quarter").innerHTML);
+    else document.getElementById("searchStartDate").setAttribute("value", "")
+  }
+}
+
+function filterSelectChange(selectbox)
+{
+  if (selectbox.className == "filterSelect")
+  {
+    index = selectbox.id;
+    divToChange = document.getElementById("filterValue" + index);
+    if (selectbox.value == "eventRegion")
+    {
+      divToChange.innerHTML = `
+        <label>Select the event region you wish to filter by:</label><br>
+        <select name = "filterValue" class = "filterValue" value="region">
+          <option value="Scarlets">Scarlets</option>
+          <option value="Ospreys">Ospreys</option>
+          <option value="Blues">Blues</option>
+          <option value="Dragons">Dragons</option>
+          <option value="RGC">RGC</option>
+          <option value="AllWales">All Wales</option>
+        <!--  <!--<option value="Other">Other</option>-->
+        </select>`
+    }
+    else if (selectbox.value == "inclusivity")
+    {
+      divToChange.innerHTML = `
+        <label>Select the event inclusivity you wish to filter by:</label><br>
+        <select name = "filterValue" value="inclusivity" name="inclusivity">
+          <option value="N/A">Not applicable</option>
+          <option value="BME">BME</option>
+          <option value="Disability">Disability</option>
+          <option value="Deprivation">Deprivation</option>
+          <option value="Female">Female</option>
+          <!--<option value="Other">Other</option>-->
+        </select>`
+    }
+    else if (selectbox.value == "activityTypes")
+    {
+      divToChange.innerHTML = `
+        <label>Select the activity type you wish to filter by:</label><br>
+        <select name = "filterValue" value="activityTypes" name="activityTypes">
+          <!--<option value="hubActivity">Hub activity</option>-->
+          <option value="communityFestival">Community festival</option>
+          <option value="competition">Competition</option>
+          <option value="communityProv">Community provision</option>
+          <option value="womenAndGirls">Women and girls cluster</option>
+          <option value="regionalRugbyCamps">Regional rugby camps</option>
+          <!-- <option value="collaborativeDelivery">Collaborative delivery</option>
+          <option value="Other">Other</option> -->
+        </select>`
+    }
+    else if (selectbox.value == "eventName")
+    {
+      divToChange.innerHTML = `
+        <label>Enter the event name you wish to filter by:</label><br>
+        <input name = "eventName" type="text" required><br>`
+    }
+  }
+  // else if (selectbox.className == "filterValue")
+  // {
+  //
+  // }
+}
+
+function searchDatabase()
+{
+  params = ""
+  filterSelect = document.getElementsByClassName("filterSelect").value;
+  if (filterSelect != null)
+  {
+    filterValue = document.getElementsByClassName("filterValue").value;
+    params = "filterSelect="+filterSelect+"&filterValue="+filterValue;
+  }
+
+  // try
+  // {
+  //   // searchStartDate = document.form.get("searchStartDate");
+  //   // if (searchStartDate != null)
+  //   // {
+  //   //   searchEndDate = document.form.get("searchEndDate").value;
+  //   //   params += "&searchStartDate="+searchStartDate.value+"&searchEndDate="+searchEndDate;
+  //   // }
+  // }
+  // catch (Error)
+  // {
+  //
+  // }
+
+  ajaxData("POST", "/Admin/Search", params);
+  setTimeout(function()
+  {
+    msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+    if (!msg.includes("Error")) document.forms["eventSearchForm"].reset();
+  }, 1500);
+  return false;
 }

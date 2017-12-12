@@ -16,8 +16,8 @@
       <input type="date" name="eventStartDate" value="{{ date }}" required>
     </div>
     <br>
-    <input name="multiDay" type="checkbox" value="multiDay" onchange="checkboxChecked(this, 'endDate')">Multi-Day?<br>
-    <div id="endDate">
+    <input name="multiDay" type="checkbox" value="multiDay" onchange="checkboxChecked(this, 'eventEndDate')">Multi-Day?<br>
+    <div id="eventEndDate">
       Event end date:<br>
       <input type="date" name="eventEndDate">
     </div>
@@ -46,7 +46,7 @@
       <option value="Disability">Disability</option>
       <option value="Deprivation">Deprivation</option>
       <option value="Female">Female</option>
-      <option value="other">Other</option>
+      <option value="Other">Other</option>
     </select>
     <input type="text" id="otherbox2" onkeyup="toggleSubmitButton(this, 'submit')">
     <br>
@@ -60,7 +60,7 @@
         <option value="Club">Club</option>
         <option value="College">College</option>
         <option value="University">University</option>
-        <option value="other">Other</option>
+        <option value="Other">Other</option>
         <input type="text" id="hubBox" value="" onkeyup="toggleSubmitButton(this, 'submit')"></input>
       </select>
       <input name = "activityType" type="checkbox"  value="communityFestival">Community festival<br>

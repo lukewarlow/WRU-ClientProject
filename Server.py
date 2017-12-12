@@ -685,7 +685,7 @@ def dlsearch():
     quarter = now - datetime.timedelta(days=91)
     if request.method =='GET':
         if checkIsAdmin():
-            return render_template('admin/dlsearch.html', title="Admin", today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
+            return render_template('admin/dlsearch.html', title="DLSearch", today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
         else:
             return redirect("/Home")
     elif request.method =='POST':
@@ -715,12 +715,65 @@ def dlsearch():
         return render_template('admin/dlsearch.html', title="DLSearch", data=data, today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
 
 @app.route("/Admin/Search", methods = ['GET','POST'])
-def moduleSearch():
+def search():
     now = datetime.datetime.now()
     quarter = now - datetime.timedelta(days=91)
     if request.method =='GET':
         if checkIsAdmin():
-            return render_template('admin/search.html', title="Admin", today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
+            return render_template('admin/search.html', title="Search", today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
+        else:
+            return redirect("/Home")
+    elif request.method =='POST':
+        allEvents = []
+        tournaments = []
+        filterSelect = request.form.get("filterSelect")
+        filterValue = request.form.get("filterValue")
+        print(filterValue)
+        searchStartDate = request.form.get('searchStartDate')
+        searchEndDate = request.form.get('searchEndDate')
+        eventquery = "SELECT ID, eventName, eventStartDate, postcode, eventRegion, inclusivity, activityTypes FROM tblEvent"
+        addSearchFilter = request.form.get("addSearchFilter", default="Error")
+        if (addSearchFilter is not "Error"):
+            if (searchStartDate is not "" and searchEndDate is not ""):
+                eventquery = eventquery + " WHERE {}=? AND eventStartDate BETWEEN ? AND ?".format(filterSelect)
+                arrayOfTerms = [filterValue, searchStartDate, searchEndDate]
+            else:
+                eventquery = eventquery + " WHERE {}=?".format(filterSelect)
+                arrayOfTerms = [filterValue]
+        elif (searchStartDate is not "" and searchEndDate is not ""):
+            eventquery = eventquery + " WHERE eventStartDate BETWEEN ? AND ?"
+            arrayOfTerms = [searchStartDate, searchEndDate]
+        else:
+            arrayOfTerms = []
+        eventquery = eventquery + " ORDER BY eventStartDate DESC;"
+        print(eventquery)
+        # eventquery = "SELECT ID, eventName, eventStartDate, postcode, eventRegion, inclusivity, activityTypes FROM tblEvent WHERE eventStartDate BETWEEN ? and ? ORDER BY eventStartDate;"
+        tournquery = "SELECT ID, peopleNum, ageCategory, genderRatio, rugbyOffer, eventID FROM tblTournament WHERE eventID=?;"
+        events = selectFromDatabaseTable(eventquery, arrayOfTerms, True)
+        for event in events:
+            msg = selectFromDatabaseTable(tournquery, [event[0]], True)
+            if ("Error" not in msg):
+                for item in msg:
+                    tournaments.append(item)
+
+        data = []
+        for event in events:
+            data.append(["Event Name", "Event date", "Postcode", "Region", "Inclusivity", "Activity Types"])
+            data.append(event[1:])
+            data.append(["Tournament ID", "No. of people", "Age Category", "Gender Ratio", "Rugby offer"])
+            for tournament in tournaments:
+                if (tournament[-1] == event[0]):
+                    data.append(tournament[:-1])
+
+        return render_template('admin/search.html', title="Search", data=data, today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
+
+@app.route("/Admin/SearchOld", methods = ['GET','POST'])
+def searchOld():
+    now = datetime.datetime.now()
+    quarter = now - datetime.timedelta(days=91)
+    if request.method =='GET':
+        if checkIsAdmin():
+            return render_template('admin/search-old.html', title="Admin", today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"))
         else:
             return redirect("/Home")
     elif request.method =='POST':
@@ -784,7 +837,7 @@ def moduleSearch():
             print("Failed to connect to DB")
 
         finally:
-            return render_template('admin/search.html', title="Search", today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"), data1=data1, data2=data2, data3=data3, data4=data4, data5=data5,
+            return render_template('admin/search-old.html', title="Search", today=now.strftime("%Y-%m-%d"), quarter=quarter.strftime("%Y-%m-%d"), data1=data1, data2=data2, data3=data3, data4=data4, data5=data5,
          data6=data6, data7=data7, data8=data8, data9=data9, data10=data10, data11=data11, data12=data12, data13=data13)
 
 
