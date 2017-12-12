@@ -323,7 +323,12 @@ function checkboxChecked(checkbox, id)
   {
     document.getElementById(id).style.display = "none";
     if (checkbox.value != "hubActivity") document.getElementById("submit").disabled = false;
-    else if(checkbox.value=="multiDay") document.getElementById("eventTxt").innerHTML = "Event date";
+    else if (checkbox.value == "hubActivity")
+    {
+      hubBox = document.getElementById("hubBox");
+      if (hubBox != null) hubBox.style.display = "none";
+    }
+    else if (checkbox.value=="multiDay") document.getElementById("eventTxt").innerHTML = "Event date";
   }
 }
 
