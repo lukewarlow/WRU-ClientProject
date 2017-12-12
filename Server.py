@@ -701,8 +701,6 @@ def search():
         else:
             arrayOfTerms2 = []
         tournquery = tournquery + ";"
-        print(tournquery)
-        print(arrayOfTerms2)
         events = selectFromDatabaseTable(eventquery, arrayOfTerms, True)
         for event in events:
             msg = selectFromDatabaseTable(tournquery, [event[0]] + arrayOfTerms2, True)
@@ -966,6 +964,6 @@ def make_session_permanent():
     session.permanent = True
 
 if __name__ == "__main__":
-    app.run(debug=True, port=80)
-    # app.run(debug=True, port=80, host="0.0.0.0")
+    # app.run(debug=True, port=80)
+    app.run(debug=True, host="0.0.0.0")
     # app.run(debug=True, ssl_context=('Certificates/cert.pem', 'Certificates/key.pem'))
