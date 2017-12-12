@@ -48,7 +48,6 @@
             <a href="/Admin/AddStaff"> Add staff </a>
             <a href="/Admin/AmendStaff"> Amend staff </a>
             <a href="/Admin/Search"> Data Search </a>
-            <a href="/Admin/DLSearch"> Download Search </a>
             <a href="/Admin/Chart"> Data Representation </a>
             <a href="/Admin/Download"> Download </a>
           </div>
@@ -75,17 +74,17 @@
     </footer>
     {% endblock %}
     <script>
-      // if('serviceWorker' in navigator)
-      // {
-      //   navigator.serviceWorker.register('/SW').then(function(registration)
-      //   {
-      //     console.log("Service Worker Registered");
-      //   }).catch(function(error)
-      //   {
-      //     console.error("Service Worker failed to register");
-      //   });
-      // }
-      // else console.log('Service worker not supported.');
+      if('serviceWorker' in navigator)
+      {
+        navigator.serviceWorker.register('/SW').then(function(registration)
+        {
+          console.log("Service Worker Registered");
+        }).catch(function(error)
+        {
+          console.error("Service Worker failed to register");
+        });
+      }
+      else console.log('Service worker not supported.');
     </script>
   </body>
 </html>
