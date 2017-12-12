@@ -39,8 +39,8 @@
       <input name = "rugbyOffer" type="radio" value="mixedAbility" onchange="radioChecked(this, 'otherbox')">Mixed ability<br>
       <input name = "rugbyOffer" type="radio" value="multiSport" onchange="radioChecked(this, 'otherbox')">Multi-sport<br>
       <input name = "rugbyOffer" type="radio" value="disability" onchange="radioChecked(this, 'otherbox')">Disability<br>
-      <input name = "rugbyOffer " id="otherRadio" type="radio" value="other" onchange="radioChecked(this, 'otherbox')">Other<br>
-      <input name = "rugbyOffer" type="text" id="otherbox">
+      <input name = "rugbyOffer" id="otherRadio" type="radio" value="Other" onchange="radioChecked(this, 'otherbox')">Other<br>
+      <input name = "rugbyOffer" type="text" id="otherbox" onkeyup="toggleSubmitButton(this, 'submit')">
     </section>
     <br>
     <label for="genderRatio">Gender ratio</label>

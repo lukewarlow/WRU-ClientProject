@@ -121,6 +121,7 @@ function addStaff()
   var email = document.forms["addstaff"]["email"].value;
   var usertype = document.forms["addstaff"]["usertype"].value;
   var organisation = document.forms["addstaff"]["organisation"].value;
+  if (organisation == "Other") organisation = document.getElementById("otherbox").value;
   params = 'firstName='+firstName+'&surname='+surname+'&password='+password+'&email='+email+'&usertype='+usertype+'&organisation='+organisation;
   ajaxData("POST", "/Admin/AddStaff", params);
   setTimeout(5000);
@@ -333,13 +334,15 @@ function checkboxChecked(checkbox, id)
 
 function radioChecked(selector, id)
 {
-  if (selector.value == "other")
+  if (selector.value == "Other")
   {
     document.getElementById(id).style.display = "block";
+    document.getElementById("submit").disabled = true;
   }
   else
   {
     document.getElementById(id).style.display = "none";
+    document.getElementById("submit").disabled = false;
   }
 }
 

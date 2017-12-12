@@ -22,9 +22,11 @@
       <option value="Staff">Staff</option>
       <option value="Admin">Admin</option>
     </select><br>
-    Organisation: <select value = "organisation" name="organisation" onchange="otherSelected(this, 'otherbox3')">
-      <option value="wru">WRU</option>
-      <option value="other">Other</option>
+    Organisation:
+    <select value = "organisation" name="organisation" onchange="otherSelected(this, 'otherbox')">
+      <option value="WRU">WRU</option>
+      <option value="Other">Other</option>
+      <input type="text" id="otherbox" onkeyup="toggleSubmitButton(this, 'submit')">
     </select><br>
     <button name='submit' id="submit" type = "submit" disabled> Submit </button>
   </form>
