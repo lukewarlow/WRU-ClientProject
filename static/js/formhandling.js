@@ -8,9 +8,11 @@ function verifyForm()
   params = 'username='+username+'&password='+password+'&newpassword='+newpassword+'&payload='+payload;
   document.getElementById("msg").innerHTML = "Verifying";
   ajaxData("POST", "/Staff/Verify", params);
-  setTimeout(5000);
-  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
+  setTimeout(function()
+  {
+    msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+    if (!msg.includes("Error")) redirect("/Home");
+  }, 1500);
   return false;
 }
 
@@ -55,9 +57,11 @@ function validateAccountChanges()
     }
   }
   ajaxData("POST", "/Staff/Account", params);
-  setTimeout(5000);
-  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
+  setTimeout(function()
+  {
+    msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+    if (!msg.includes("Error")) redirect("/Home");
+  }, 1500);
   return false;
 }
 
@@ -77,9 +81,11 @@ function validateStaffChange()
     params = "password="+password+"&username="+username;
   }
   ajaxData("POST", "/Admin/AmendStaff", params);
-  setTimeout(5000);
-  msg = document.getElementById("msg").innerHTML;
-  if (!msg.includes("Error")) document.forms["staffChange"].reset();
+  setTimeout(function()
+  {
+    msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+    if (!msg.includes("Error")) document.forms["staffChange"].reset();
+  }, 1500);
   return false;
 }
 
@@ -106,9 +112,11 @@ function validateLoginIssues()
     }
   }
   ajaxData("POST", "/Staff/LoginIssues", params);
-  setTimeout(5000);
-  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error")) setTimeout(redirect, 700, "/Home");
+  setTimeout(function()
+  {
+    msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+    if (!msg.includes("Error")) redirect("/Home");
+  }, 1500);
   return false;
 }
 
@@ -124,9 +132,11 @@ function addStaff()
   if (organisation == "Other") organisation = document.getElementById("otherbox").value;
   params = 'firstName='+firstName+'&surname='+surname+'&password='+password+'&email='+email+'&usertype='+usertype+'&organisation='+organisation;
   ajaxData("POST", "/Admin/AddStaff", params);
-  setTimeout(5000);
-  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error")) document.forms["addstaff"].reset();
+  setTimeout(function()
+  {
+    msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+    if (!msg.includes("Error")) document.forms["addstaff"].reset();
+  }, 1500);
   return false;
 }
 
@@ -229,9 +239,11 @@ function addEvent()
   }
   params = 'eventName='+eventName+'&eventStartDate='+eventStartDate+'&eventEndDate='+eventEndDate+'&postcode='+postcode+'&eventRegion='+eventRegion+'&inclusivity='+inclusivity+'&activityTypes='+activityTypes+'&comments='+comments;
   ajaxData("POST", "/Staff/EventForm", params);
-  setTimeout(5000);
-  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error" && msg != "")) document.forms["eventForm"].reset();
+  setTimeout(function()
+  {
+    msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+    if (!msg.includes("Error")) document.forms["eventForm"].reset();
+  }, 1500);
   return false;
 }
 
@@ -426,9 +438,11 @@ function addTournament()
   if (document.getElementById("otherRadio").checked) formData.set("rugbyOffer", document.getElementById("otherbox").value);
   else formData.set("rugbyOffer", document.querySelector('input[type=radio]:checked').value);
   ajaxData("POST", "/Staff/TournamentForm", formData, true);
-  setTimeout(5000);
-  msg = document.getElementById("msg").innerHTML.split("<br>")[0];
-  if (!msg.includes("Error")) document.forms["tournamentForm"].reset();
+  setTimeout(function()
+  {
+    msg = document.getElementById("msg").innerHTML.split("<br>")[0];
+    if (!msg.includes("Error")) document.forms["tournamentForm"].reset();
+  }, 1500);
   return false;
 }
 
