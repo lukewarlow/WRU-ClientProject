@@ -882,7 +882,8 @@ def verifyEmail(email):
 
 def checkLogin(username, password):
     data = selectFromDatabaseTable("SELECT username, password, usertype, verified FROM tblStaff WHERE username=?;", [username])
-    if (data is not "Error"):
+    print(data)
+    if (data is not None):
         user = data[0]
         pw = data[1]
         usertype = data[2]
@@ -964,5 +965,6 @@ def make_session_permanent():
     session.permanent = True
 
 if __name__ == "__main__":
-    app.run(debug=True, port=80)
-    # app.run(host="0.0.0.0", port=80, debug=True)
+    # app.run(debug=True, port=80)
+    app.run(host="0.0.0.0", port=80, debug=True)
+    # app.run(debug=True, host="0.0.0.0", port=5000, ssl_context=('Certificates/cert.pem', 'Certificates/key.pem'))
