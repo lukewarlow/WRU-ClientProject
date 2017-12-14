@@ -129,7 +129,7 @@ def login():
             check = checkLogin(username, password)
             if (check == False):
                 print("Failed to log in, incorrect password.")
-                return "Error: incorrect password."
+                return "Error: incorrect username or password."
             elif (check.split(":")[3] == "True"):
                 session['username'] = check.split(":")[1]
                 session['usertype'] = check.split(":")[2]
