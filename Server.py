@@ -16,7 +16,7 @@ import xlsxwriter
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static/uploads')
-DATABASE = "database.db"
+DATABASE = APP_ROOT + "/database.db"
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -965,6 +965,4 @@ def make_session_permanent():
     session.permanent = True
 
 if __name__ == "__main__":
-    # app.run(debug=True, port=80)
-    app.run(host="0.0.0.0", port=80, debug=True)
-    # app.run(debug=True, host="0.0.0.0", port=5000, ssl_context=('Certificates/cert.pem', 'Certificates/key.pem'))
+    app.run(host="0.0.0.0", debug=True)
