@@ -8,7 +8,6 @@ from sightengine.client import SightengineClient
 import os
 import random
 import sqlite3 as sql
-import sys
 import datetime
 import time
 import smtplib
